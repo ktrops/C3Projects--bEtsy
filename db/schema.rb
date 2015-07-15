@@ -21,7 +21,7 @@ ActiveRecord::Schema.define(version: 20150715013039) do
     t.date     "cc_expiration"
     t.integer  "cc_cvv"
     t.integer  "billing_zip"
-    t.boolean  "shipped"
+    t.boolean  "shipped",       default: false
     t.string   "address1"
     t.string   "address2"
     t.string   "city"

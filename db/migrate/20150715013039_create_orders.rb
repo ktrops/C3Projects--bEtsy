@@ -8,7 +8,7 @@ class CreateOrders < ActiveRecord::Migration
       t.date    :cc_expiration # good until last day of month if no day given
       t.integer :cc_cvv
       t.integer :billing_zip
-      t.boolean :shipped
+      t.boolean :shipped, default: :false
       t.string  :address1
       t.string  :address2
       t.string  :city
