@@ -1,9 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Order, type: :model do
-  context "validations" do
-
-  end
+  # context "validations" do
+  # end
 
   # context "associations" do
   #   let(:order) { Order.create() }
