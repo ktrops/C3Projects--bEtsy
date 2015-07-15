@@ -17,7 +17,7 @@ ActiveRecord::Schema.define(version: 20150715013039) do
     t.string   "status",        default: "pending"
     t.string   "email"
     t.string   "cc_name"
-    t.integer  "cc_number"
+    t.string   "cc_number"
     t.date     "cc_expiration"
     t.integer  "cc_cvv"
     t.integer  "billing_zip"
