@@ -29,7 +29,7 @@ gem 'bootstrap-sass'
 gem 'bcrypt', '~> 3.1.7'
 
 group :production do
-  # gem 'pg'
+  gem 'pg'
 end
 
 # Use Unicorn as the app server
