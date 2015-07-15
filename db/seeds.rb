@@ -23,9 +23,9 @@ orders.each do |order|
 end
 
 users = [
-  { user_name: "Sue Boo", email: "sue.boo@example.com",
+  { username: "Sue Boo", email: "sue.boo@example.com",
     password: "password", password_confirmation: "password" },
-  { user_name: "Kate Plate", email: "kate.plate@example.com",
+  { username: "Kate Plate", email: "kate.plate@example.com",
     password: "password", password_confirmation: "password" }
 ]
 
