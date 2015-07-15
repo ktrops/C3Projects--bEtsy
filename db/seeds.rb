@@ -23,9 +23,12 @@ orders.each do |order|
 end
 
 users = [
-  { user_name: "Sue Boo", email: "sue.boo@example.com" },
-  { user_name: "Kate Plate", email: "kate.plate@example.com" }
+  { user_name: "Sue Boo", email: "sue.boo@example.com",
+    password: "password", password_confirmation: "password" },
+  { user_name: "Kate Plate", email: "kate.plate@example.com",
+    password: "password", password_confirmation: "password" }
 ]
+
 users.each do |user|
   User.create(user)
 end
@@ -33,16 +36,16 @@ end
 products = [
   { name: "principal's email address", price: 1000, 
     description: "a verified principal's email address", category: "email", 
-    active: true, photo_url: "dunecat.jpg", stock: 10 },
+    active: true, photo_url: "dunecat.jpg", stock: 10, user_id: 1 },
   { name: "CEO's password", price: 20000, 
     description: "password to CEO's OnePass account", category: "password", 
-    active: true, photo_url: "dunecat.jpg", stock: 2 },
-  { name: "MRA activist's Reddit password", price: 500, 
+    active: true, photo_url: "dunecat.jpg", stock: 5, user_id: 1 },
+  { name: "MRA's Reddit password", price: 500, 
     description: "embarrass a jerk in his online community", category: "password", 
-    active: true, photo_url: "dunecat.jpg", stock: 3 },
+    active: true, photo_url: "dunecat.jpg", stock: 3, user_id: 2 },
   { name: "celebrity address", price: 10000, 
     description: "all you need to stalk your fav", category: "address", 
-    active: true, photo_url: "dunecat.jpg", stock: 10 },
+    active: true, photo_url: "dunecat.jpg", stock: 10, user_id: 2 },
 ]
 
 products.each do |product|
@@ -61,3 +64,13 @@ reviews.each do |review|
   Review.create(review)
 end
 
+order_items = [
+  { quantity: 1, product_id: 1, order_id: 1 },
+  { quantity: 1, product_id: 3, order_id: 2 },
+  { quantity: 2, product_id: 2, order_id: 3 },
+  { quantity: 2, product_id: 4, order_id: 3 },
+]
+
+order_items.each do |order_item|
+  OrderItem.create(order_item)
+end

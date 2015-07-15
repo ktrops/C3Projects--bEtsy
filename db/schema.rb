@@ -47,6 +47,7 @@ ActiveRecord::Schema.define(version: 20150715135346) do
     t.boolean  "active"
     t.string   "photo_url"
     t.integer  "stock"
+    t.integer  "user_id"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end
