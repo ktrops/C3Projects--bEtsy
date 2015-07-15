@@ -3,9 +3,8 @@ class Order < ActiveRecord::Base
   has_many :order_items
 
   # Validations ----------------------------------------------------------------
-  # will there be any validations?
-  # you can create an order without filling in the info
-  # so will order completion be an update method?
+  validates :status, inclusion: { in: %w(pending paid complete cancelled), 
+    message: "That is not a valid order status" }
 
   # Scopes ---------------------------------------------------------------------
 end
