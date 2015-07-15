@@ -1,8 +1,21 @@
 require 'rails_helper'
 
 RSpec.describe Order, type: :model do
-  # context "validations" do
-  # end
+  context "validations" do
+    %w(pending paid complete cancelled).each do |order_status|
+      it "order status '#{order_status}' permitted" do
+        order = Order.create(status: order_status)
+        expect(order).to be_valid
+      end
+    end
+
+    ["done", 0, true].each do |order_status|
+      it "order status '#{order_status}' not permitted" do
+        order = Order.create(status: order_status)
+        expect(order).to_not be_valid
+      end
+    end
+  end
 
   # context "associations" do
   #   let(:order) { Order.create() }
