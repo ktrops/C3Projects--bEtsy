@@ -4,7 +4,7 @@ class CreateOrders < ActiveRecord::Migration
       t.string  :status, default: "pending"
       t.string  :email
       t.string  :cc_name
-      t.integer :cc_number
+      t.string  :cc_number
       t.date    :cc_expiration # good until last day of month if no day given
       t.integer :cc_cvv
       t.integer :billing_zip
