@@ -1,0 +1,26 @@
+<h1>Order <%= @order.id %></h1>
+
+<table>
+  <tbody>
+    <tr>
+      <th>Buyer:</th>
+      <td><%= @order.cc_name %></td>
+    </tr>
+    <tr>
+      <th>Email Address:</th>
+      <td><%= @order.email %></td>
+    </tr>
+    <tr>
+      <th>Mailing Address:</th>
+      <td><%= "#{@order.address1}, #{@order.city}, #{@order.state} #{@order.mailing_zip}" %></td>
+    </tr>
+    <tr>
+      <th>Last 4 of Credit Card:</th>
+      <td><%= @order.cc_number[-4..-1] %></td>
+    </tr>
+    <tr>
+      <th>Credit Card Expiration Date:</th>
+      <td><%= @order.cc_expiration %></td>
+    </tr>
+  </tbody>
+</table>
