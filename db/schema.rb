@@ -11,6 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 20150715013039) do
 
   create_table "orders", force: :cascade do |t|
@@ -29,6 +30,16 @@ ActiveRecord::Schema.define(version: 20150715013039) do
     t.integer  "mailing_zip"
     t.datetime "created_at",                        null: false
     t.datetime "updated_at",                        null: false
+=======
+ActiveRecord::Schema.define(version: 20150715135346) do
+
+  create_table "users", force: :cascade do |t|
+    t.string   "user_name"
+    t.string   "email"
+    t.string   "password_digest"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+>>>>>>> user/bdl
   end
 
 end
