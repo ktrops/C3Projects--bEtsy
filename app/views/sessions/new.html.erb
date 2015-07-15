@@ -1,0 +1,19 @@
+<h1>Login</h1>
+
+<% if flash.now[:error] %>
+  <div>
+    <p class = "alert alert-danger">
+    <%= flash.now[:error] %> </p>
+  </div>
+<% end %>
+
+<%= form_for(:session, url: login_path) do |f| %>
+  <%= f.label :username %>
+  <%= f.text_field :username %>
+
+  <%= f.label :password %>
+  <%= f.password_field :password %>
+
+  <%= f.sumit "Login" %>
+
+<% end %>

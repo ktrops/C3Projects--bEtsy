@@ -8,6 +8,7 @@ class CreateProducts < ActiveRecord::Migration
       t.boolean :active
       t.string :photo_url
       t.integer :stock
+      t.integer :user_id
 
       t.timestamps null: false
     end
