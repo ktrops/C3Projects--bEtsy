@@ -11,35 +11,6 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< HEAD
-ActiveRecord::Schema.define(version: 20150715013039) do
-
-  create_table "orders", force: :cascade do |t|
-    t.string   "status",        default: "pending"
-    t.string   "email"
-    t.string   "cc_name"
-    t.string   "cc_number"
-    t.date     "cc_expiration"
-    t.integer  "cc_cvv"
-    t.integer  "billing_zip"
-    t.boolean  "shipped",       default: false
-    t.string   "address1"
-    t.string   "address2"
-    t.string   "city"
-    t.string   "state"
-    t.integer  "mailing_zip"
-    t.datetime "created_at",                        null: false
-    t.datetime "updated_at",                        null: false
-=======
-ActiveRecord::Schema.define(version: 20150715135346) do
-
-  create_table "users", force: :cascade do |t|
-    t.string   "user_name"
-    t.string   "email"
-    t.string   "password_digest"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
->>>>>>> user/bdl
-  end
+ActiveRecord::Schema.define(version: 0) do
 
 end
