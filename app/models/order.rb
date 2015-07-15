@@ -5,6 +5,7 @@ class Order < ActiveRecord::Base
   # Validations ----------------------------------------------------------------
   validates :status, inclusion: { in: %w(pending paid complete cancelled), 
     message: "That is not a valid order status" }
+  validates :cc_number, length: { in: 15..16 }
 
   # Scopes ---------------------------------------------------------------------
 end
