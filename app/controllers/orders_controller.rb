@@ -1,16 +1,27 @@
 class OrdersController < ApplicationController
+  # for merchants only?
   def show
+    @order = Order.find(params[:id])
   end
 
-  def new
-  end
+  # def cart
+  #   order = Order.find(session[:order_id])
+  #   @order_items = order.order_items
+  # end
 
-  def create
-    order = Order.create(order_params)
-    if order.save
-      # redirect_to ?? will this go anywhere? when is an order created
-    end
-  end
+  # def create
+  #   Order.create
+  # end
+
+  # def purchase
+  #   order = Order.find(session[:order_id])
+  #   order.update(order_params)
+  #   if order.save
+  #     redirect_to finalize_order_path
+  #   else
+  #     render purchase
+  #   end
+  # end
 
   private
 
