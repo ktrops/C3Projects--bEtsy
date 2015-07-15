@@ -2,17 +2,36 @@ require 'rails_helper'
 
 RSpec.describe Order, type: :model do
   context "validations" do
-    %w(pending paid complete cancelled).each do |order_status|
-      it "order status '#{order_status}' permitted" do
-        order = Order.create(status: order_status)
-        expect(order).to be_valid
+    context "order_status" do
+      %w(pending paid complete cancelled).each do |order_status|
+        it "order status '#{order_status}' permitted" do
+          order = Order.create(status: order_status)
+          # expect(order).to be_valid
+          expect(order.errors.keys).to_not include :order_status
+        end
+      end
+
+      ["done", 0, true].each do |order_status|
+        it "order status '#{order_status}' not permitted" do
+          order = Order.create(status: order_status)
+          expect(order).to_not be_valid
+        end
       end
     end
 
-    ["done", 0, true].each do |order_status|
-      it "order status '#{order_status}' not permitted" do
-        order = Order.create(status: order_status)
-        expect(order).to_not be_valid
+    context "credit card number" do
+      it "credit card number must be 15-16 digits" do
+        order = Order.new(cc_number: "1234567812345678")
+        expect(order).to be_valid
+        expect(order.errors.keys).to_not include :cc_number
+      end
+
+      ["12345678123456", "12345678123456789"].each do |invalid_cc_num|
+        it "credit card number cannot be #{invalid_cc_num.length} digits" do
+          order = Order.new(cc_number: invalid_cc_num)
+          expect(order).to_not be_valid
+          expect(order.errors.keys).to include :cc_number
+        end
       end
     end
   end
