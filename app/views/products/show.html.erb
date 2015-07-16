@@ -1,0 +1,37 @@
+<h1><%= @product.name %></h1>
+
+<%= image_tag @product.photo_url %>
+
+<p><%= @product.description %></p>
+
+<!-- (show categories) -->
+
+<p><%= @product.stock %> available for <%= readable_price(@product.price) %> each</p>
+
+<% if @product.stock > 0 %>
+  <%= form_for [ @product, @order_item ] do |f| %>
+      <%= f.label :quantity %>
+      <%= f.number_field :quantity, in: 1..@product.stock, step: 1, value: 1 %>
+
+      <%= f.submit 'Add to cart' %>
+  <% end %>
+<% end %>
+
+<h3>Reviews</h3>
+
+<%= render partial: 'review', collection: @reviews %>
+
+<%= link_to 'Leave a review', new_product_review_path(@product) %>
+
+<%= link_to 'See all products', products_path %>
+
+<% if @user && @user == @product.user %>
+  <p>Item is currently: <%= active_text(@product) %></p>
+  <%= link_to 'Toggle active', toggle_active_path(@product), method: :put %>
+  <%# link_to 'Edit Product', edit_user_product_path(@product) %>
+
+  <!-- make below link a form with a dropdown of possible categories -->
+  <!-- or a set of checkboxes with the current category(ies) already checked -->
+  <!-- and a button to create a new category, that redirects back to this page -->
+  <%# link_to 'Add category', new_product_category_path(@product) %>
+<% end %>

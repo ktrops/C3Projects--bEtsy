@@ -11,7 +11,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150715013039) do
+ActiveRecord::Schema.define(version: 20150715135346) do
+
+  create_table "order_items", force: :cascade do |t|
+    t.integer  "quantity"
+    t.integer  "product_id"
+    t.integer  "order_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "orders", force: :cascade do |t|
     t.string   "status",        default: "pending"
@@ -29,6 +37,35 @@ ActiveRecord::Schema.define(version: 20150715013039) do
     t.integer  "mailing_zip"
     t.datetime "created_at",                        null: false
     t.datetime "updated_at",                        null: false
+  end
+
+  create_table "products", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "price"
+    t.text     "description"
+    t.string   "category"
+    t.boolean  "active"
+    t.string   "photo_url"
+    t.integer  "stock"
+    t.integer  "user_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  create_table "reviews", force: :cascade do |t|
+    t.integer  "rating"
+    t.text     "review_text"
+    t.integer  "product_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string   "username"
+    t.string   "email"
+    t.string   "password_digest"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
   end
 
 end

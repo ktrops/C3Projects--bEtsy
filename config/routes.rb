@@ -1,11 +1,30 @@
 Rails.application.routes.draw do
+
+  root 'home#index'
+
+  resources :users do
+    resources :products
+    resources :orders, only: [:show, :update]
+  end
+
+  resources :products do
+    resources :reviews, only: [:new, :create]
+    resources :order_items, only: [:create, :destroy]
+  end
+
+  get '/login', to: 'sessions#new', as: 'login'
+  post '/login', to: 'sessions#create'
+  delete '/logout', to: 'sessions#destroy', as: 'logout'
+
+  put '/products/:id/toggle_active', to: 'products#toggle_active!', as: 'toggle_active'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
 
-  get 'orders/:id' => 'orders#show'
+  # get 'orders/:id' => 'orders#show'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
