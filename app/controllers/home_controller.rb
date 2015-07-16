@@ -1,6 +1,6 @@
 class HomeController < ApplicationController
   def index
     @user = User.find_by(id: session[:user_id])
-    # @front_page_products = Product.front_page
+    @products = Product.front_page_list
   end
 end
