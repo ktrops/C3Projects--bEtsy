@@ -7,4 +7,12 @@ class Product < ActiveRecord::Base
   validates :name, presence: true, uniqueness: true
   validates :price, presence: true, numericality: { greater_than: 0 }
 
+  def toggle_active!
+    toggle!(:active)
+  end
+
+  # implement by ranking?
+  def self.front_page_list
+    self.all.limit(20)
+  end
 end
