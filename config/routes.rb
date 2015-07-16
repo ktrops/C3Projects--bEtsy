@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   resources :products do
     resources :reviews, only: [:new, :create]
     resources :order_items, only: [:create, :destroy]
+    resources :product_categories, only: [:create, :destroy]
   end
 
   get '/login', to: 'sessions#new', as: 'login'
