@@ -7,7 +7,7 @@ class SessionsController < ApplicationController
 
     if @user && @user.authenticate(params[:session][:password])
       session[:user_id] = @user.id
-      redirect_to user_path
+      redirect_to user_path(@user.id)
     else
       flash.now[:errors] = "Login failed. Try again."
       render :new
