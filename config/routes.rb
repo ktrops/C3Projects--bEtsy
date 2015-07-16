@@ -7,9 +7,10 @@ Rails.application.routes.draw do
     resources :orders, only: [:show, :update]
   end
 
-  resources :products
-  resources :reviews, only: [:new, :create]
-  resources :order_items, only: [:create, :destroy]
+  resources :products do
+    resources :reviews, only: [:new, :create]
+    resources :order_items, only: [:create, :destroy]
+  end
 
   get '/login', to: 'sessions#new', as: 'login'
   post '/login', to: 'sessions#create'
