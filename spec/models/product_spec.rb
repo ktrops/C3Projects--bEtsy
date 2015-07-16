@@ -7,6 +7,8 @@ RSpec.describe Product, type: :model do
   # has_many :orders, through: :order_items
   # has_many :order_items
   # has_many :reviews
+  # has_many :product_categories
+  # has_many :categories, through: :product_categories
   #
   # validates :name, presence: true, uniqueness: true
   # validates :price, presence: true, numericality: { greater_than: 0 }
@@ -15,7 +17,6 @@ RSpec.describe Product, type: :model do
   #   toggle!(:active)
   # end
   #
-  # # implement by ranking?
   # def self.front_page_list
   #   self.all.limit(20)
   # end
@@ -30,7 +31,7 @@ RSpec.describe Product, type: :model do
     end
 
     it "name is unique" do
-      named_product = Product.create(name: "CIA operative identity", price: 1_000_000_000)
+      Product.create(name: "CIA operative identity", price: 1_000_000_000)
       same_name_product = Product.new(name: "CIA operative identity", price: 100)
 
       expect(same_name_product).to_not be_valid
@@ -83,20 +84,73 @@ RSpec.describe Product, type: :model do
 
     context "associations" do
       it "belongs to User" do
-        hacker = User.create(id: 70, username: "Hackman", email: "hackman@hackers.hack", password: "password", password_confirmation: "password")
-        nk_product = Product.create(name: "Kim Jeong Un's twitter", price: 100_000, user_id: 70)
+        User.create(id: 1, username: "Hackman", email: "hackman@hackers.hack", password: "password", password_confirmation: "password")
+        nk_product = Product.create(name: "Kim Jeong Un's twitter", price: 100_000, user_id: 1)
 
         expect(nk_product.user.username).to eq("Hackman")
       end
+
+      context "multiple orders and items" do
+        before :each do
+          OrderItem.create(quantity: 1, product_id: 2, order_id: 3)
+          OrderItem.create(quantity: 1, product_id: 2, order_id: 4)
+          Order.create(id: 3)
+          Order.create(id: 4)
+          @product = Product.create(id: 2, name: "lol", price: 100)
+        end
+
+        it "has many orders through order items" do
+          expect(@product.orders.count).to eq(2)
+        end
+
+        it "has many order items" do
+          expect(@product.order_items.count).to eq(2)
+        end
+      end
+
+      it "has many reviews" do
+        product = Product.create(id: 3, name: "Secret Sauce", price: 100)
+        Review.create(rating: 5, product_id: 3)
+        Review.create(rating: 1, product_id: 3)
+
+        expect(product.reviews.count).to eq(2)
+      end
+
+      context "multiple product categories" do
+        before :each do
+          @product = Product.create(id: 4, name: "Joe Biden's hotmail", price: 100)
+          Category.create(id: 10, name: "password")
+          Category.create(id: 11, name: "state secret")
+          ProductCategory.create(product_id: 4, category_id: 10)
+          ProductCategory.create(product_id: 4, category_id: 11)
+        end
+
+        it "has many categories" do
+          expect(@product.categories.count).to eq(2)
+        end
+
+        it "has many product_categories" do
+          expect(@product.product_categories.count).to eq(2)
+        end
+      end
+    end # context associations
+
+    describe "can be toggled between active and inactive" do
+      it "can be toggled to active" do
+        product = Product.create(name: "Was Inactive", price: 100, active: false)
+        product.toggle_active!
+
+        expect(product.active).to be(true)
+      end
+
+      it "can be toggled to inactive" do
+        product = Product.create(name: "Was Active", price: 100, active: true)
+        product.toggle_active!
+
+        expect(product.active).to be(false)
+      end
     end
 
-    # belongs_to user
-    # has_many orders through order_items
-    # has_many order_items
-    # has_many reviews
+  end # validations
 
-    # toggle_active!
-
-  end
-
-end
+end # class Product model
