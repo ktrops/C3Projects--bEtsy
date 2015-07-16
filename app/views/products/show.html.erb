@@ -4,7 +4,7 @@
 
 <p><%= @product.description %></p>
 
-<!-- categories -->
+<!-- (show categories) -->
 
 <p><%= @product.stock %> available for <%= readable_price(@product.price) %> each</p>
 
@@ -25,9 +25,13 @@
 
 <%= link_to 'See all products', products_path %>
 
-<%# if @user %>
+<%# if @user && @user = @product.user %>
   <p>Item is currently: <%= active_text(@product) %></p>
   <%= link_to 'Toggle active', toggle_active_path(@product), method: :put %>
-  <!-- Edit Button -->
-  <!-- Add categories -->
+  <%# link_to 'Edit Product', edit_user_product_path(@product) %>
+
+  <!-- make below link a form with a dropdown of possible categories -->
+  <!-- or a set of checkboxes with the current category(ies) already checked -->
+  <!-- and a button to create a new category, that redirects back to this page -->
+  <%# link_to 'Add category', new_product_category_path(@product) %>
 <%# end %>
