@@ -35,16 +35,16 @@ end
 
 products = [
   { name: "principal's email address", price: 1000, 
-    description: "a verified principal's email address", category: "email", 
+    description: "a verified principal's email address", 
     active: true, photo_url: "dunecat.jpg", stock: 10, user_id: 1 },
   { name: "CEO's password", price: 20000, 
-    description: "password to CEO's OnePass account", category: "password", 
+    description: "password to CEO's OnePass account", 
     active: true, photo_url: "dunecat.jpg", stock: 5, user_id: 1 },
   { name: "MRA's Reddit password", price: 500, 
-    description: "embarrass a jerk in his online community", category: "password", 
+    description: "embarrass a jerk in his online community", 
     active: true, photo_url: "dunecat.jpg", stock: 3, user_id: 2 },
-  { name: "celebrity address", price: 10000, 
-    description: "all you need to stalk your fav", category: "address", 
+  { name: "The Rock's home address", price: 10000, 
+    description: "all you need to stalk your fav", 
     active: true, photo_url: "dunecat.jpg", stock: 10, user_id: 2 },
 ]
 
@@ -73,4 +73,38 @@ order_items = [
 
 order_items.each do |order_item|
   OrderItem.create(order_item)
+end
+
+categories = [
+  {name: "email address"},
+  {name: "home address"},
+  {name: "contact info"},
+  {name: "password"},
+  {name: "state secret"},
+  {name: "personal secret"},
+  {name: "celebrity"},
+  {name: "financial"},
+  {name: "educational"}
+]
+
+categories.each do |category|
+  Category.create(category)
+end
+
+product_categories = [
+  {product_id: 1, category_id: 1},
+  {product_id: 1, category_id: 9},
+  {product_id: 1, category_id: 3},
+  {product_id: 2, category_id: 4},
+  {product_id: 2, category_id: 8},
+  {product_id: 3, category_id: 4},
+  {product_id: 3, category_id: 6},
+  {product_id: 4, category_id: 2},
+  {product_id: 4, category_id: 6},
+  {product_id: 4, category_id: 7},
+  {product_id: 4, category_id: 3}
+]
+
+product_categories.each do |product_category|
+  ProductCategory.create(product_category)
 end
