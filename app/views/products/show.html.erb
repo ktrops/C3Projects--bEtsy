@@ -4,7 +4,11 @@
 
 <p><%= @product.description %></p>
 
-<!-- (show categories) -->
+<ul>
+  <% @product.categories.each do |category| %>
+    <li><%= category.name %></li>
+    <% end %>
+</ul>
 
 <p><%= @product.stock %> available for <%= readable_price(@product.price) %> each</p>
 
