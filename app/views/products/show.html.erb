@@ -21,5 +21,9 @@
 
 <%= link_to 'Leave a review', new_product_review_path(@product) %>
 
-
 <%= link_to 'See all products', products_path %>
+
+<% if @user %>
+  <p>Item is currently: <%= @product.active_text %></p>
+  <%# link_to 'Toggle activity',  %>
+<% end %> 
