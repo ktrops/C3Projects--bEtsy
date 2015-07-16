@@ -10,4 +10,9 @@ class Product < ActiveRecord::Base
   def toggle_active!
     toggle!(:active)
   end
+
+  # implement by ranking?
+  def self.front_page_list
+    self.all.limit(20)
+  end
 end
