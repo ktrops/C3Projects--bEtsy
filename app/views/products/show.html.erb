@@ -1,2 +1,9 @@
-<h1>Products#show</h1>
-<p>Find me in app/views/products/show.html.erb</p>
+<h1><%= @product.name %></h1>
+
+<%= image_tag @product.photo_url %>
+
+<p><%= @product.description %></p>
+
+<%= link_to 'Add to cart', order_items_path, method: :post %>
+
+<%= link_to 'See all products', products_path %>
