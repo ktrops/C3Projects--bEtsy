@@ -1,3 +1,5 @@
-<p>Big set of products</p>
+<h2>For Sale</h2>
 
-<%# link_to 'See all products', products_path %>
+<%= render partial: 'product', collection: @products %>
+
+<%= link_to 'See all products', products_path %>
