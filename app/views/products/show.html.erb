@@ -4,13 +4,15 @@
 
 <p><%= @product.description %></p>
 
-<p><%= @product.stock %> available</p>
+<p><%= @product.stock %> available for <%= readable_price(@product.price) %> each</p>
 
-<%= form_for [ @product, @order_item ] do |f| %>
-    <%= f.label :quantity %>
-    <%= f.number_field :quantity, in: 1..@product.stock, step: 1, value: 1 %>
+<% if @product.stock > 0 %>
+  <%= form_for [ @product, @order_item ] do |f| %>
+      <%= f.label :quantity %>
+      <%= f.number_field :quantity, in: 1..@product.stock, step: 1, value: 1 %>
 
-    <%= f.submit 'Add to cart' %>
+      <%= f.submit 'Add to cart' %>
+  <% end %>
 <% end %>
 
 <h3>Reviews</h3>
