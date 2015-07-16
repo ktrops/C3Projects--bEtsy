@@ -10,6 +10,7 @@ class ProductsController < ApplicationController
 
   def show
     @product = Product.find(params[:id])
+    @reviews = @product.reviews
     # @order = Order.find(cookies[:order_id])
   end
 

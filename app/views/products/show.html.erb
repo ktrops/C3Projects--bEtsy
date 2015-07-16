@@ -4,6 +4,12 @@
 
 <p><%= @product.description %></p>
 
+<h3>Reviews</h3>
+
+<%= render partial: 'review', collection: @reviews %>
+
+<%= link_to 'Leave a review', new_review_path %>
+
 <%= link_to 'Add to cart', order_items_path, method: :post %>
 
 <%= link_to 'See all products', products_path %>
