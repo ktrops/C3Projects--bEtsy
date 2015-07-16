@@ -6,8 +6,13 @@
 
 <ul>
   <% @product.categories.each do |category| %>
-    <li><%= category.name %></li>
-    <% end %>
+    <% pc = category.product_categories.find_by(product_id: @product.id) %>
+    <li><%= category.name %>
+      <% if @user && @user == @product.user %>
+        <%= link_to 'Remove category', product_product_category_path(@product, pc), method: :delete %>
+      <% end %>
+    </li>
+  <% end %>
 </ul>
 
 <p><%= @product.stock %> available for <%= readable_price(@product.price) %> each</p>
@@ -35,7 +40,17 @@
   <%# link_to 'Edit Product', edit_user_product_path(@product) %>
 
   <!-- make below link a form with a dropdown of possible categories -->
+  <%= form_for [@product, @product_category] do |f| %>
+    <%= f.select (:category_id) do %>
+      <% Category.all.each do |category| %>
+        <%= content_tag(:option, category.id, as: category.name) %>
+      <% end %>
+    <% end %>
+
+    <%= f.submit %>
+  <% end %>
+    
   <!-- or a set of checkboxes with the current category(ies) already checked -->
   <!-- and a button to create a new category, that redirects back to this page -->
-  <%# link_to 'Add category', new_product_category_path(@product) %>
+  <%# link_to 'Create a new category', new_product_category_path(@product) %>
 <% end %>
