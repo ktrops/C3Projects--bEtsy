@@ -4,12 +4,23 @@
 
 <p><%= @product.description %></p>
 
+<p><%= @product.stock %> available</p>
+
 <h3>Reviews</h3>
+
+<%= form_for [ @product, @order_item ] do |f| %>
+    <%= f.label :quantity %>
+    <%= f.number_field :quantity, in: 1..@product.stock, step: 1 %>
+
+    <%= f.submit 'Add to cart' %>
+<% end %>
+  
+
+<%# link_to 'Add to cart', product_order_items_path(@product), method: :post %>
 
 <%= render partial: 'review', collection: @reviews %>
 
-<%= link_to 'Leave a review', new_review_path %>
+<%= link_to 'Leave a review', new_product_review_path(@product) %>
 
-<%= link_to 'Add to cart', order_items_path, method: :post %>
 
 <%= link_to 'See all products', products_path %>
