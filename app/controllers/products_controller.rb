@@ -9,6 +9,8 @@ class ProductsController < ApplicationController
   end
 
   def show
+    @product = Product.find(params[:id])
+    # @order = Order.find(cookies[:order_id])
   end
 
   def edit
