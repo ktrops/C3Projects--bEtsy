@@ -18,7 +18,7 @@ class ProductsController < ApplicationController
 
   def toggle_active!
     @product = Product.find(params[:id])
-    @product.toggle!(:active)
+    @product.toggle_active!
     redirect_to @product
   end
 
