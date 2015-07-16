@@ -6,17 +6,14 @@
 
 <p><%= @product.stock %> available</p>
 
-<h3>Reviews</h3>
-
 <%= form_for [ @product, @order_item ] do |f| %>
     <%= f.label :quantity %>
-    <%= f.number_field :quantity, in: 1..@product.stock, step: 1 %>
+    <%= f.number_field :quantity, in: 1..@product.stock, step: 1, value: 1 %>
 
     <%= f.submit 'Add to cart' %>
 <% end %>
-  
 
-<%# link_to 'Add to cart', product_order_items_path(@product), method: :post %>
+<h3>Reviews</h3>
 
 <%= render partial: 'review', collection: @reviews %>
 
