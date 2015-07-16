@@ -4,6 +4,8 @@
 
 <p><%= @product.description %></p>
 
+<!-- categories -->
+
 <p><%= @product.stock %> available for <%= readable_price(@product.price) %> each</p>
 
 <% if @product.stock > 0 %>
@@ -26,4 +28,6 @@
 <%# if @user %>
   <p>Item is currently: <%= active_text(@product) %></p>
   <%= link_to 'Toggle active', toggle_active_path(@product), method: :put %>
+  <!-- Edit Button -->
+  <!-- Add categories -->
 <%# end %>
