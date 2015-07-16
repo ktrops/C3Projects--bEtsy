@@ -23,7 +23,7 @@
 
 <%= link_to 'See all products', products_path %>
 
-<% if @user %>
-  <p>Item is currently: <%= @product.active_text %></p>
-  <%# link_to 'Toggle activity',  %>
-<% end %> 
+<%# if @user %>
+  <p>Item is currently: <%= active_text(@product) %></p>
+  <%= link_to 'Toggle active', toggle_active_path(@product), method: :put %>
+<%# end %>
