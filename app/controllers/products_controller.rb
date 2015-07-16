@@ -16,7 +16,7 @@ class ProductsController < ApplicationController
     # @order = Order.find(cookies[:order_id])
   end
 
-  def toggle_active!
+  def toggle_active
     @product = Product.find(params[:id])
     @product.toggle_active!
     redirect_to @product
