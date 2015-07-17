@@ -1,3 +1,10 @@
+<%= form_tag products_category_path, method: "get" do %>
+  <%= select_tag "category", options_from_collection_for_select(@categories, "id", "name") %>
+  <%= submit_tag %>
+  <% end %>
+
+
+
 <h1>All Products</h1>
 <div class = "container-fluid">
   <div class ="row">
@@ -11,8 +18,25 @@
       <h1>Price</h1>
     </div>
   </div>
-  <% @products.each do |product| %>
-    <% if product.active %>
+  <% if @products_array.empty? %>
+    <% @products.each do |product| %>
+      <% if product.active %>
+        <div class="row">
+          <div class = "col-sm-4">
+            <p><%= link_to "#{product.name}", product_path(product.id) %></p>
+          </div>
+          <div class = "col-sm-4">
+            <p><%= image_tag("#{product.photo_url}", class: "photo") %></p>
+          </div>
+          <div class = "col-sm-4">
+            <p><%= product.price %></p>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  <% else %>
+    <% @products_array.each do |product| %>
+      <% if product.active %>
       <div class="row">
         <div class = "col-sm-4">
           <p><%= link_to "#{product.name}", product_path(product.id) %></p>
@@ -24,6 +48,7 @@
           <p><%= product.price %></p>
         </div>
       </div>
+      <% end %>
     <% end %>
   <% end %>
 </div>
