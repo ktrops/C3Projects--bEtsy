@@ -1,9 +1,27 @@
 class ProductsController < ApplicationController
   def index
     @products = Product.all
+    @categories = Category.all
+    @products_array = []
   end
 
   def new
+  end
+
+  def category
+    @categories = Category.all
+    @category = Category.find(params[:category])
+    pro = @category.product_categories
+    product_id_array = []
+    pro.each do |item|
+      product_id_array << item.product_id
+    end
+    @products_array = []
+    products = product_id_array.each do |id|
+      @products_array << Product.find(id)
+    end
+
+    render :index
   end
 
   def create

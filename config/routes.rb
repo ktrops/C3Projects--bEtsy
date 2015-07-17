@@ -17,6 +17,8 @@ Rails.application.routes.draw do
   post '/login', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy', as: 'logout'
 
+  get '/products/category/filter', to: 'products#category', as: 'products_category'
+
   put '/products/:id/toggle_active', to: 'products#toggle_active', as: 'toggle_active'
 
   # The priority is based upon order of creation: first created -> highest priority.
