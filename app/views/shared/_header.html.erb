@@ -16,9 +16,10 @@
 
       <%# link_to cart %>
 
-      <% if @user %>
-        <%# link_to 'My Account', user_path(user) %>
-      <% end %>
-    </div>
-  </div>
+  <!-- <p>Order_id is: <%# session[:order_id] ? session[:order_id] : "none set" %></p> -->
+
+  <% if @user %>
+    <%# link_to 'My Account', user_path(user) %>
+  <% end %>
+
 </div>
