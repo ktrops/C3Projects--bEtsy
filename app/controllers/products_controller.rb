@@ -15,7 +15,6 @@ class ProductsController < ApplicationController
     @order_item = OrderItem.new
     @product_category = ProductCategory.new
     @user = User.find_by(id: session[:user_id])
-    # @order = Order.find(cookies[:order_id])
   end
 
   def toggle_active
