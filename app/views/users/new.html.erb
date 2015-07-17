@@ -1,4 +1,4 @@
-<h1>Login</h1>
+<h1>Create an Account</h1>
 
 <% if flash.now[:errors] %>
   <div>
@@ -7,20 +7,26 @@
   </div>
 <% end %>
 
-<% if flash[:success] %>
+<!-- <% if flash[:success] %>
   <div>
     <p class = "alert alert-success">
     <%= flash[:success] %> </p>
   </div>
-<% end %>
+<% end %> -->
 
-<%= form_for(:session, url: login_path) do |f| %>
+<%= form_for(:user, url: users_path) do |f| %>
   <%= f.label :username %>
   <%= f.text_field :username %>
+
+  <%= f.label :email%>
+  <%= f.text_field :email %>
 
   <%= f.label :password %>
   <%= f.password_field :password %>
 
-  <%= f.submit "Login" %>
+  <%= f.label :password_confirmation %>
+  <%= f.password_field :password_confriamtion %>
+
+  <%= f.submit "register" %>
 
 <% end %>

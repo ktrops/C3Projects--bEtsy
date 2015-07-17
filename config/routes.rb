@@ -10,13 +10,14 @@ Rails.application.routes.draw do
   resources :products do
     resources :reviews, only: [:new, :create]
     resources :order_items, only: [:create, :destroy]
+    resources :product_categories, only: [:create, :destroy]
   end
 
   get '/login', to: 'sessions#new', as: 'login'
   post '/login', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy', as: 'logout'
 
-  put '/products/:id/toggle_active', to: 'products#toggle_active!', as: 'toggle_active'
+  put '/products/:id/toggle_active', to: 'products#toggle_active', as: 'toggle_active'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
