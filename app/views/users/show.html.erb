@@ -1,3 +1,10 @@
+<% if flash[:errors] %>
+  <div>
+    <p class = "alert alert-danger">
+    <%= flash[:errors] %> </p>
+  </div>
+<% end %>
+
 <p>
    you are logged in <big><%= @user.username %></big>!  How neato!
 </p>
