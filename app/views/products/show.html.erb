@@ -1,5 +1,11 @@
 <h2><%= @product.name %></h2>
 
+<% if flash[:success] %>
+  <div>
+    <p class="alert alert-success"><%= flash[:success] %></p>
+  </div>
+<% end %>
+
 <p><%= image_tag @product.photo_url, class: "img-responsive img-rounded" %></p>
 
 <div class="panel panel-default">

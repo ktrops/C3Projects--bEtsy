@@ -6,10 +6,10 @@ class ProductCategoriesController < ApplicationController
   end
 
   def destroy
-    @product = Product.find(params[:product_id])
     @product_category = ProductCategory.find(params[:id])
     @product_category.destroy
 
+    @product = Product.find(params[:product_id])
     redirect_to @product
   end
 
