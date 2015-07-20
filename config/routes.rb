@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   root 'home#index'
 
   resources :users do
-    resources :products
+    resources :products, except: [:index]
     resources :orders, only: [:show, :update]
   end
 
@@ -22,6 +22,8 @@ Rails.application.routes.draw do
   get '/products/category/filter', to: 'products#category', as: 'products_category'
 
   put '/products/:id/toggle_active', to: 'products#toggle_active', as: 'toggle_active'
+
+  get '/users/:user_id/products', to: 'products#merchant_index', as: 'products_merchant_index'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
