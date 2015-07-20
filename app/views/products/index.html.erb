@@ -1,55 +1,54 @@
-<%= form_tag products_category_path, method: "get" do %>
-  <%= select_tag "category", options_from_collection_for_select(@categories, "id", "name") %>
-  <%= submit_tag %>
+<%= form_tag products_category_path, method: "get", class: "form" do %>
+  <div class="form-group inline-form">
+    <%= select_tag "category", options_from_collection_for_select(@categories, "id", "name"), include_blank: "Filter by...", class: "form-control fit-width" %>
+  </div>
+  <%= submit_tag "Apply Filter", class: "btn btn-default" %>
   <% end %>
 
 
 
-<h1>All Products</h1>
-<div class = "container-fluid">
-  <div class ="row">
-    <div class = "col-sm-4">
-      <h1>Name</h1>
-    </div>
-    <div class = "col-sm-4">
-      <h1>Photo</h1>
-    </div>
-    <div class = "col-sm-4">
-      <h1>Price</h1>
-    </div>
+<h2>All Products</h2>
+<div class ="row">
+  <div class = "col-sm-4 hidden-xs">
+    <h3>Name</h3>
   </div>
-  <% if @products_array.empty? %>
-    <% @products.each do |product| %>
-      <% if product.active %>
-        <div class="row">
-          <div class = "col-sm-4">
-            <p><%= link_to "#{product.name}", product_path(product.id) %></p>
-          </div>
-          <div class = "col-sm-4">
-            <p><%= image_tag("#{product.photo_url}", class: "photo") %></p>
-          </div>
-          <div class = "col-sm-4">
-            <p><%= product.price %></p>
-          </div>
-        </div>
-      <% end %>
-    <% end %>
-  <% else %>
-    <% @products_array.each do |product| %>
-      <% if product.active %>
+  <div class = "col-sm-4 hidden-xs">
+    <h3>Photo</h3>
+  </div>
+  <div class = "col-sm-4 hidden-xs">
+    <h3>Price</h3>
+  </div>
+</div>
+<% if @products_array.empty? %>
+  <% @products.each do |product| %>
+    <% if product.active %>
       <div class="row">
         <div class = "col-sm-4">
-          <p><%= link_to "#{product.name}", product_path(product.id) %></p>
+          <p><%= link_to "#{product.name}", product_path(product.id), class: "btn btn-lg btn-default" %></p>
         </div>
         <div class = "col-sm-4">
           <p><%= image_tag("#{product.photo_url}", class: "photo") %></p>
         </div>
         <div class = "col-sm-4">
-          <p><%= product.price %></p>
+          <p><%= readable_price(product.price) %></p>
         </div>
       </div>
-      <% end %>
     <% end %>
   <% end %>
-</div>
- 
+<% else %>
+  <% @products_array.each do |product| %>
+    <% if product.active %>
+    <div class="row">
+      <div class = "col-sm-4">
+        <p><%= link_to "#{product.name}", product_path(product.id) %></p>
+      </div>
+      <div class = "col-sm-4">
+        <p><%= image_tag("#{product.photo_url}", class: "photo") %></p>
+      </div>
+      <div class = "col-sm-4">
+        <p><%= product.price %></p>
+      </div>
+    </div>
+    <% end %>
+  <% end %>
+<% end %>

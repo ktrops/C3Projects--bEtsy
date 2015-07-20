@@ -25,6 +25,7 @@
 
 .fit-width {
   width: auto;
+  display: inline-block;
 }
 
 .inline-form {
@@ -33,4 +34,9 @@
 
 .field_with_errors {
   display: inline-block;
+}
+
+.label {
+  font-size: 100%;
+  padding: 6px 12px;
 }
