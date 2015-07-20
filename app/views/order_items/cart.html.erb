@@ -6,20 +6,21 @@
   </div>
 <% end %>
 
-<table>
+<table class="table">
   <tr>
     <th>Item</th>
     <th>Quantity</th>
-    <!-- <th>Remove</th> -->
-    <th>Update</th>
+    <th></th>
+    <th></th>
   </tr>
   <% @order_items.each do |order_item| %>
     <tr>
       <td><%= order_item.product.name %></td>
       <%= form_for order_item, url: order_item_path(order_item), method: :put do |f| %>
         <td><%= f.number_field :quantity, in: 1..order_item.product.stock, step: 1, value: order_item.quantity %></td>
-        <td><%= f.submit 'Update' %></td>
+        <td><%= f.submit 'Update', class: "btn btn-default" %></td>
       <% end %>
+      <td><%= link_to 'Remove', order_item_path(order_item), method: :delete, data: { confirm: "Remove this item from your cart?" }, class: "btn btn-danger" %></td>        
     </tr>
   <% end %>
 </table>

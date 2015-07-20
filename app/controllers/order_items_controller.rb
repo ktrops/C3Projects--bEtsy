@@ -20,6 +20,15 @@ class OrderItemsController < ApplicationController
     redirect_to cart_path
   end
 
+  def destroy
+    order_item = OrderItem.find(params[:id])
+    removed_product_name = order_item.product.name
+    order_item.delete
+    flash[:success] = "You removed #{removed_product_name} from your cart."
+
+    redirect_to cart_path
+  end
+
 
   def cart
     @order_items = OrderItem.where(order_id: session[:order_id])
