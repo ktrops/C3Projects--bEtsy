@@ -4,19 +4,23 @@ class OrdersController < ApplicationController
   end
 
   def checkout
-    order = Order.find(session[:order_id])
-    @order_items = order.order_items
+    @order = Order.find(session[:order_id])
+    @order_items = @order.order_items
   end
 
-  # def purchase
-  #   order = Order.find(session[:order_id])
-  #   order.update(order_params)
-  #   if order.save
-  #     redirect_to finalize_order_path
-  #   else
-  #     render purchase
-  #   end
-  # end
+  def finalize
+    @order = Order.find(session[:order_id])
+    @order.update(order_params)
+    if @order.save
+      redirect_to confirmation_path
+    else
+      flash.now[:errors] = "Please fill in every field to complete your order."
+      render :checkout
+    end
+  end
+
+  def confirmation
+  end
 
   private
 
