@@ -17,6 +17,8 @@ Rails.application.routes.draw do
   post '/login', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy', as: 'logout'
 
+  get '/products/merchant/filter', to: 'products#merchant', as: 'products_merchant'
+
   get '/products/category/filter', to: 'products#category', as: 'products_category'
 
   put '/products/:id/toggle_active', to: 'products#toggle_active', as: 'toggle_active'
