@@ -12,15 +12,21 @@
 <table class="table">
   <tr>
     <th>Item</th>
+    <th>Price</th>
     <th>Quantity</th>
+    <th>Line Price</th>
   </tr>
   <% @order_items.each do |order_item| %>
     <tr>
       <td><%= order_item.product.name %></td>
+      <td><%= readable_price(order_item.product.price) %></td>
       <td><%= order_item.quantity %></td>
+      <td><%= readable_price(order_item.product.price * order_item.quantity) %></td>
     </tr>
   <% end %>
 </table>
+
+<p>Order total: <%= readable_price(@order.total) %></p>
 
 <%= link_to 'Edit order', cart_path, class: "btn btn-warning" %>
 
