@@ -8,6 +8,13 @@ class ProductsController < ApplicationController
   end
 
   def new
+    @product = Product.new
+  end
+
+  def create
+    @product = Product.create(product_params)
+    @product.save
+    redirect_to products_path, method: :get
   end
 
   def category
@@ -36,8 +43,6 @@ class ProductsController < ApplicationController
     render :index
   end
 
-  def create
-  end
 
   def show
     @product = Product.find(params[:id])
@@ -61,4 +66,12 @@ class ProductsController < ApplicationController
 
   def destroy
   end
+
+private
+
+  def product_params
+    params.require(:product).permit(:name, :price, :description, 
+                                    :active, :photo_url, :stock, :user_id)
+  end
+
 end
