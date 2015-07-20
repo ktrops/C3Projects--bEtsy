@@ -1,0 +1,21 @@
+<h1>Shopping cart</h1>
+
+<table>
+  <tr>
+    <th>Item</th>
+    <th>Quantity</th>
+    <!-- <th>Remove</th> -->
+    <th>Update</th>
+  </tr>
+  <% @order_items.each do |order_item| %>
+    <tr>
+      <td><%= order_item.product.name %></td>
+      <%= form_for order_item do |f| %>
+        <td><%= f.number_field :quantity, in: 1..order_item.product.stock, step: 1, value: order_item.quantity %></td>
+        <td><%= f.submit 'Update', method: :put %></td>
+      <% end %>
+    </tr>
+  <% end %>
+</table>
+
+<%= link_to 'Check out', checkout_path, class: "btn btn-primary" %>
