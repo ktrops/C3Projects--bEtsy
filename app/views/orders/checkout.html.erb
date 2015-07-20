@@ -1,0 +1,29 @@
+<h1>Finalize order</h1>
+
+<h3>Order details:</h3>
+
+<table class="table">
+  <tr>
+    <th>Item</th>
+    <th>Quantity</th>
+  </tr>
+  <% @order_items.each do |order_item| %>
+    <tr>
+      <td><%= order_item.product.name %></td>
+      <td><%= order_item.quantity %></td>
+    </tr>
+  <% end %>
+</table>
+
+<%= link_to 'Edit order', cart_path, class: "btn btn-warning" %>
+
+<h3>Shipping</h3>
+
+<%= form_for @order, url: finalize_order_path(@order), method: :put, class: "form" do |f| %>
+  <div class="form-group">
+    <%= f.label :cc_name, "Name" %>
+    <%= f.text_field :cc_name %>
+
+    <%= f.submit "Place order" %>
+  </div>
+<% end %>
