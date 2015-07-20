@@ -23,6 +23,11 @@ Rails.application.routes.draw do
 
   put '/products/:id/toggle_active', to: 'products#toggle_active', as: 'toggle_active'
 
+  get '/cart', to: 'order_items#cart', as: 'cart'
+  get '/checkout', to: 'orders#checkout', as: 'checkout'
+  # put '/order_items/:id/update', to: 'order_items#update', as: 'update_order_item'
+  resources :order_items, only: [:update, :destroy]
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
