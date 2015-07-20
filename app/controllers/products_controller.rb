@@ -54,11 +54,26 @@ class ProductsController < ApplicationController
   end
 
   def edit
+      @product = Product.find(params[:id])
   end
 
   def update
+    @product = Product.find(params[:id])
+    if @product.update(product_params)
+      redirect_to product_path(@product)
+    else
+      render :edit
+    end
   end
 
   def destroy
+  end
+
+
+
+  private
+
+  def product_params
+    params.require(:product).permit(:name, :price, :description, :photo_url, :stock)
   end
 end

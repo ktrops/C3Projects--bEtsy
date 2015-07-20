@@ -1,2 +1,34 @@
-<h1>Products#edit</h1>
-<p>Find me in app/views/products/edit.html.erb</p>
+<h2>Edit <%= @product.name %></h2>
+
+<pre>
+  <%= params %>
+</pre>
+
+<%= form_for @product, html: { class: "form" } do |f| %>
+<div class="form-group">
+  <%= f.label :name %>
+  <%= f.text_field :name, class: "form-control" %>
+</div>
+
+<div class="form-group">
+  <%= f.label :price, "Price (in pennies...)" %>
+  <%= f.number_field :price, class: "form-control" %>
+</div>
+
+<div class="form-group">
+  <%= f.label :description %>
+  <%= f.text_area :description, class: "form-control" %>
+</div>
+
+<div class="form-group">
+  <%= f.label :photo_url, "Photo URL or Filename" %>
+  <%= f.text_field :photo_url, class: "form-control" %>
+</div>
+
+<div class="form-group">
+  <%= f.label :stock %>
+  <%= f.number_field :stock, class: "form-control" %>
+</div>
+
+<%= f.submit class: "btn btn-primary" %>
+<% end %>
