@@ -1,11 +1,28 @@
 <%= render "nav" %>
 
+<div class = "col-sm-3">
+  <p>
+    username: <%= @user.username %>
+  </p>
+</div>
+<div class = "col-sm-3">
+  <p>
+    Email: <%= @user.email %>
+  </p>
+</div>
+<div class = "col-sm-3">
+  <p>
+  </p>
+</div>
+<br>
+
 <h2>
   <%= @message + @user.username %>!
 </h2>
 
 <h3>Sales to Date: <%= @total_sales %></h3>
 <h3>Total Items Sold: <%= @quantity_sold %></h3>
+
 
 <h3>Your top 5 highest selling products:</h3>
 <h3>Recent Sales</h3>

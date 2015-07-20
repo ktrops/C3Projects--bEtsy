@@ -33,11 +33,21 @@ class UsersController < ApplicationController
   end
 
   def edit
+    @user_id = params[:id]
+    @user = User.find(@user_id)
 
     render :edit
   end
 
+
   def update
+    @user_id = params[:id]
+    @user = User.find(@user_id)
+    @user.update(user_params[:user])
+
+    raise
+
+    redirect_to profile_path
   end
 
 
@@ -54,7 +64,7 @@ class UsersController < ApplicationController
   end
 
   def random_welcome
-    welcomes = ["Bienvenidos ", "We missed you ", "Looking pretty fly ", "Greetings ", "Take me to your leader ", "Good day ", "Happy to see you ", "Hey it's my favorite vendor "]
+    welcomes = ["¡Bienvenidos ", "We missed you ", "Looking pretty fly ", "Greetings ", "Take me to your leader ", "Good day ", "Happy to see you ", "Hey it's my favorite vendor ", "Hey boo, glad to see your face again ", "Oh hai there "]
     welcomes.sample
   end
 
