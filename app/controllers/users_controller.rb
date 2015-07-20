@@ -22,6 +22,7 @@ class UsersController < ApplicationController
     @user_id = params[:id]
     @user = User.find(@user_id)
     sales_quantity
+    total_sales
     @message = random_welcome
 
     render :show
@@ -44,10 +45,12 @@ class UsersController < ApplicationController
     @user_id = params[:id]
     @user = User.find(@user_id)
     @user.update(user_params[:user])
-
-    raise
-
-    redirect_to profile_path
+    if @user.save
+      redirect_to user_path
+    else
+      flash.now[:errors] = "We were unable to update your information, try again."
+      redirect_to edit_user_path(@user_id)
+    end
   end
 
 
@@ -55,7 +58,6 @@ class UsersController < ApplicationController
 
   # this could be added to any other controllers that also require login
   def require_login
-    flash.now[:errors] = "Please login."
     redirect_to login_path unless session[:user_id]
   end
 
@@ -69,8 +71,10 @@ class UsersController < ApplicationController
   end
 
   def total_sales
-# waiting on orders to complete this method :)
-
+    @total_sales = 0
+    @user.order_items.each do |x|
+      @total_sales += x.quantity * x.product.price
+    end
   end
 
   def sales_quantity
