@@ -7,6 +7,11 @@ class ProductsController < ApplicationController
     @merchant_products = nil
   end
 
+  def merchant_index
+    @merchant = User.find(params[:user_id])
+    @products = @merchant.products
+  end
+
   def new
     @product = Product.new
   end
