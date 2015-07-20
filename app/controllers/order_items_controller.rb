@@ -32,6 +32,7 @@ class OrderItemsController < ApplicationController
 
 
   def cart
+    @order = Order.find(session[:order_id])
     @order_items = OrderItem.where(order_id: session[:order_id])
   end
 
