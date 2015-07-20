@@ -5,4 +5,7 @@ class User < ActiveRecord::Base
 
   validates :username, presence: true, uniqueness: true
   validates :email, presence: true, uniqueness: true
+
+  # scope :top_five_products, -> order()
+  # scope :five_recent_sales, -> order()
 end
