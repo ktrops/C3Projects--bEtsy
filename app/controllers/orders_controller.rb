@@ -13,8 +13,10 @@ class OrdersController < ApplicationController
     @order.update(order_params)
     @order.status = "paid"
     @order.save
+    # didn't redirect after bad info inputted
     if @order.save
       Product.update_stock!(@order)
+      session[:confirmed_order_id] = @order.id
       session[:order_id] = nil
       redirect_to confirmation_path
     else
@@ -24,6 +26,7 @@ class OrdersController < ApplicationController
   end
 
   def confirmation
+    @order = Order.find(session[:confirmed_order_id])
   end
 
   private
