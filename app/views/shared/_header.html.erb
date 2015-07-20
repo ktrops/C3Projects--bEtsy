@@ -3,7 +3,7 @@
     <div class="page-header">
 
       <% if @user %>
-        <%= link_to 'Log Out', logout_path, method: :delete, class: "btn btn-warning" %>
+        <%= link_to 'Log Out', logout_path, method: :delete, class: "btn btn-primary" %>
       <% else %>
         <%= link_to 'Log In', login_path, class: "btn btn-primary" %>
         <%= link_to 'Register', new_user_path, class: "btn btn-default" %>
