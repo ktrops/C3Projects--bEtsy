@@ -4,14 +4,19 @@ class OrdersController < ApplicationController
     @order = Order.find(params[:id])
   end
 
-  # def cart
-  #   order = Order.find(session[:order_id])
-  #   @order_items = order.order_items
-  # end
+  def cart
+    order = Order.find(session[:order_id])
+    @order_items = order.order_items
+  end
 
   # def create
   #   Order.create
   # end
+
+  def checkout
+    order = Order.find(session[:order_id])
+    @order_items = order.order_items
+  end
 
   # def purchase
   #   order = Order.find(session[:order_id])
