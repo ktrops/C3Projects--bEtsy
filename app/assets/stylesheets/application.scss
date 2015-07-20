@@ -22,3 +22,21 @@
 .form-control {
   max-width: 250px;
 }
+
+.fit-width {
+  width: auto;
+  display: inline-block;
+}
+
+.inline-form {
+  display: inline-block;
+}
+
+.field_with_errors {
+  display: inline-block;
+}
+
+.label {
+  font-size: 100%;
+  padding: 6px 12px;
+}

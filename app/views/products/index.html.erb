@@ -1,7 +1,12 @@
-<%= form_tag products_category_path, method: "get" do %>
-  <%= select_tag "category", options_from_collection_for_select(Category.all, "id", "name") %>
-  <%= submit_tag "Sort by Category" %>
-<% end %>
+
+<%= form_tag products_category_path, method: "get", class: "form" do %>
+  <div class="form-group inline-form">
+    <%= select_tag "category", options_from_collection_for_select(Category.all, "id", "name"), include_blank: "Filter by...", class: "form-control fit-width" %>
+  </div>
+  <%= submit_tag "Apply Filter", class: "btn btn-default" %>
+  <% end %>
+
+
 
 <%= form_tag products_merchant_path, method: "get" do %>
   <%= select_tag "user", options_from_collection_for_select(User.all, "id", "username") %>
@@ -11,6 +16,7 @@
 <% if request.path.include?("filter") %>
   <%= link_to "See all Products", products_path, method: :get, class: "btn" %>
 <% end %>
+
 
 
 
@@ -38,7 +44,7 @@
             <p><%= image_tag("#{product.photo_url}", class: "photo") %></p>
           </div>
           <div class = "col-sm-4">
-            <p><%= product.price %></p>
+            <p><%= readable_price(product.price) %></p>
           </div>
         </div>
       <% end %>
@@ -54,7 +60,7 @@
           <p><%= image_tag("#{product.photo_url}", class: "photo") %></p>
         </div>
         <div class = "col-sm-4">
-          <p><%= product.price %></p>
+          <p><%= readable_price(product.price) %></p>
         </div>
       </div>
       <% end %>
@@ -70,11 +76,10 @@
           <p><%= image_tag("#{product.photo_url}", class: "photo") %></p>
         </div>
         <div class = "col-sm-4">
-          <p><%= product.price %></p>
+          <p><%= readable_price(product.price) %></p>
         </div>
       </div>
       <% end %>
     <% end %>
   <% end %>
 </div>
- 
