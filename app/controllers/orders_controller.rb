@@ -11,7 +11,10 @@ class OrdersController < ApplicationController
   def finalize
     @order = Order.find(session[:order_id])
     @order.update(order_params)
+    @order.status = "paid"
+    @order.save
     if @order.save
+      session[:order_id] = nil
       redirect_to confirmation_path
     else
       flash.now[:errors] = "Please fill in every field to complete your order."
