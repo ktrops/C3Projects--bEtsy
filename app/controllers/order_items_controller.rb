@@ -14,7 +14,6 @@ class OrderItemsController < ApplicationController
   end
 
   def update
-    # raise
     order_item = OrderItem.find(params[:id])
     order_item.update(order_item_params)
     flash[:success] = "Your order has been updated."
