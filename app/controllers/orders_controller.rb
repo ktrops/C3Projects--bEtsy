@@ -14,6 +14,7 @@ class OrdersController < ApplicationController
     @order.status = "paid"
     @order.save
     if @order.save
+      Product.update_stock!(@order)
       session[:order_id] = nil
       redirect_to confirmation_path
     else
@@ -27,7 +28,6 @@ class OrdersController < ApplicationController
 
   private
 
-  # do I need this here? will need it for :update, not for :create
   def order_params
     params.require(:order).permit(:status, :email, :cc_name, :cc_number, 
       :cc_expiration, :cc_cvv, :billing_zip, :shipped, :address1, :address2,
