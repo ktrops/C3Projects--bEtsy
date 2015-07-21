@@ -73,7 +73,7 @@
     <%= f.text_field :cc_number, required: true, class: 'form-control' %>
   </div>
   <div class="form-group">
-    <%= f.label :cc_expiration, "Credit card expiration date" %>
+    <%= f.label :cc_expiration, "Credit card expiration date", id: "cc_exp_label" %>
     <%= f.date_select :cc_expiration, use_month_numbers: true, use_two_digit_numbers: true, order: [:month, :year], start_year: Date.today.year, start_month: Date.today.month, prompt: true, required: true, class: 'form-control' %>
     <%# f.date_field :cc_expiration, min: Date.today, required: true, class: 'form-control' %>
   </div>
