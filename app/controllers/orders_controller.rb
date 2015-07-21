@@ -16,8 +16,9 @@ class OrdersController < ApplicationController
     # didn't redirect after bad info inputted
     if @order.save
       Product.update_stock!(@order)
-      session[:confirmed_order_id] = @order.id
+      flash[:confirmed_order_id] = @order.id
       session[:order_id] = nil
+
       redirect_to confirmation_path
     else
       flash.now[:errors] = "Please fill in every field to complete your order."
@@ -26,7 +27,9 @@ class OrdersController < ApplicationController
   end
 
   def confirmation
-    @order = Order.find(session[:confirmed_order_id])
+    @order = Order.find(flash[:confirmed_order_id])
+    # use the below line for debugging (to avoid losing the flash[:confirmed_order_id])
+    # @order = Order.find(12)
   end
 
   private
