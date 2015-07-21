@@ -1,6 +1,8 @@
 class UsersController < ApplicationController
 
   before_action :require_login, except: [:new, :create]
+  before_action :authenticated_user, except: [:new, :create]
+  before_action :save_login_state, only: [:new]
 
   def new
     @user = User.new(user_params[:user])
@@ -19,8 +21,6 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user_id = params[:id]
-    @user = User.find(@user_id)
     sales_quantity
     total_sales
     @message = random_welcome
@@ -28,37 +28,41 @@ class UsersController < ApplicationController
     render :show
   end
 
-  def profile
-    @user_id = params[:id]
-    @user = User.find(@user_id)
-  end
-
   def edit
-    @user_id = params[:id]
-    @user = User.find(@user_id)
 
     render :edit
   end
 
-
   def update
-    @user_id = params[:id]
-    @user = User.find(@user_id)
     @user.update(user_params[:user])
-    if @user.save
-      redirect_to user_path
-    else
-      flash.now[:errors] = "We were unable to update your information, try again."
-      redirect_to edit_user_path(@user_id)
-    end
+    @user.save
+    redirect_to user_path
   end
-
 
   private
 
   # this could be added to any other controllers that also require login
   def require_login
     redirect_to login_path unless session[:user_id]
+  end
+
+  def authenticated_user
+    if session[:user_id]
+      @user = User.find session[:user_id]
+      return true
+    else
+      redirect_to user_path(login_path)
+      return false
+    end
+  end
+
+  def save_login_state
+    if session[:user_id]
+      redirect_to user_path(@user.id)
+      return false
+    else
+      return true
+    end
   end
 
   def user_params
