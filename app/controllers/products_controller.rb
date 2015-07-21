@@ -19,10 +19,26 @@ class ProductsController < ApplicationController
     @product_categories = @product.product_categories.build
   end
 
+  def error_messages(instance)
+    error_string = ""
+    instance.errors.messages.each do |key, value|
+      error_string += "#{key.to_s.capitalize} "
+      error_string += "#{value.first}. "
+    end
+    error_string
+  end
+
   def create
     @product = Product.create(product_params)
-    redirect_to products_path, method: :get
+    if @product.save
+      flash[:success] = "You have created a new product"
+      redirect_to products_path, method: :get
+    else
+      flash[:errors] = error_messages(@product)
+      redirect_to new_user_product_path
+    end
   end
+
 
   def category
     @merchant_products = nil
@@ -66,7 +82,7 @@ class ProductsController < ApplicationController
   end
 
   def edit
-      @product = Product.find(params[:id])
+    @product = Product.find(params[:id])
   end
 
   def update
@@ -85,7 +101,7 @@ class ProductsController < ApplicationController
 
 
 
-  private
+
 
   def product_params
     params.require(:product).permit(:name, :price, :description, :active, :photo_url, :stock, :user_id, product_categories_attributes: [:id, :category_id, :product_id])

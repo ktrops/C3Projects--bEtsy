@@ -1,3 +1,12 @@
+<%#unless @product.errors.empty? %>
+  <%# @product.errors.messages %>
+<%#end %>
+
+<% if flash[:errors]%>
+  <p class="alert alert-danger">
+    <%= flash[:errors] %>
+  </p>
+<% end %>
 
 <%= form_for @product, url: user_products_path(@merchant.id), method: :post do |f| %>
   <%= f.label :name %>
@@ -27,6 +36,8 @@
   <%= f.submit %>
 
 <% end %>
+
+
 
 <%= link_to "Create a new Category", new_category_path, method: :get %>
 

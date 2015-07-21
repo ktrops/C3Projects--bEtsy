@@ -26,4 +26,13 @@ class Product < ActiveRecord::Base
       product.save
     end
   end
+
+  def error_messages(instance)
+    error_string = ""
+    instance.errors.messages.each do |key, value|
+      error_string += "#{key.first} "
+      error_string += "#{value.first.first} "
+    end
+    error_string
+  end
 end
