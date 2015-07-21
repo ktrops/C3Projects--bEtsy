@@ -8,3 +8,7 @@
 <p>
    you are logged in <big><%= @user.username %></big>!  How neato!
 </p>
+
+<%= link_to "Create a new Product", new_user_product_path(@user.id), method: :get %>
+
+<%= link_to "View Your Products", products_merchant_index_path(@user.id), method: :get %>
