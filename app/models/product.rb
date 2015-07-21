@@ -18,4 +18,12 @@ class Product < ActiveRecord::Base
   def self.front_page_list
     self.all.limit(20)
   end
+
+  def self.update_stock!(order)
+    order.order_items.each do |order_item|
+      product = Product.find_by(id: order_item.product_id)
+      product.stock -= order_item.quantity
+      product.save
+    end
+  end
 end
