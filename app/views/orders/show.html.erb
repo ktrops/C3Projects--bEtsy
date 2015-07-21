@@ -1,26 +1,79 @@
 <h1>Order <%= @order.id %></h1>
 
-<table>
-  <tbody>
-    <tr>
-      <th>Buyer:</th>
-      <td><%= @order.cc_name %></td>
-    </tr>
-    <tr>
-      <th>Email Address:</th>
-      <td><%= @order.email %></td>
-    </tr>
-    <tr>
-      <th>Mailing Address:</th>
-      <td><%= "#{@order.address1}, #{@order.city}, #{@order.state} #{@order.mailing_zip}" %></td>
-    </tr>
-    <tr>
-      <th>Last 4 of Credit Card:</th>
-      <td><%= @order.cc_number[-4..-1] %></td>
-    </tr>
-    <tr>
-      <th>Credit Card Expiration Date:</th>
-      <td><%= @order.cc_expiration %></td>
-    </tr>
-  </tbody>
-</table>
+<div class ="col-md-6">
+  <h3>Customer Information</h3>
+  <table class = "table">
+    <tbody>
+      <tr>
+        <th>Buyer:</th>
+        <td><%= @order.mailing_name %></td>
+      </tr>
+      <tr>
+        <th>Email Address:</th>
+        <td><%= @order.email %></td>
+      </tr>
+      <tr>
+        <th>Mailing Address:</th>
+        <td><%= "#{@order.address1}, #{@order.city}, #{@order.state} #{@order.mailing_zip}" %></td>
+      </tr>
+      <tr>
+        <th>Last 4 of Credit Card:</th>
+        <td><%= @order.cc_number[-4..-1] %></td>
+      </tr>
+      <tr>
+        <th>Credit Card Expiration Date:</th>
+        <td><%= @order.cc_expiration %></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class = "col-md-6">
+  <h3>Order Details</h3>
+  <table class = "table">
+    <thead>
+      <tr>
+        <th>
+          Product
+        </th>
+        <th>
+          Quantity
+        </th>
+        <th>
+          Subtotal
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @order.order_items.each do |x| %>
+      <tr>
+        <td>
+          <%= x.product.name %>
+        </td>
+        <td>
+          <%= x.quantity %>
+        </td>
+        <td>
+          <%= x.quantity * x.product.price %>
+        </td>
+      </tr>
+      <% end %>
+      <tr>
+        <th colspan="2">
+          Order Total
+        </th>
+        <td>
+           <%= @total_sales %>
+        </td>
+      </tr>
+      <tr>
+        <th colspan="2">
+          Status:
+        </th>
+        <td>
+          <%= @order.status %>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
