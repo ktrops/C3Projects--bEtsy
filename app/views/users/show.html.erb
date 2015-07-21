@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 <%= render "nav" %>
 
 <div class = "col-sm-2">
@@ -17,6 +17,10 @@
   </p>
 </div>
 <br>
+
+<%= link_to "Create a new Product", new_user_product_path(@user.id), method: :get %>
+
+<%= link_to "View Your Products", products_merchant_index_path(@user.id), method: :get %>
 
 <h2>
   <%= @message + @user.username %>!
@@ -54,7 +58,7 @@
     </td>
   </tbody>
 </table>
-=======
+
 <% if flash[:errors] %>
   <div>
     <p class = "alert alert-danger">
@@ -66,7 +70,4 @@
    you are logged in <big><%= @user.username %></big>!  How neato!
 </p>
 
-<%= link_to "Create a new Product", new_user_product_path(@user.id), method: :get %>
 
-<%= link_to "View Your Products", products_merchant_index_path(@user.id), method: :get %>
->>>>>>> 11c12dc9851356875e53ef3db0f1416f7754e5ae
