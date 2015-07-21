@@ -1,6 +1,10 @@
 module ProductsHelper
   def active_text(product)
-    product.active ? "active" : "inactive"
+    if product.active
+      "<span class=\"label label-success\">Product is ACTIVE</span>".html_safe
+    else
+      "<span class=\"label label-danger\">Product is INACTIVE</span>".html_safe
+    end
   end
 
   def rating_to_stars(rating)
