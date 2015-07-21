@@ -1,5 +1,11 @@
 <h2><%= @product.name %></h2>
 
+<% if flash[:errors] %>
+  <div>
+    <p class="alert alert-danger"><%= flash[:errors] %></p>
+  </div>
+<% end %>
+
 <% if flash[:success] %>
   <div>
     <p class="alert alert-success"><%= flash[:success] %></p>
@@ -45,7 +51,10 @@
     <h3 class="panel-title">Reviews</h3>
   </div>
   <div class="panel-body">
-    <p><%= link_to 'Write a Review', new_product_review_path(@product), class: "btn btn-default" %></p>
+    <!-- refactor this logic '@user && @user == @product.user', make it be elsewhere -->
+    <% unless @user && @user == @product.user %>
+      <p><%= link_to 'Write a Review', new_product_review_path(@product), class: "btn btn-default" %></p>
+    <% end %>
     <%= render partial: 'review', collection: @reviews %>
   </div>
 </div>
