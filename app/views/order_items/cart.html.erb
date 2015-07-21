@@ -12,23 +12,45 @@
   </div>
 <% end %>
 
-<table class="table">
-  <tr>
-    <th>Item</th>
-    <th>Quantity</th>
-    <th></th>
-    <th></th>
-  </tr>
-  <% @order_items.each do |order_item| %>
+<!-- move this logic "@order_items.count > 0" to view helper? -->
+<% if @order_items.count > 0 %>
+  <table class="table">
     <tr>
-      <td><%= order_item.product.name %></td>
-      <%= form_for order_item, url: order_item_path(order_item), method: :put do |f| %>
-        <td><%= f.number_field :quantity, in: 1..order_item.product.stock, step: 1, value: order_item.quantity %></td>
-        <td><%= f.submit 'Update', class: "btn btn-default" %></td>
-      <% end %>
-      <td><%= link_to 'Remove', order_item_path(order_item), method: :delete, data: { confirm: "Remove this item from your cart?" }, class: "btn btn-danger" %></td>        
+      <th>Item</th>
+      <th>Price</th>
+      <th>Quantity</th>
+      <th>Item total</th>
+      <th></th>
     </tr>
-  <% end %>
-</table>
+    <% @order_items.each do |order_item| %>
+      <% item_price = order_item.product.price %>
+      <tr>
+        <td><%= order_item.product.name %></td>
+        <td><%= readable_price(item_price) %></td>
 
-<%= link_to 'Check out', checkout_path, class: "btn btn-primary" %>
+        <%= form_for order_item, url: order_item_path(order_item), method: :put do |f| %>
+          <td>
+            <%= f.number_field :quantity, in: 1..order_item.product.stock, step: 1, value: order_item.quantity %>
+            <%= f.submit 'Update', class: "btn btn-default" %>
+          </td>
+        <% end %>
+
+        <td><%= readable_price(item_price * order_item.quantity) %></td>
+        <td><%= link_to 'Remove', order_item_path(order_item), method: :delete, data: { confirm: "Remove this item from your cart?" }, class: "btn btn-danger" %></td>        
+      </tr>
+    <% end %>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <th>Order total:</td>
+      <th><%= readable_price(@order.total) %></td>
+      <td></td>
+    </tr>
+  </table>
+
+  <%= link_to 'Check out', checkout_path, class: "btn btn-primary" %>
+<% else %>
+  <p>There are no items in your cart.</p>
+  <%= link_to 'Return to shopping', products_path, class: "btn btn-primary" %> 
+<% end %>

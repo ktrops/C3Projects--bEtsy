@@ -9,6 +9,7 @@ class Product < ActiveRecord::Base
   validates :name, presence: true, uniqueness: true
   validates :price, presence: true, numericality: { greater_than: 0 }
 
+  accepts_nested_attributes_for :product_categories
   def toggle_active!
     toggle!(:active)
   end
@@ -16,5 +17,13 @@ class Product < ActiveRecord::Base
   # implement by ranking?
   def self.front_page_list
     self.all.limit(20)
+  end
+
+  def self.update_stock!(order)
+    order.order_items.each do |order_item|
+      product = Product.find_by(id: order_item.product_id)
+      product.stock -= order_item.quantity
+      product.save
+    end
   end
 end

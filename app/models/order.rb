@@ -10,4 +10,7 @@ class Order < ActiveRecord::Base
     length: { in: 15..16 }, allow_nil: true
 
   # Scopes ---------------------------------------------------------------------
+  def total
+    order_items.inject(0) { |sum, item| sum += (item.product.price * item.quantity) }
+  end
 end

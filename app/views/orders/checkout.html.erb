@@ -1,0 +1,78 @@
+<h1>Finalize order</h1>
+
+<% if flash.now[:errors] %>
+  <div>
+    <p class="alert alert-danger">
+    <%= flash.now[:errors] %> </p>
+  </div>
+<% end %>
+
+<h3>Order details:</h3>
+
+<table class="table">
+  <tr>
+    <th>Item</th>
+    <th>Price</th>
+    <th>Quantity</th>
+    <th>Line Price</th>
+  </tr>
+  <% @order_items.each do |order_item| %>
+    <tr>
+      <td><%= order_item.product.name %></td>
+      <td><%= readable_price(order_item.product.price) %></td>
+      <td><%= order_item.quantity %></td>
+      <td><%= readable_price(order_item.product.price * order_item.quantity) %></td>
+    </tr>
+  <% end %>
+</table>
+
+<p>Order total: <%= readable_price(@order.total) %></p>
+
+<%= link_to 'Edit order', cart_path, class: "btn btn-warning" %>
+
+
+<%= form_for @order, url: finalize_order_path(@order), method: :put, class: "form" do |f| %>
+
+  <h3>Shipping</h3>
+  <div class="form-group">
+    <%= f.label :mailing_name, "Full name" %>
+    <%= f.text_field :mailing_name, required: true, class: 'form-control' %>
+
+    <%= f.label :email %>
+    <%= f.text_field :email, required: true, class: 'form-control' %>
+    
+    <%= f.label :address1, "Address line 1" %>
+    <%= f.text_field :address1, required: true, class: 'form-control' %>
+
+    <%= f.label :address2, "Address line 2" %>
+    <%= f.text_field :address2, class: 'form-control' %>
+
+    <%= f.label :city %>
+    <%= f.text_field :city, required: true, class: 'form-control' %>
+
+    <%= f.label :state %>
+    <%= f.text_field :state, required: true, class: 'form-control' %>
+
+    <%= f.label :mailing_zip, "Zip code" %>
+    <%= f.text_field :mailing_zip, required: true, class: 'form-control' %>
+  </div>
+
+  <h3>Payment</h3>
+  <div class="form-group">
+    <%= f.label :cc_name, "Name on card" %>
+    <%= f.text_field :cc_name, required: true, class: 'form-control' %>
+
+    <%= f.label :cc_number, "Card number" %>
+    <%= f.text_field :cc_number, required: true, class: 'form-control' %>
+
+    <%= f.label :cc_expiration, "Credit card expiration date" %>
+    <%= f.date_select :cc_expiration, use_month_numbers: true, use_two_digit_numbers: true, order: [:month, :year], start_year: Date.today.year, start_month: Date.today.month, prompt: true, required: true, class: 'date-select' %>
+
+    <%= f.label :cc_cvv, "CVV" %>
+    <%= f.text_field :cc_cvv, required: true, class: 'form-control' %>
+
+    <%= f.label :billing_zip, "Billing zip code" %>
+    <%= f.text_field :billing_zip, required: true, class: 'form-control' %>
+  </div>
+    <%= f.submit "Place order" %>
+<% end %>
