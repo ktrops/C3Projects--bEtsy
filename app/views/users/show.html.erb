@@ -1,60 +1,41 @@
-
-<%= render "nav" %>
-
-<div class = "col-sm-2">
-  <p>
-    username: <%= @user.username %>
-  </p>
-</div>
-<div class = "col-sm-3">
-  <p>
-    Email: <%= @user.email %>
-  </p>
-</div>
-<div class = "col-sm-2">
-  <p>
-    <%= link_to("Edit", edit_user_path, class: "") %>
-  </p>
-</div>
-<br>
-
-<%= link_to "Create a new Product", new_user_product_path(@user.id), method: :get %>
-
-<%= link_to "View Your Products", products_merchant_index_path(@user.id), method: :get %>
-
 <h2>
   <%= @message + @user.username %>!
 </h2>
 
-<h3>Sales to Date: <%= @total_sales %></h3>
+<%= render "nav" %>
+
+
+<h3>Sales to Date: $<%= @total_sales %></h3>
 <h3>Total Items Sold: <%= @quantity_sold %></h3>
-
-
-<h3>Your top 5 highest selling products:</h3>
 <h3>Recent Sales</h3>
-<table>
+<table class="table">
   <thead>
     <tr>
-      <td>
+      <th>
         Product
-      </td>
-      <td>
+      </th>
+      <th>
         Quantity Sold
-      </td>
-      <td>
-        Total Sale
-      </td>
+      </th>
+      <th>
+        Status
+      </th>
     </tr>
   </thead>
   <tbody>
-    <td>
+    <% @recent_sales.each do |x| %>
+      <tr>
+        <td>
+          <%= link_to("#{x.product.name}", user_order_path(@user.id, x.order_id)) %>
+        </td>
+        <td>
+          <%= x.quantity %>
+        </td>
+        <td>
+          <%= x.order.status %>
+        </td>
 
-    </td>
-    <td>
-
-    </td>
-    <td>
-
-    </td>
+      </tr>
+    <% end %>
   </tbody>
 </table>

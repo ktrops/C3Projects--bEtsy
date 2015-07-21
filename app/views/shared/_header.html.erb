@@ -19,6 +19,6 @@
   <!-- <p>Order_id is: <%# session[:order_id] ? session[:order_id] : "none set" %></p> -->
 
   <% if @user %>
-    <%= link_to 'My Account', user_path(@user) %>
+    <%= link_to 'My Account', user_path(@user), class: "btn btn-primary" %>
   <% end %>
 </div>
