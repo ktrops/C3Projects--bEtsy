@@ -1,6 +1,6 @@
 class SessionsController < ApplicationController
-  def new
-  end
+
+  before_action :save_login_state, only: [:new]
 
   def create
     @user = User.find_by(username: params[:session][:username])
@@ -17,5 +17,16 @@ class SessionsController < ApplicationController
   def destroy
     session[:user_id] = nil
     redirect_to root_path
+  end
+
+  private
+
+  def save_login_state
+    if session[:user_id]
+      redirect_to user_path(@user.id)
+      return false
+    else
+      return true
+    end
   end
 end
