@@ -35,8 +35,8 @@
 
   <h3>Shipping</h3>
   <div class="form-group">
-    <%# f.label :mailing_name, "Full name" %>
-    <%# f.text_field :mailing_name, required: true, class: 'form-control' %>
+    <%= f.label :mailing_name, "Full name" %>
+    <%= f.text_field :mailing_name, required: true, class: 'form-control' %>
 
     <%= f.label :email %>
     <%= f.text_field :email, required: true, class: 'form-control' %>
@@ -66,7 +66,7 @@
     <%= f.text_field :cc_number, required: true, class: 'form-control' %>
 
     <%= f.label :cc_expiration, "Credit card expiration date" %>
-    <%= f.date_select :cc_expiration, use_month_numbers: true, use_two_digit_numbers: true, order: [:month, :year], start_year: Date.today.year, end_month: (Date.today.year+10),  start_month: Date.today.month, prompt: true, required: true, class: 'date-select' %>
+    <%= f.date_select :cc_expiration, use_month_numbers: true, use_two_digit_numbers: true, order: [:month, :year], start_year: Date.today.year, start_month: Date.today.month, prompt: true, required: true, class: 'date-select' %>
 
     <%= f.label :cc_cvv, "CVV" %>
     <%= f.text_field :cc_cvv, required: true, class: 'form-control' %>

@@ -1,2 +1,32 @@
-<h1>Products#new</h1>
-<p>Find me in app/views/products/new.html.erb</p>
+
+<%= form_for @product, url: user_products_path(@merchant.id), method: :post do |f| %>
+  <%= f.label :name %>
+  <%= f.text_area :name %>
+
+  <%= f.label :price %>
+  <%= f.text_area :price %>
+
+  <%= f.label :description %>
+  <%= f.text_area :description %>
+
+  <%= f.label :photo_url %>
+  <%= f.text_area :photo_url %>
+
+  <%= f.label :stock %>
+  <%= f.text_area :stock %>
+
+  <%= f.fields_for :product_categories do |pc| %>
+
+    <%= pc.collection_select(:category_id, Category.all, :id, :name ) %>
+    <%= pc.hidden_field :product_id, value: @product_id %>
+  <% end %> 
+
+  <%= f.hidden_field :active, value: true %>
+  <%= f.hidden_field :user_id, value: params[:user_id] %>
+
+  <%= f.submit %>
+
+<% end %>
+
+
+

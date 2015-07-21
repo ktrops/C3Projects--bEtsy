@@ -7,7 +7,21 @@ class ProductsController < ApplicationController
     @merchant_products = nil
   end
 
+  def merchant_index
+    @merchant = User.find(params[:user_id])
+    @products = @merchant.products
+  end
+
   def new
+    @product = Product.new
+    @merchant = User.find(params[:user_id])
+    @product_id = Product.last.id + 1
+    @product_categories = @product.product_categories.build
+  end
+
+  def create
+    @product = Product.create(product_params)
+    redirect_to products_path, method: :get
   end
 
   def category
@@ -36,8 +50,6 @@ class ProductsController < ApplicationController
     render :index
   end
 
-  def create
-  end
 
   def show
     @product = Product.find(params[:id])
@@ -76,6 +88,6 @@ class ProductsController < ApplicationController
   private
 
   def product_params
-    params.require(:product).permit(:name, :price, :description, :photo_url, :stock)
+    params.require(:product).permit(:name, :price, :description, :active, :photo_url, :stock, :user_id, product_categories_attributes: [:id, :category_id, :product_id])
   end
 end
