@@ -8,18 +8,26 @@
 <% end %>
 
 <%= form_for(:user, url: user_path(@user.id), method: :patch) do |f| %>
-  <%= f.label :username %>
-  <%= f.text_field :username %>
+  <div class="form-group">
+    <%= f.label :username %>
+    <%= f.text_field :username, required: true, autofocus: true, class: "form-control" %>
+  </div>
 
-  <%= f.label :email%>
-  <%= f.text_field :email %>
+  <div class="form-group">
+    <%= f.label :email%>
+    <%= f.text_field :email, required: true, autofocus: true, class: "form-control" %>
+  </div>
 
-  <%= f.label :password %>
-  <%= f.password_field :password %>
+  <div class="form-group">
+    <%= f.label :password %>
+    <%= f.password_field :password %>
+  </div>
 
-  <%= f.label :password_confirmation %>
-  <%= f.password_field :password_confriamtion %>
-
-  <%= f.submit "Update" %>
+  <div class="form-group">
+    <%= f.label :password_confirmation %>
+    <%= f.password_field :password_confriamtion %>
+  </div>
+  
+  <%= f.submit "Update", class: "btn btn-primary" %>
 
 <% end %>
