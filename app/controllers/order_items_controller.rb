@@ -1,11 +1,18 @@
 class OrderItemsController < ApplicationController
-    def create
-    product = Product.find(params[:product_id])
+  def create
+    product = Product.find_by(id: params[:product_id])
     order = current_order
+    previous_product = order.products.find_by(id: product.id)
 
-    order_item = order.order_items.new(quantity: params[:order_item][:quantity], 
-      product_id: product.id)
-    order_item.save
+    if previous_product
+      previous_order_item = OrderItem.where(order_id: order.id).find_by(product_id: product.id)
+      previous_order_item.quantity += params[:order_item][:quantity]
+      previous_order_item.save
+    else
+      order_item = order.order_items.new(quantity: params[:order_item][:quantity], 
+        product_id: product.id)
+      order_item.save
+    end
 
     flash[:success] = "You have added #{order_item.quantity} x #{product.name} to your cart."
     session[:order_id] = order.id
