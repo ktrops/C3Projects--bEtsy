@@ -33,7 +33,7 @@
 
     <p><%= @product.stock %> available for <%= readable_price(@product.price) %> each</p>
 
-    <% if @product.stock > 0 %>
+    <% if @product.stock > 0 && !(@user && @product.user == @user) %>
       <%= form_for [ @product, @order_item ], html: { class: "form" } do |f| %>
         <div class="form-group inline-form">
           <%= f.label :quantity %>
