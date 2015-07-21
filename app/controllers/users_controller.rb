@@ -71,7 +71,7 @@ class UsersController < ApplicationController
   end
 
   def random_welcome
-    welcomes = ["¡Bienvenidos ", "We missed you ", "Looking pretty fly ", "Greetings ", "Take me to your leader ", "Good day ", "Happy to see you ", "Hey it's my favorite vendor ", "Hey boo, glad to see your face again ", "Oh hai there "]
+    welcomes = ["¡Bienvenidos ", "We missed you ", "Greetings ", "Take me to your leader ", "Good day ", "Happy to see you ", "Hey it's my favorite vendor ", "Hey boo, glad to see your face again ", "Oh hai there ", "Ni hao ", "Is that a new outfit? looking good "]
     welcomes.sample
   end
 
