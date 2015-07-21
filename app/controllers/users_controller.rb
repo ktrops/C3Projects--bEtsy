@@ -5,7 +5,7 @@ class UsersController < ApplicationController
   before_action :save_login_state, only: [:new]
 
   def new
-    @user = User.new(user_params[:user])
+    @new_user = User.new(user_params[:user])
   end
 
 # trip login so user is logged in as soon as they create the account
