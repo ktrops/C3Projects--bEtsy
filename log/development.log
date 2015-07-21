@@ -25477,3 +25477,244 @@ Processing by ProductsController#merchant_index as HTML
   Rendered shared/_footer.html.erb (0.0ms)
 Completed 200 OK in 97ms (Views: 95.1ms | ActiveRecord: 0.4ms)
   [1m[35mOrderItem Load (0.2ms)[0m  SELECT  "order_items".* FROM "order_items"  ORDER BY "order_items"."id" ASC LIMIT 1
+  [1m[36mOrder Load (0.3ms)[0m  [1mSELECT  "orders".* FROM "orders"  ORDER BY "orders"."id" ASC LIMIT 1[0m
+
+
+Started GET "/cart" for ::1 at 2015-07-21 13:58:48 -0700
+Processing by OrderItemsController#cart as HTML
+  [1m[35mUser Load (0.1ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1  [["id", 1]]
+  [1m[36mOrder Load (0.1ms)[0m  [1mSELECT  "orders".* FROM "orders" WHERE "orders"."id" = ? LIMIT 1[0m  [["id", 4]]
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM "order_items" WHERE "order_items"."order_id" = ?  [["order_id", 4]]
+  [1m[36mOrderItem Load (0.1ms)[0m  [1mSELECT "order_items".* FROM "order_items" WHERE "order_items"."order_id" = ?[0m  [["order_id", 4]]
+  [1m[35mProduct Load (0.2ms)[0m  SELECT  "products".* FROM "products" WHERE "products"."id" = ? LIMIT 1  [["id", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "order_items".* FROM "order_items" WHERE "order_items"."order_id" = ?[0m  [["order_id", 4]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "products".* FROM "products" WHERE "products"."id" = ? LIMIT 1  [["id", 1]]
+  Rendered order_items/cart.html.erb within layouts/application (23.0ms)
+  Rendered shared/_header.html.erb (1.6ms)
+  Rendered shared/_footer.html.erb (0.1ms)
+Completed 200 OK in 144ms (Views: 123.0ms | ActiveRecord: 1.8ms)
+  [1m[36m (3.0ms)[0m  [1mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL) [0m
+  [1m[35m (0.1ms)[0m  select sqlite_version(*)
+  [1m[36m (1.1ms)[0m  [1mCREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")[0m
+  [1m[35mActiveRecord::SchemaMigration Load (0.1ms)[0m  SELECT "schema_migrations".* FROM "schema_migrations"
+Migrating to CreateOrders (20150715013039)
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.4ms)[0m  CREATE TABLE "orders" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "status" varchar DEFAULT 'pending', "email" varchar, "cc_name" varchar, "cc_number" varchar, "cc_expiration" date, "cc_cvv" integer, "billing_zip" integer, "shipped" boolean DEFAULT 'false', "address1" varchar, "address2" varchar, "city" varchar, "state" varchar, "mailing_zip" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) 
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20150715013039"]]
+  [1m[35m (2.5ms)[0m  commit transaction
+Migrating to CreateReviews (20150715042646)
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.4ms)[0m  CREATE TABLE "reviews" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "rating" integer, "review_text" text, "product_id" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) 
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20150715042646"]]
+  [1m[35m (2.6ms)[0m  commit transaction
+Migrating to CreateOrderItems (20150715042854)
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.3ms)[0m  CREATE TABLE "order_items" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "quantity" integer, "product_id" integer, "order_id" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) 
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20150715042854"]]
+  [1m[35m (2.4ms)[0m  commit transaction
+Migrating to CreateProducts (20150715061009)
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.5ms)[0m  CREATE TABLE "products" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "price" integer, "description" text, "category" varchar, "active" boolean, "photo_url" varchar, "stock" integer, "user_id" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) 
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20150715061009"]]
+  [1m[35m (2.5ms)[0m  commit transaction
+Migrating to CreateUsers (20150715135346)
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.3ms)[0m  CREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "username" varchar, "email" varchar, "password_digest" varchar, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) 
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20150715135346"]]
+  [1m[35m (2.7ms)[0m  commit transaction
+Migrating to CreateCategories (20150716204135)
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.4ms)[0m  CREATE TABLE "categories" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) 
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20150716204135"]]
+  [1m[35m (2.3ms)[0m  commit transaction
+Migrating to CreateProductCategories (20150716204216)
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.4ms)[0m  CREATE TABLE "product_categories" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "product_id" integer, "category_id" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) 
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20150716204216"]]
+  [1m[35m (3.0ms)[0m  commit transaction
+Migrating to RemoveCategoryFromProducts (20150716204326)
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.7ms)[0m  CREATE TEMPORARY TABLE "aproducts" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "price" integer, "description" text, "category" varchar, "active" boolean, "photo_url" varchar, "stock" integer, "user_id" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) 
+  [1m[36m (0.3ms)[0m  [1mSELECT * FROM "products"[0m
+  [1m[35m (0.4ms)[0m  DROP TABLE "products"
+  [1m[36m (0.2ms)[0m  [1mCREATE TABLE "products" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "price" integer, "description" text, "active" boolean, "photo_url" varchar, "stock" integer, "user_id" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) [0m
+  [1m[35m (0.1ms)[0m  SELECT * FROM "aproducts"
+  [1m[36m (0.2ms)[0m  [1mDROP TABLE "aproducts"[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES (?)  [["version", "20150716204326"]]
+  [1m[36m (2.4ms)[0m  [1mcommit transaction[0m
+Migrating to AddMailingNameToOrders (20150721032805)
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.3ms)[0m  [1mALTER TABLE "orders" ADD "mailing_name" varchar[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES (?)  [["version", "20150721032805"]]
+  [1m[36m (2.5ms)[0m  [1mcommit transaction[0m
+Migrating to AddItemTotalToOrderItems (20150721210014)
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36m (0.3ms)[0m  [1mALTER TABLE "order_items" ADD "item_total" integer[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES (?)  [["version", "20150721210014"]]
+  [1m[36m (2.6ms)[0m  [1mcommit transaction[0m
+  [1m[35mActiveRecord::SchemaMigration Load (0.1ms)[0m  SELECT "schema_migrations".* FROM "schema_migrations"
+  [1m[36m (3.5ms)[0m  [1mCREATE TABLE "categories" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) [0m
+  [1m[35m (2.5ms)[0m  CREATE TABLE "order_items" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "quantity" integer, "product_id" integer, "order_id" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "item_total" integer) 
+  [1m[36m (2.7ms)[0m  [1mCREATE TABLE "orders" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "status" varchar DEFAULT 'pending', "email" varchar, "cc_name" varchar, "cc_number" varchar, "cc_expiration" date, "cc_cvv" integer, "billing_zip" integer, "shipped" boolean DEFAULT 'f', "address1" varchar, "address2" varchar, "city" varchar, "state" varchar, "mailing_zip" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "mailing_name" varchar) [0m
+  [1m[35m (3.2ms)[0m  CREATE TABLE "product_categories" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "product_id" integer, "category_id" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) 
+  [1m[36m (3.2ms)[0m  [1mCREATE TABLE "products" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "price" integer, "description" text, "active" boolean, "photo_url" varchar, "stock" integer, "user_id" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) [0m
+  [1m[35m (3.9ms)[0m  CREATE TABLE "reviews" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "rating" integer, "review_text" text, "product_id" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) 
+  [1m[36m (4.1ms)[0m  [1mCREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "username" varchar, "email" varchar, "password_digest" varchar, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) [0m
+  [1m[35m (2.7ms)[0m  CREATE TABLE "schema_migrations" ("version" varchar NOT NULL) 
+  [1m[36m (0.2ms)[0m  [1mselect sqlite_version(*)[0m
+  [1m[35m (3.1ms)[0m  CREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")
+  [1m[36m (0.4ms)[0m  [1mSELECT version FROM "schema_migrations"[0m
+  [1m[35m (2.6ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20150721210014')
+  [1m[36m (3.9ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20150715013039')[0m
+  [1m[35m (4.0ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20150715042646')
+  [1m[36m (4.0ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20150715042854')[0m
+  [1m[35m (3.7ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20150715061009')
+  [1m[36m (1.4ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20150715135346')[0m
+  [1m[35m (0.7ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20150716204135')
+  [1m[36m (0.7ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20150716204216')[0m
+  [1m[35m (1.7ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20150716204326')
+  [1m[36m (4.2ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20150721032805')[0m
+  [1m[35m (2.9ms)[0m  CREATE TABLE "categories" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) 
+  [1m[36m (2.9ms)[0m  [1mCREATE TABLE "order_items" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "quantity" integer, "product_id" integer, "order_id" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "item_total" integer) [0m
+  [1m[35m (2.8ms)[0m  CREATE TABLE "orders" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "status" varchar DEFAULT 'pending', "email" varchar, "cc_name" varchar, "cc_number" varchar, "cc_expiration" date, "cc_cvv" integer, "billing_zip" integer, "shipped" boolean DEFAULT 'f', "address1" varchar, "address2" varchar, "city" varchar, "state" varchar, "mailing_zip" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "mailing_name" varchar) 
+  [1m[36m (2.8ms)[0m  [1mCREATE TABLE "product_categories" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "product_id" integer, "category_id" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) [0m
+  [1m[35m (3.0ms)[0m  CREATE TABLE "products" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "price" integer, "description" text, "active" boolean, "photo_url" varchar, "stock" integer, "user_id" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) 
+  [1m[36m (3.2ms)[0m  [1mCREATE TABLE "reviews" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "rating" integer, "review_text" text, "product_id" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) [0m
+  [1m[35m (3.1ms)[0m  CREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "username" varchar, "email" varchar, "password_digest" varchar, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) 
+  [1m[36m (4.0ms)[0m  [1mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL) [0m
+  [1m[35m (0.1ms)[0m  select sqlite_version(*)
+  [1m[36m (3.6ms)[0m  [1mCREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")[0m
+  [1m[35m (0.2ms)[0m  SELECT version FROM "schema_migrations"
+  [1m[36m (0.8ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20150721210014')[0m
+  [1m[35m (0.6ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20150715013039')
+  [1m[36m (0.6ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20150715042646')[0m
+  [1m[35m (4.1ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20150715042854')
+  [1m[36m (3.7ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20150715061009')[0m
+  [1m[35m (4.1ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20150715135346')
+  [1m[36m (3.8ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20150716204135')[0m
+  [1m[35m (3.7ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20150716204216')
+  [1m[36m (1.5ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20150716204326')[0m
+  [1m[35m (2.0ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20150721032805')
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "orders" ("email", "cc_name", "cc_number", "cc_cvv", "billing_zip", "address1", "address2", "city", "state", "mailing_name", "mailing_zip", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["email", "joe@mail.com"], ["cc_name", "Joe Smoe"], ["cc_number", "0000123456781234"], ["cc_cvv", 567], ["billing_zip", 98740], ["address1", "123 Main St"], ["address2", "apt #2"], ["city", "Kent"], ["state", "WA"], ["mailing_name", "Joe Smoe"], ["mailing_zip", 98740], ["created_at", "2015-07-21 21:03:55.665689"], ["updated_at", "2015-07-21 21:03:55.665689"]]
+  [1m[35m (2.3ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.8ms)[0m  INSERT INTO "orders" ("email", "cc_name", "cc_number", "cc_cvv", "billing_zip", "shipped", "address1", "city", "state", "mailing_name", "mailing_zip", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)  [["email", "holly@mail.com"], ["cc_name", "Holly Golightly"], ["cc_number", "0000123456788765"], ["cc_cvv", 341], ["billing_zip", 89754], ["shipped", "t"], ["address1", "123 Oak Lane"], ["city", "Lavender"], ["state", "OR"], ["mailing_name", "Holly Golightly"], ["mailing_zip", 89543], ["created_at", "2015-07-21 21:03:55.671389"], ["updated_at", "2015-07-21 21:03:55.671389"]]
+  [1m[36m (2.5ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "orders" ("email", "cc_name", "cc_number", "cc_cvv", "billing_zip", "address1", "city", "state", "mailing_name", "mailing_zip", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["email", "eggplant@mail.com"], ["cc_name", "Eggplant Kalamazoo"], ["cc_number", "0000123456785678"], ["cc_cvv", 341], ["billing_zip", 12345], ["address1", "123 Armadillo Rd"], ["city", "Petunia"], ["state", "ID"], ["mailing_name", "Eggplant Kalamazoo"], ["mailing_zip", 12345], ["created_at", "2015-07-21 21:03:55.677686"], ["updated_at", "2015-07-21 21:03:55.677686"]]
+  [1m[35m (2.7ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mUser Exists (0.2ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."username" = 'Sue Boo' LIMIT 1
+  [1m[36mUser Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'sue.boo@example.com' LIMIT 1[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "users" ("username", "email", "password_digest", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["username", "Sue Boo"], ["email", "sue.boo@example.com"], ["password_digest", "$2a$10$FoVzmFIXjFotYo3TN5.UlO42Jdhj1l9zpdPd1EZNrrb.v7kSEL4va"], ["created_at", "2015-07-21 21:03:55.779621"], ["updated_at", "2015-07-21 21:03:55.779621"]]
+  [1m[36m (2.5ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mUser Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."username" = 'Kate Plate' LIMIT 1[0m
+  [1m[35mUser Exists (0.1ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'kate.plate@example.com' LIMIT 1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "users" ("username", "email", "password_digest", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["username", "Kate Plate"], ["email", "kate.plate@example.com"], ["password_digest", "$2a$10$52iNUaubt4lGVLH83DU7bekfrTtoGTB4nl26NJIG.YOOp/cgBA5m2"], ["created_at", "2015-07-21 21:03:55.852404"], ["updated_at", "2015-07-21 21:03:55.852404"]]
+  [1m[35m (2.3ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mProduct Exists (0.2ms)[0m  SELECT  1 AS one FROM "products" WHERE "products"."name" = 'principal''s email address' LIMIT 1
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "products" ("name", "price", "description", "active", "photo_url", "stock", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["name", "principal's email address"], ["price", 1000], ["description", "a verified principal's email address"], ["active", "t"], ["photo_url", "dunecat.jpg"], ["stock", 10], ["user_id", 1], ["created_at", "2015-07-21 21:03:55.872869"], ["updated_at", "2015-07-21 21:03:55.872869"]]
+  [1m[35m (2.9ms)[0m  commit transaction
+  [1m[36m (0.3ms)[0m  [1mbegin transaction[0m
+  [1m[35mProduct Exists (0.2ms)[0m  SELECT  1 AS one FROM "products" WHERE "products"."name" = 'CEO''s password' LIMIT 1
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "products" ("name", "price", "description", "active", "photo_url", "stock", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["name", "CEO's password"], ["price", 20000], ["description", "password to CEO's OnePass account"], ["active", "t"], ["photo_url", "dunecat.jpg"], ["stock", 5], ["user_id", 1], ["created_at", "2015-07-21 21:03:55.880940"], ["updated_at", "2015-07-21 21:03:55.880940"]]
+  [1m[35m (2.7ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mProduct Exists (0.2ms)[0m  SELECT  1 AS one FROM "products" WHERE "products"."name" = 'MRA''s Reddit password' LIMIT 1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "products" ("name", "price", "description", "active", "photo_url", "stock", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["name", "MRA's Reddit password"], ["price", 500], ["description", "embarrass a jerk in his online community"], ["active", "t"], ["photo_url", "dunecat.jpg"], ["stock", 3], ["user_id", 2], ["created_at", "2015-07-21 21:03:55.886775"], ["updated_at", "2015-07-21 21:03:55.886775"]]
+  [1m[35m (2.9ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mProduct Exists (0.1ms)[0m  SELECT  1 AS one FROM "products" WHERE "products"."name" = 'The Rock''s home address' LIMIT 1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "products" ("name", "price", "description", "active", "photo_url", "stock", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["name", "The Rock's home address"], ["price", 10000], ["description", "all you need to stalk your fav"], ["active", "t"], ["photo_url", "dunecat.jpg"], ["stock", 10], ["user_id", 2], ["created_at", "2015-07-21 21:03:55.892221"], ["updated_at", "2015-07-21 21:03:55.892221"]]
+  [1m[35m (2.4ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "reviews" ("rating", "review_text", "product_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["rating", 4], ["review_text", "great secret!"], ["product_id", 1], ["created_at", "2015-07-21 21:03:55.903824"], ["updated_at", "2015-07-21 21:03:55.903824"]]
+  [1m[36m (2.6ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "reviews" ("rating", "review_text", "product_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["rating", 3], ["review_text", "lousy secret"], ["product_id", 2], ["created_at", "2015-07-21 21:03:55.908556"], ["updated_at", "2015-07-21 21:03:55.908556"]]
+  [1m[35m (2.7ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "reviews" ("rating", "review_text", "product_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["rating", 1], ["review_text", "gross, i can't even"], ["product_id", 3], ["created_at", "2015-07-21 21:03:55.913592"], ["updated_at", "2015-07-21 21:03:55.913592"]]
+  [1m[36m (2.5ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.6ms)[0m  [1mINSERT INTO "reviews" ("rating", "review_text", "product_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["rating", 5], ["review_text", "awesome, love hacking jerks"], ["product_id", 3], ["created_at", "2015-07-21 21:03:55.918332"], ["updated_at", "2015-07-21 21:03:55.918332"]]
+  [1m[35m (0.8ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "reviews" ("rating", "review_text", "product_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["rating", 2], ["review_text", "stalking is the best!"], ["product_id", 4], ["created_at", "2015-07-21 21:03:55.921528"], ["updated_at", "2015-07-21 21:03:55.921528"]]
+  [1m[36m (2.5ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "order_items" ("quantity", "item_total", "product_id", "order_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["quantity", 1], ["item_total", 1000], ["product_id", 1], ["order_id", 1], ["created_at", "2015-07-21 21:03:55.933597"], ["updated_at", "2015-07-21 21:03:55.933597"]]
+  [1m[35m (2.4ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "order_items" ("quantity", "item_total", "product_id", "order_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["quantity", 1], ["item_total", 500], ["product_id", 3], ["order_id", 2], ["created_at", "2015-07-21 21:03:55.938123"], ["updated_at", "2015-07-21 21:03:55.938123"]]
+  [1m[36m (5.1ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "order_items" ("quantity", "item_total", "product_id", "order_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["quantity", 2], ["item_total", 40000], ["product_id", 2], ["order_id", 3], ["created_at", "2015-07-21 21:03:55.945514"], ["updated_at", "2015-07-21 21:03:55.945514"]]
+  [1m[35m (2.6ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "order_items" ("quantity", "item_total", "product_id", "order_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["quantity", 2], ["item_total", 20000], ["product_id", 4], ["order_id", 3], ["created_at", "2015-07-21 21:03:55.950964"], ["updated_at", "2015-07-21 21:03:55.950964"]]
+  [1m[36m (2.4ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "categories" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "email address"], ["created_at", "2015-07-21 21:03:55.961384"], ["updated_at", "2015-07-21 21:03:55.961384"]]
+  [1m[35m (2.5ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "categories" ("name", "created_at", "updated_at") VALUES (?, ?, ?)  [["name", "home address"], ["created_at", "2015-07-21 21:03:55.966459"], ["updated_at", "2015-07-21 21:03:55.966459"]]
+  [1m[36m (2.6ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "categories" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "contact info"], ["created_at", "2015-07-21 21:03:55.971237"], ["updated_at", "2015-07-21 21:03:55.971237"]]
+  [1m[35m (2.6ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "categories" ("name", "created_at", "updated_at") VALUES (?, ?, ?)  [["name", "password"], ["created_at", "2015-07-21 21:03:55.975778"], ["updated_at", "2015-07-21 21:03:55.975778"]]
+  [1m[36m (2.3ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "categories" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "state secret"], ["created_at", "2015-07-21 21:03:55.979604"], ["updated_at", "2015-07-21 21:03:55.979604"]]
+  [1m[35m (2.5ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "categories" ("name", "created_at", "updated_at") VALUES (?, ?, ?)  [["name", "personal secret"], ["created_at", "2015-07-21 21:03:55.984338"], ["updated_at", "2015-07-21 21:03:55.984338"]]
+  [1m[36m (2.5ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "categories" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "celebrity"], ["created_at", "2015-07-21 21:03:55.988916"], ["updated_at", "2015-07-21 21:03:55.988916"]]
+  [1m[35m (2.4ms)[0m  commit transaction
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "categories" ("name", "created_at", "updated_at") VALUES (?, ?, ?)  [["name", "financial"], ["created_at", "2015-07-21 21:03:55.993005"], ["updated_at", "2015-07-21 21:03:55.993005"]]
+  [1m[36m (2.6ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "categories" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "educational"], ["created_at", "2015-07-21 21:03:55.997506"], ["updated_at", "2015-07-21 21:03:55.997506"]]
+  [1m[35m (2.4ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "product_categories" ("product_id", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["product_id", 1], ["category_id", 1], ["created_at", "2015-07-21 21:03:56.008979"], ["updated_at", "2015-07-21 21:03:56.008979"]]
+  [1m[36m (2.6ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "product_categories" ("product_id", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["product_id", 1], ["category_id", 9], ["created_at", "2015-07-21 21:03:56.014697"], ["updated_at", "2015-07-21 21:03:56.014697"]]
+  [1m[35m (2.6ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "product_categories" ("product_id", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["product_id", 1], ["category_id", 3], ["created_at", "2015-07-21 21:03:56.019264"], ["updated_at", "2015-07-21 21:03:56.019264"]]
+  [1m[36m (2.5ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "product_categories" ("product_id", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["product_id", 2], ["category_id", 4], ["created_at", "2015-07-21 21:03:56.023759"], ["updated_at", "2015-07-21 21:03:56.023759"]]
+  [1m[35m (2.4ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "product_categories" ("product_id", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["product_id", 2], ["category_id", 8], ["created_at", "2015-07-21 21:03:56.028170"], ["updated_at", "2015-07-21 21:03:56.028170"]]
+  [1m[36m (2.7ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "product_categories" ("product_id", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["product_id", 3], ["category_id", 4], ["created_at", "2015-07-21 21:03:56.032902"], ["updated_at", "2015-07-21 21:03:56.032902"]]
+  [1m[35m (2.4ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "product_categories" ("product_id", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["product_id", 3], ["category_id", 6], ["created_at", "2015-07-21 21:03:56.037446"], ["updated_at", "2015-07-21 21:03:56.037446"]]
+  [1m[36m (4.2ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "product_categories" ("product_id", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["product_id", 4], ["category_id", 2], ["created_at", "2015-07-21 21:03:56.043142"], ["updated_at", "2015-07-21 21:03:56.043142"]]
+  [1m[35m (3.2ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "product_categories" ("product_id", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["product_id", 4], ["category_id", 6], ["created_at", "2015-07-21 21:03:56.048021"], ["updated_at", "2015-07-21 21:03:56.048021"]]
+  [1m[36m (3.5ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "product_categories" ("product_id", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["product_id", 4], ["category_id", 7], ["created_at", "2015-07-21 21:03:56.053692"], ["updated_at", "2015-07-21 21:03:56.053692"]]
+  [1m[35m (3.3ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "product_categories" ("product_id", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["product_id", 4], ["category_id", 3], ["created_at", "2015-07-21 21:03:56.059272"], ["updated_at", "2015-07-21 21:03:56.059272"]]
+  [1m[36m (2.5ms)[0m  [1mcommit transaction[0m
