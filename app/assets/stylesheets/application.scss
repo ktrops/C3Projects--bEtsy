@@ -15,6 +15,10 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
+html {
+  background: #ddd;
+}
+
 body {
   max-width: 970px;
   margin: auto;

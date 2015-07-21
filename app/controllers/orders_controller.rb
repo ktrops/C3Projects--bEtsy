@@ -32,10 +32,15 @@ class OrdersController < ApplicationController
     # @order = Order.find(12)
   end
 
+  def fulfillment
+    @user = User.find(params[:id])
+    @orders = @user.order_items
+  end
+
   private
 
   def order_params
-    params.require(:order).permit(:status, :email, :cc_name, :cc_number, 
+    params.require(:order).permit(:status, :email, :cc_name, :cc_number,
       :cc_expiration, :cc_cvv, :billing_zip, :shipped, :address1, :address2,
       :city, :state, :mailing_zip)
   end

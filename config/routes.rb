@@ -26,10 +26,12 @@ Rails.application.routes.draw do
 
   get '/users/:user_id/products', to: 'products#merchant_index', as: 'products_merchant_index'
 
+  get '/users/:id/order_fulfillment', to: 'orders#fulfillment', as: 'order_fulfillment'
+
   get '/cart', to: 'order_items#cart', as: 'cart'
   # should the finalize route have the :id in the url?
   put 'orders/:id/finalize', to: 'orders#finalize', as: 'finalize_order'
-  
+
   resources :order_items, only: [:update, :destroy]
   get '/checkout', to: 'orders#checkout', as: 'checkout'
   get '/confirmation', to: 'orders#confirmation', as: 'confirmation'

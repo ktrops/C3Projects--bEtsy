@@ -1,0 +1,35 @@
+<!-- On the order fulfillment page:
+  (____) Total Revenue
+  (____) Total Revenue by status
+  (____) Total number of orders by status
+  (____) Filter orders displayed by status
+  (DONE) Link to each individual order
+  A list of orders including at least one of my products:
+    (DONE) Each order item sold by me with a quantity and line-item subtotal
+    (DONE) A link to the item description page
+    (DONE) DateTime the order was placed
+    (____) Link to transition the order item to marked as shipped
+    (____) The current status of the order ("pending", "paid", "complete", "cancelled") -->
+
+<h2>Order Fulfillment</h2>
+
+<% @orders.each do |order| %>
+  <p>
+    <%= link_to "Order #{order.id}", user_order_path(user_id: @user.id), class: "btn btn-default" %>
+  </p>
+  <p>
+    Product: <%= link_to Product.find_by(order.product_id).name, product_path, class: "btn btn-default" %>
+  </p>
+  <p>
+    Quantity: <%= order.quantity %>
+  </p>
+  <p>
+    Item Total: <%= readable_price((Product.find_by(order.product_id).price) * order.quantity) %>
+  </p>
+  <p>
+    Date Placed: <%= readable_date(order.created_at) %>
+  </p>
+    ------------------------------
+    <br>
+    <br>
+<% end %>
