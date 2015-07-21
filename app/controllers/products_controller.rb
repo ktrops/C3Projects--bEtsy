@@ -66,20 +66,28 @@ class ProductsController < ApplicationController
   end
 
   def edit
+      @product = Product.find(params[:id])
   end
 
   def update
+    @product = Product.find(params[:id])
+    if @product.update(product_params)
+      flash[:success] = "You successfully updated #{@product.name}."
+      redirect_to product_path(@product)
+    else
+      flash.now[:errors] = "Edit failed, please try again."
+      render :edit
+    end
   end
 
   def destroy
   end
 
-private
+
+
+  private
 
   def product_params
-    params.require(:product).permit(:name, :price, :description, 
-                                    :active, :photo_url, :stock, :user_id,
-                                    product_categories_attributes: [:id, :category_id, :product_id])
+    params.require(:product).permit(:name, :price, :description, :active, :photo_url, :stock, :user_id, product_categories_attributes: [:id, :category_id, :product_id])
   end
-
 end

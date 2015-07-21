@@ -1,3 +1,60 @@
+<<<<<<< HEAD
+<%= render "nav" %>
+
+<div class = "col-sm-2">
+  <p>
+    username: <%= @user.username %>
+  </p>
+</div>
+<div class = "col-sm-3">
+  <p>
+    Email: <%= @user.email %>
+  </p>
+</div>
+<div class = "col-sm-2">
+  <p>
+    <%= link_to("Edit", edit_user_path, class: "") %>
+  </p>
+</div>
+<br>
+
+<h2>
+  <%= @message + @user.username %>!
+</h2>
+
+<h3>Sales to Date: <%= @total_sales %></h3>
+<h3>Total Items Sold: <%= @quantity_sold %></h3>
+
+
+<h3>Your top 5 highest selling products:</h3>
+<h3>Recent Sales</h3>
+<table>
+  <thead>
+    <tr>
+      <td>
+        Product
+      </td>
+      <td>
+        Quantity Sold
+      </td>
+      <td>
+        Total Sale
+      </td>
+    </tr>
+  </thead>
+  <tbody>
+    <td>
+
+    </td>
+    <td>
+
+    </td>
+    <td>
+
+    </td>
+  </tbody>
+</table>
+=======
 <% if flash[:errors] %>
   <div>
     <p class = "alert alert-danger">
@@ -12,3 +69,4 @@
 <%= link_to "Create a new Product", new_user_product_path(@user.id), method: :get %>
 
 <%= link_to "View Your Products", products_merchant_index_path(@user.id), method: :get %>
+>>>>>>> 11c12dc9851356875e53ef3db0f1416f7754e5ae
