@@ -9,9 +9,12 @@
     (DONE) A link to the item description page
     (DONE) DateTime the order was placed
     (____) Link to transition the order item to marked as shipped
-    (____) The current status of the order ("pending", "paid", "complete", "cancelled") -->
+    (DONE) The current status of the order ("pending", "paid", "complete", "cancelled") -->
 
 <h2>Order Fulfillment</h2>
+
+Total Revenue: <%= readable_price(Product.where(user_id: @user.id).sum(:price)) %>
+<%=  %>
 
 <% @orders.each do |order| %>
   <p>
@@ -28,6 +31,9 @@
   </p>
   <p>
     Date Placed: <%= readable_date(order.created_at) %>
+  </p>
+  <p>
+    Status: <%= Order.find_by(order.order_id).status %>
   </p>
     ------------------------------
     <br>
