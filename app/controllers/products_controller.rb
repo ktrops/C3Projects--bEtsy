@@ -15,12 +15,12 @@ class ProductsController < ApplicationController
   def new
     @product = Product.new
     @merchant = User.find(params[:user_id])
+    @product_id = Product.last.id + 1
     @product_categories = @product.product_categories.build
   end
 
   def create
-    @product = Product.create(product_params )
-    raise
+    @product = Product.create(product_params)
     redirect_to products_path, method: :get
   end
 

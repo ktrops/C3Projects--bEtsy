@@ -15,11 +15,11 @@
   <%= f.label :stock %>
   <%= f.text_area :stock %>
 
-  <%# f.fields_for :product_categories do %>
+  <%= f.fields_for :product_categories do |pc| %>
 
-    <%# collection_select("product_categories", :category_id, Category.all, :id, :name ) %>
-  <%# end %> 
-
+    <%= pc.collection_select(:category_id, Category.all, :id, :name ) %>
+    <%= pc.hidden_field :product_id, value: @product_id %>
+  <% end %> 
 
   <%= f.hidden_field :active, value: true %>
   <%= f.hidden_field :user_id, value: params[:user_id] %>
