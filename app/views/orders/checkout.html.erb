@@ -56,11 +56,7 @@
   </div>
   <div class="form-group">
     <%= f.label :state, id: "state-label" %>
-    <%= f.select :state, required: true, include_blank: true, class: 'form-control' do %>
-      <% Order::US_STATES.each do |full_name, abbrev| %>
-        <%= content_tag :option, full_name, value: abbrev%>
-      <% end %>
-    <% end %>
+    <%= f.select :state, Order::US_STATES, { include_blank: true }, { class: 'form-control' } %>
   </div>
   <div class="form-group">
     <%= f.label :mailing_zip, "Zip code" %>
