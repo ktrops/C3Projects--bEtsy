@@ -15,6 +15,17 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
+body {
+  max-width: 970px;
+  margin: auto;
+}
+
+select {
+  border: 1px solid #ccc;
+  font-size: 125%;
+  vertical-align: middle;
+}
+
 .photo {
   width: 100px;
 }
@@ -33,10 +44,11 @@
 }
 
 .field_with_errors {
-  display: inline-block;
+  display: block;
 }
 
 .label {
   font-size: 100%;
-  padding: 6px 12px;
+  padding: 4px 10px;
+  vertical-align: middle;
 }

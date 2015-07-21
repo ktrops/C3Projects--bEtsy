@@ -58,12 +58,13 @@
       <h3 class="panel-title">Merchant Tools</h3>
     </div>
     <div class="panel-body">
-      <p>Product is currently: <span><%= active_text(@product) %></span></p>
-      <p><%= link_to 'Toggle Active', toggle_active_path(@product), method: :put, class: "btn btn-warning" %></p>
-      <%= link_to 'Edit Product', edit_product_path(@product), class: "btn btn-default" %>
+      <p><%= link_to 'Edit Product', edit_product_path(@product), class: "btn btn-default" %></p>
 
+      <p><%= active_text(@product) %>
+      <%= link_to 'Toggle Active', toggle_active_path(@product), method: :put, class: "btn btn-warning" %></p>
+      
       <!-- make below link a form with a dropdown of possible categories -->
-      <%= form_for [@product, @product_category], html: { class: "form" } do |f| %>
+      <p><%= form_for [@product, @product_category], html: { class: "form" } do |f| %>
       <div class="form-group inline-form">
         <%= f.select (:category_id), class: "form-control" do %>
           <% Category.all.each do |category| %>
