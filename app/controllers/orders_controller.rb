@@ -1,6 +1,7 @@
 class OrdersController < ApplicationController
   def show
     @order = Order.find(params[:id])
+    total_sales
   end
 
   def checkout
@@ -36,8 +37,15 @@ class OrdersController < ApplicationController
   private
 
   def order_params
-    params.require(:order).permit(:status, :email, :cc_name, :cc_number, 
+    params.require(:order).permit(:status, :email, :cc_name, :cc_number,
       :cc_expiration, :cc_cvv, :billing_zip, :shipped, :address1, :address2,
       :city, :state, :mailing_zip, :mailing_name)
+  end
+
+  def total_sales
+    @total_sales = 0
+    @order.order_items.each do |x|
+      @total_sales += x.quantity * x.product.price
+    end
   end
 end
