@@ -1,56 +1,85 @@
-<h1><%= @product.name %></h1>
+<h2><%= @product.name %></h2>
 
-<%= image_tag @product.photo_url %>
-
-<p><%= @product.description %></p>
-
-<ul>
-  <% @product.categories.each do |category| %>
-    <% pc = category.product_categories.find_by(product_id: @product.id) %>
-    <li><%= category.name %>
-      <% if @user && @user == @product.user %>
-        <%= link_to 'Remove category', product_product_category_path(@product, pc), method: :delete %>
-      <% end %>
-    </li>
-  <% end %>
-</ul>
-
-<p><%= @product.stock %> available for <%= readable_price(@product.price) %> each</p>
-
-<% if @product.stock > 0 %>
-  <%= form_for [ @product, @order_item ] do |f| %>
-      <%= f.label :quantity %>
-      <%= f.number_field :quantity, in: 1..@product.stock, step: 1, value: 1 %>
-
-      <%= f.submit 'Add to cart' %>
-  <% end %>
+<% if flash[:success] %>
+  <div>
+    <p class="alert alert-success"><%= flash[:success] %></p>
+  </div>
 <% end %>
 
-<h3>Reviews</h3>
+<p><%= image_tag @product.photo_url, class: "img-responsive img-rounded" %></p>
 
-<%= render partial: 'review', collection: @reviews %>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Product</h3>
+  </div>
+  <div class="panel-body">
+    <p><%= @product.description %></p>
+    <ul class="list-inline">
+      <% @product.categories.each do |category| %>
+        <% pc = category.product_categories.find_by(product_id: @product.id) %>
+        <li><p><span class="label label-info"><%= category.name %></span></p>
+          <% if @user && @user == @product.user %>
+            <%= link_to 'Remove Category', product_product_category_path(@product, pc), method: :delete, class: "btn btn-sm btn-danger" %>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
 
-<%= link_to 'Leave a review', new_product_review_path(@product) %>
+    <p><%= @product.stock %> available for <%= readable_price(@product.price) %> each</p>
 
-<%= link_to 'See all products', products_path %>
+    <% if @product.stock > 0 %>
+      <%= form_for [ @product, @order_item ], html: { class: "form" } do |f| %>
+        <div class="form-group inline-form">
+          <%= f.label :quantity %>
+          <%= f.number_field :quantity, in: 1..@product.stock, step: 1, value: 1, class: "form-control" %>
+        </div>
 
-<% if @user && @user == @product.user %>
-  <p>Item is currently: <%= active_text(@product) %></p>
-  <%= link_to 'Toggle active', toggle_active_path(@product), method: :put %>
-  <%# link_to 'Edit Product', edit_user_product_path(@product) %>
-
-  <!-- make below link a form with a dropdown of possible categories -->
-  <%= form_for [@product, @product_category] do |f| %>
-    <%= f.select (:category_id) do %>
-      <% Category.all.each do |category| %>
-        <%= content_tag(:option, category.id, as: category.name) %>
+          <%= f.submit 'Add to Cart', class: "btn btn-primary" %>
       <% end %>
     <% end %>
+  </div>
+</div>
 
-    <%= f.submit %>
-  <% end %>
-    
-  <!-- or a set of checkboxes with the current category(ies) already checked -->
-  <!-- and a button to create a new category, that redirects back to this page -->
-  <%# link_to 'Create a new category', new_product_category_path(@product) %>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Reviews</h3>
+  </div>
+  <div class="panel-body">
+    <p><%= link_to 'Write a Review', new_product_review_path(@product), class: "btn btn-default" %></p>
+    <%= render partial: 'review', collection: @reviews %>
+  </div>
+</div>
+
+<p><%= link_to 'See All Products', products_path, class: "btn btn-lg btn-default" %></p>
+
+<% if @user && @user == @product.user %>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">Merchant Tools</h3>
+    </div>
+    <div class="panel-body">
+      <p>Product is currently: <span><%= active_text(@product) %></span></p>
+      <p><%= link_to 'Toggle Active', toggle_active_path(@product), method: :put, class: "btn btn-warning" %></p>
+      <%# link_to 'Edit Product', edit_user_product_path(@product) %>
+
+      <!-- make below link a form with a dropdown of possible categories -->
+      <%= form_for [@product, @product_category], html: { class: "form" } do |f| %>
+      <div class="form-group inline-form">
+        <%= f.select (:category_id), class: "form-control" do %>
+          <% Category.all.each do |category| %>
+            <%= content_tag(:option, category.name, value: category.id)%>
+          <% end %>
+        <% end %>
+      </div>
+
+
+        <%= f.submit "Add Category", class: "btn btn-primary" %>
+      <% end %>
+
+      <!-- or a set of checkboxes with the current category(ies) already checked -->
+      <!-- and a button to create a new category, that redirects back to this page -->
+      <%# link_to 'Create a new category', new_product_category_path(@product) %>
+
+    </div>
+  </div>
 <% end %>

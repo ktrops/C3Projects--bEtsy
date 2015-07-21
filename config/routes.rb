@@ -17,9 +17,19 @@ Rails.application.routes.draw do
   post '/login', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy', as: 'logout'
 
+  get '/products/merchant/filter', to: 'products#merchant', as: 'products_merchant'
+
   get '/products/category/filter', to: 'products#category', as: 'products_category'
 
   put '/products/:id/toggle_active', to: 'products#toggle_active', as: 'toggle_active'
+
+  get '/cart', to: 'order_items#cart', as: 'cart'
+  # should the finalize route have the :id in the url?
+  put 'orders/:id/finalize', to: 'orders#finalize', as: 'finalize_order'
+  
+  resources :order_items, only: [:update, :destroy]
+  get '/checkout', to: 'orders#checkout', as: 'checkout'
+  get '/confirmation', to: 'orders#confirmation', as: 'confirmation'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

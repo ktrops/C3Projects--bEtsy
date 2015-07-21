@@ -1,2 +1,2 @@
-<h3><%= link_to product.name, product_path(product) %></h3>
-<p><%= readable_price(product.price) %></p>
+<p><%= link_to "#{product.name} - #{readable_price(product.price)}", product_path(product), class: "btn btn-default" %>
+</p>

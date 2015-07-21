@@ -1,14 +1,17 @@
 class ProductsController < ApplicationController
+
   def index
     @products = Product.all
     @categories = Category.all
     @products_array = []
+    @merchant_products = nil
   end
 
   def new
   end
 
   def category
+    @merchant_products = nil
     @categories = Category.all
     @category = Category.find(params[:category])
     pro = @category.product_categories
@@ -20,6 +23,15 @@ class ProductsController < ApplicationController
     products = product_id_array.each do |id|
       @products_array << Product.find(id)
     end
+
+    render :index
+  end
+
+  def merchant
+    @products_array = []
+    @merchants = User.all
+    @merchant = User.find(params[:user])
+    @merchant_products = @merchant.products
 
     render :index
   end
