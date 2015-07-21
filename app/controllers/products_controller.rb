@@ -14,11 +14,13 @@ class ProductsController < ApplicationController
 
   def new
     @product = Product.new
+    @merchant = User.find(params[:user_id])
+    @product_categories = @product.product_categories.build
   end
 
   def create
-    @product = Product.create(product_params)
-    @product.save
+    @product = Product.create(product_params )
+    raise
     redirect_to products_path, method: :get
   end
 
@@ -76,7 +78,8 @@ private
 
   def product_params
     params.require(:product).permit(:name, :price, :description, 
-                                    :active, :photo_url, :stock, :user_id)
+                                    :active, :photo_url, :stock, :user_id,
+                                    product_categories_attributes: [:id, :category_id, :product_id])
   end
 
 end

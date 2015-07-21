@@ -1,5 +1,5 @@
 
-<%= form_for @product do |f| %>
+<%= form_for @product, url: user_products_path(@merchant.id), method: :post do |f| %>
   <%= f.label :name %>
   <%= f.text_area :name %>
 
@@ -14,6 +14,12 @@
 
   <%= f.label :stock %>
   <%= f.text_area :stock %>
+
+  <%# f.fields_for :product_categories do %>
+
+    <%# collection_select("product_categories", :category_id, Category.all, :id, :name ) %>
+  <%# end %> 
+
 
   <%= f.hidden_field :active, value: true %>
   <%= f.hidden_field :user_id, value: params[:user_id] %>
