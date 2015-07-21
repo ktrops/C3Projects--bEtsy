@@ -34,6 +34,8 @@ Rails.application.routes.draw do
   get '/checkout', to: 'orders#checkout', as: 'checkout'
   get '/confirmation', to: 'orders#confirmation', as: 'confirmation'
 
+  get '/category', to: 'product_categories#new_category', as: 'new_category'
+  post '/category', to: 'product_categories#create_category', as: 'new_category'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

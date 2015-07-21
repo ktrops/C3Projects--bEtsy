@@ -13,6 +13,14 @@ class ProductCategoriesController < ApplicationController
     redirect_to @product
   end
 
+  def new_category
+    @category = Category.new
+  end
+
+  def create_category
+    @category = Category.create(category_params)
+  end
+
   private
 
   def product_category_params
