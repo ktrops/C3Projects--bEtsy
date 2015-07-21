@@ -1,5 +1,11 @@
 <h2><%= @product.name %></h2>
 
+<% if flash[:errors] %>
+  <div>
+    <p class="alert alert-danger"><%= flash[:errors] %></p>
+  </div>
+<% end %>
+
 <% if flash[:success] %>
   <div>
     <p class="alert alert-success"><%= flash[:success] %></p>
