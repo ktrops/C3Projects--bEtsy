@@ -9,13 +9,16 @@
 orders = [
   { email: "joe@mail.com", cc_name: "Joe Smoe", cc_number: "0000123456781234", 
     cc_cvv: 567, billing_zip: 98740, shipped: false, address1: "123 Main St", 
-    address2: "apt #2", city: "Kent", state: "WA", mailing_zip: 98740 },
+    address2: "apt #2", city: "Kent", state: "WA", mailing_name: "Joe Smoe",
+    mailing_zip: 98740 },
   { email: "holly@mail.com", cc_name: "Holly Golightly", cc_number: "0000123456788765", 
     cc_cvv: 341, billing_zip: 89754, shipped: true, address1: "123 Oak Lane", 
-    address2: nil, city: "Lavender", state: "OR", mailing_zip: 89543 },
+    address2: nil, city: "Lavender", state: "OR", mailing_name: "Holly Golightly",
+    mailing_zip: 89543 },
   { email: "eggplant@mail.com", cc_name: "Eggplant Kalamazoo", cc_number: "0000123456785678", 
     cc_cvv: 341, billing_zip: 12345, shipped: false, address1: "123 Armadillo Rd", 
-    address2: nil, city: "Petunia", state: "ID", mailing_zip: 12345 }
+    address2: nil, city: "Petunia", state: "ID", mailing_name: "Eggplant Kalamazoo",
+    mailing_zip: 12345 }
 ]
 
 orders.each do |order|
