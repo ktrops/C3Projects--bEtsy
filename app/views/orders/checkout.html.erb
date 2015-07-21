@@ -37,42 +37,53 @@
   <div class="form-group">
     <%= f.label :mailing_name, "Full name" %>
     <%= f.text_field :mailing_name, required: true, class: 'form-control' %>
-
+  </div>
+  <div class="form-group">
     <%= f.label :email %>
     <%= f.text_field :email, required: true, class: 'form-control' %>
-    
+  </div>
+  <div class="form-group">
     <%= f.label :address1, "Address line 1" %>
     <%= f.text_field :address1, required: true, class: 'form-control' %>
-
+  </div>
+  <div class="form-group">
     <%= f.label :address2, "Address line 2" %>
     <%= f.text_field :address2, class: 'form-control' %>
-
+  </div>
+  <div class="form-group">
     <%= f.label :city %>
     <%= f.text_field :city, required: true, class: 'form-control' %>
-
+  </div>
+  <div class="form-group">
     <%= f.label :state %>
     <%= f.text_field :state, required: true, class: 'form-control' %>
-
+  </div>
+  <div class="form-group">
     <%= f.label :mailing_zip, "Zip code" %>
-    <%= f.text_field :mailing_zip, required: true, class: 'form-control' %>
+    <%= f.text_field :mailing_zip, maxlength: 5, required: true, class: 'form-control' %>
   </div>
 
   <h3>Payment</h3>
   <div class="form-group">
     <%= f.label :cc_name, "Name on card" %>
     <%= f.text_field :cc_name, required: true, class: 'form-control' %>
-
+  </div>
+  <div class="form-group">
     <%= f.label :cc_number, "Card number" %>
     <%= f.text_field :cc_number, required: true, class: 'form-control' %>
-
+  </div>
+  <div class="form-group">
     <%= f.label :cc_expiration, "Credit card expiration date" %>
-    <%= f.date_select :cc_expiration, use_month_numbers: true, use_two_digit_numbers: true, order: [:month, :year], start_year: Date.today.year, start_month: Date.today.month, prompt: true, required: true, class: 'date-select' %>
-
-    <%= f.label :cc_cvv, "CVV" %>
-    <%= f.text_field :cc_cvv, required: true, class: 'form-control' %>
-
+    <%= f.date_select :cc_expiration, use_month_numbers: true, use_two_digit_numbers: true, order: [:month, :year], start_year: Date.today.year, start_month: Date.today.month, prompt: true, required: true, class: 'form-control' %>
+    <%# f.date_field :cc_expiration, min: Date.today, required: true, class: 'form-control' %>
+  </div>
+  <div class="form-group">
+    <%= f.label :cc_cvv, "CVV (3 digit code on back of card)" %>
+    <%= f.text_field :cc_cvv, maxlength: 3, required: true, class: 'form-control' %>
+  </div>
+  <div class="form-group">
     <%= f.label :billing_zip, "Billing zip code" %>
-    <%= f.text_field :billing_zip, required: true, class: 'form-control' %>
+    <%= f.text_field :billing_zip, maxlength: 5, required: true, class: 'form-control' %>
   </div>
     <%= f.submit "Place order" %>
 <% end %>
