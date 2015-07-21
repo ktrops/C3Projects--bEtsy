@@ -14,11 +14,13 @@
         <small>Selling All The Secrets</small>
       </h1>
 
+      <% if @user %>
+        <%= link_to 'My Account', user_path(@user), class: "btn btn-primary" %>
+      <% end %>
+
       <%= link_to 'Cart', cart_path, class: "btn btn-primary"%>
 
   <!-- <p>Order_id is: <%# session[:order_id] ? session[:order_id] : "none set" %></p> -->
 
-  <% if @user %>
-    <%= link_to 'My Account', user_path(@user) %>
-  <% end %>
+
 </div>
