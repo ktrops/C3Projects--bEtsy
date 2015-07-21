@@ -4,11 +4,73 @@ class Order < ActiveRecord::Base
   has_many :products, through: :order_items
 
   # Validations ----------------------------------------------------------------
+  # US_STATE_LETTER_CODES = %w(AL AK AZ AR CA CO CT DE DC FL GA HI ID IL IN IA KS
+  #  KY LA ME MD MA MI MN MS MO MT NE NV NH NJ NM NY NC ND OH OK OR PA PR RI SC SD 
+  #  TN TX UT VT VA WA WV WI WY)
+
+US_STATES = [
+    ['Alabama', 'AL'],
+    ['Alaska', 'AK'],
+    ['Arizona', 'AZ'],
+    ['Arkansas', 'AR'],
+    ['California', 'CA'],
+    ['Colorado', 'CO'],
+    ['Connecticut', 'CT'],
+    ['Delaware', 'DE'],
+    ['District of Columbia', 'DC'],
+    ['Florida', 'FL'],
+    ['Georgia', 'GA'],
+    ['Hawaii', 'HI'],
+    ['Idaho', 'ID'],
+    ['Illinois', 'IL'],
+    ['Indiana', 'IN'],
+    ['Iowa', 'IA'],
+    ['Kansas', 'KS'],
+    ['Kentucky', 'KY'],
+    ['Louisiana', 'LA'],
+    ['Maine', 'ME'],
+    ['Maryland', 'MD'],
+    ['Massachusetts', 'MA'],
+    ['Michigan', 'MI'],
+    ['Minnesota', 'MN'],
+    ['Mississippi', 'MS'],
+    ['Missouri', 'MO'],
+    ['Montana', 'MT'],
+    ['Nebraska', 'NE'],
+    ['Nevada', 'NV'],
+    ['New Hampshire', 'NH'],
+    ['New Jersey', 'NJ'],
+    ['New Mexico', 'NM'],
+    ['New York', 'NY'],
+    ['North Carolina', 'NC'],
+    ['North Dakota', 'ND'],
+    ['Ohio', 'OH'],
+    ['Oklahoma', 'OK'],
+    ['Oregon', 'OR'],
+    ['Pennsylvania', 'PA'],
+    ['Puerto Rico', 'PR'],
+    ['Rhode Island', 'RI'],
+    ['South Carolina', 'SC'],
+    ['South Dakota', 'SD'],
+    ['Tennessee', 'TN'],
+    ['Texas', 'TX'],
+    ['Utah', 'UT'],
+    ['Vermont', 'VT'],
+    ['Virginia', 'VA'],
+    ['Washington', 'WA'],
+    ['West Virginia', 'WV'],
+    ['Wisconsin', 'WI'],
+    ['Wyoming', 'WY']
+  ]
+
+  US_STATE_LETTER_CODES = US_STATES.collect { |full_name, abbrev| abbrev }
+
   validates :status, inclusion: { in: %w(pending paid complete cancelled), 
     message: "That is not a valid order status" }
   validates :cc_number, numericality: { only_integer: true }, 
     length: { in: 15..16 }, on: :update
   validates :address1, :city, :state, presence: true, on: :update
+  validates :state, inclusion: { in: US_STATE_LETTER_CODES }, on: :update
 
   validates :cc_cvv, numericality: { only_integer: true }, length: { is: 3 }, on: :update
   validates :billing_zip, numericality: { only_integer: true }, length: { is: 5 }, on: :update
