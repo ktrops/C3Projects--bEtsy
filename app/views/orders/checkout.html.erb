@@ -7,6 +7,17 @@
   </div>
 <% end %>
 
+<!-- if @order.errors.count > 0 -->
+<% if @order.errors %>
+  <% @order.errors.messages.each do |message| %>
+    <div>
+      <p class="alert alert-danger">
+        <%= "#{message.first}: #{message.last.first}" %>
+      </p>
+    </div>
+  <% end %>
+<% end %>
+
 <h3>Order details:</h3>
 
 <table class="table">
