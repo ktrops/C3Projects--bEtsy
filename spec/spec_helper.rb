@@ -40,6 +40,11 @@ RSpec.configure do |config|
     mocks.verify_partial_doubles = true
   end
 
+  # wanted to try fixtures but was unable to find a way to regenerate the rails Test folder # since we installed the application without it
+  config.before(:suite) do
+    Rails.application.load_seed # loading seeds
+  end
+
 # The settings below are suggested to provide a good initial experience
 # with RSpec, but feel free to customize to your heart's content.
 =begin
@@ -82,7 +87,6 @@ RSpec.configure do |config|
   # the seed, which is printed after each run.
   #     --seed 1234
   config.order = :random
-
   # Seed global randomization in this process using the `--seed` CLI option.
   # Setting this allows you to use `--seed` to deterministically reproduce
   # test failures related to randomization by passing the same `--seed` value

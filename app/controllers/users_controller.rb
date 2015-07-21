@@ -16,7 +16,7 @@ class UsersController < ApplicationController
       redirect_to login_path
     else
       flash.now[:errors] = "Registration invalid, please try again."
-      render new_user_path
+      redirect_to new_user_path
     end
   end
 
