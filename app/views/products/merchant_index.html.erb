@@ -1,0 +1,27 @@
+<h1>All Products for <%= @merchant.username %></h1> 
+<div class = "container-fluid">
+  <div class ="row">
+    <div class = "col-sm-4">
+      <h1>Name</h1>
+    </div>
+    <div class = "col-sm-4">
+      <h1>Photo</h1>
+    </div>
+    <div class = "col-sm-4">
+      <h1>Price</h1>
+    </div>
+  </div>
+  <% @products.each do |product| %>
+    <div class="row">
+      <div class = "col-sm-4">
+        <p><%= link_to "#{product.name}", product_path(product.id) %></p>
+      </div>
+      <div class = "col-sm-4">
+        <p><%= image_tag("#{product.photo_url}", class: "photo") %></p>
+      </div>
+      <div class = "col-sm-4">
+        <p><%= readable_price(product.price) %></p>
+      </div>
+    </div>
+  <% end %>
+</div>
