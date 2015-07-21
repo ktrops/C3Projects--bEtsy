@@ -6,15 +6,16 @@ class OrderItemsController < ApplicationController
 
     if previous_product
       previous_order_item = OrderItem.where(order_id: order.id).find_by(product_id: product.id)
-      previous_order_item.quantity += params[:order_item][:quantity]
+      previous_order_item.quantity += (params[:order_item][:quantity]).to_i
       previous_order_item.save
+      flash[:success] = "You have added #{params[:order_item][:quantity]} x #{product.name} to your cart."
     else
       order_item = order.order_items.new(quantity: params[:order_item][:quantity], 
         product_id: product.id)
       order_item.save
+      flash[:success] = "You have added #{order_item.quantity} x #{product.name} to your cart."
     end
 
-    flash[:success] = "You have added #{order_item.quantity} x #{product.name} to your cart."
     session[:order_id] = order.id
 
     redirect_to product
