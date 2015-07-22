@@ -1,6 +1,6 @@
 <!-- On the order fulfillment page:
   (DONE) Total Revenue
-  (____) Total Revenue by status
+  (DONE) Total Revenue by status
   (DONE) Total number of orders by status
   (____) Filter orders displayed by status
   (DONE) Link to each individual order
@@ -23,13 +23,25 @@
   Pending Orders: <%= pending_orders %>
 </p>
 <p>
+  Pending Order Revenue: <%= readable_price(pending_order_revenue) %>
+</p>
+<p>
   Paid Orders: <%= paid_orders %>
+</p>
+<p>
+  Paid Order Revenue: <%= readable_price(paid_order_revenue) %>
 </p>
 <p>
   Complete Orders: <%= complete_orders %>
 </p>
 <p>
+  Complete Order Revenue: <%= readable_price(complete_order_revenue) %>
+</p>
+<p>
   Cancelled Orders: <%= cancelled_orders %>
+</p>
+<p>
+  Cancelled Order Revenue: <%= readable_price(cancelled_order_revenue) %>
 </p>
 
 ------------------------------

@@ -49,4 +49,44 @@ module OrdersHelper
     return orders
   end
 
+  def pending_order_revenue
+    revenue = 0
+    @order_items.each do |order_item|
+      if order_item.order.status == "pending"
+        revenue += order_item.item_total
+      end
+    end
+    return revenue
+  end
+
+  def paid_order_revenue
+    revenue = 0
+    @order_items.each do |order_item|
+      if order_item.order.status == "paid"
+        revenue += order_item.item_total
+      end
+    end
+    return revenue
+  end
+
+  def complete_order_revenue
+    revenue = 0
+    @order_items.each do |order_item|
+      if order_item.order.status == "complete"
+        revenue += order_item.item_total
+      end
+    end
+    return revenue
+  end
+
+  def cancelled_order_revenue
+    revenue = 0
+    @order_items.each do |order_item|
+      if order_item.order.status == "cancelled"
+        revenue += order_item.item_total
+      end
+    end
+    return revenue
+  end
+
 end
