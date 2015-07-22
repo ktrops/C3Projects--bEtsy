@@ -82,7 +82,8 @@ class ProductsController < ApplicationController
   end
 
   def edit
-      @product = Product.find(params[:id])
+    @product = Product.find(params[:id])
+    @product_category = ProductCategory.new
     if @product.user_id != @current_user.id
       redirect_to user_products_path(@current_user.id)
     end
