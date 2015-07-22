@@ -44,4 +44,22 @@ class ApplicationController < ActionController::Base
       return true
     end
   end
+
+  def category_exists_for_product?(product_id, category_id)
+    product_categories = ProductCategory.where(product_id: product_id)
+    product_categories.each do |pc|
+      if pc.product_id == product_id && pc.category_id == category_id
+
+        return true
+      else
+        return false
+      end
+    end
+  end
 end
+
+
+
+
+
+
