@@ -7,10 +7,15 @@ class OrderItemsController < ApplicationController
 
     if previous_product
       previous_order_item = order.order_items.find_by(product_id: previous_product.id)
+      previous_quantity = previous_order_item.quantity
       previous_order_item.quantity += (params[:order_item][:quantity]).to_i
+      if previous_order_item.quantity > previous_product.stock
+        previous_order_item.quantity = previous_product.stock
+        flash[:errors] = "There are only #{previous_product.stock} x #{previous_product.name} available for sale."
+      end
       previous_order_item.item_total = product.price * previous_order_item.quantity
       previous_order_item.save
-      flash[:success] = "You have added #{params[:order_item][:quantity]} x #{product.name} to your cart."
+      flash[:success] = "You have added #{previous_order_item.quantity - previous_quantity} x #{product.name} to your cart."
     else # new product
       order_item = order.order_items.new(order_item_params)
       order_item.product = product
