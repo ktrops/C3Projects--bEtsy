@@ -34,27 +34,35 @@ class ProductsController < ApplicationController
   def category
     @merchant_products = nil
     @categories = Category.all
-    @category = Category.find(params[:category])
-    pro = @category.product_categories
-    product_id_array = []
-    pro.each do |item|
-      product_id_array << item.product_id
-    end
-    @products_array = []
-    products = product_id_array.each do |id|
-      @products_array << Product.find(id)
+    if params[:category].empty?
+      redirect_to products_path
+    else
+      @category = Category.find(params[:category])
+      pro = @category.product_categories
+      product_id_array = []
+      pro.each do |item|
+        product_id_array << item.product_id
+      end
+      @products_array = []
+      products = product_id_array.each do |id|
+        @products_array << Product.find(id)
+      end
+      render :index
     end
 
-    render :index
   end
 
   def merchant
     @products_array = []
     @merchants = User.all
-    @merchant = User.find(params[:user])
-    @merchant_products = @merchant.products
+    if params[:user].empty?
+      redirect_to products_path
+    else
+      @merchant = User.find(params[:user])
+      @merchant_products = @merchant.products
+      render :index
+    end
 
-    render :index
   end
 
 

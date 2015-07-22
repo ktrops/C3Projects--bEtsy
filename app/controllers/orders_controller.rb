@@ -35,6 +35,13 @@ class OrdersController < ApplicationController
     # @order = Order.find(12)
   end
 
+  def fulfillment
+    @user = User.find(params[:id])
+    @orders = @user.order_items
+    @total_revenue = @orders.sum(:item_total)
+    # @shipped
+  end
+
   private
 
   def order_params
