@@ -1,4 +1,5 @@
 class ProductsController < ApplicationController
+  before_action :authenticate_user, except: [:merchant, :index]
 
   def index
     @products = Product.all
@@ -17,7 +18,7 @@ class ProductsController < ApplicationController
     @merchant = User.find(params[:user_id])
     @product_id = Product.last.id + 1
     @product_categories = @product.product_categories.build
-  end 
+  end
 
   def create
     @product = Product.create(product_params)
