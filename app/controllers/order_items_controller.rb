@@ -1,25 +1,35 @@
 class OrderItemsController < ApplicationController
   def create
-    product = Product.find_by(id: params[:product_id])
     order = current_order
-    # is calling products on order a problem if it's a new order?
+    product = Product.find_by(id: params[:product_id])
+
     previous_product = order.products.find_by(id: product.id)
 
     if previous_product
-      previous_order_item = OrderItem.where(order_id: order.id).find_by(product_id: product.id)
+      # previous_order_item = OrderItem.where(order_id: order.id).find_by(product_id: product.id)
+      previous_order_item = order.order_items.where(product_id: previous_product.id)
       previous_order_item.quantity += (params[:order_item][:quantity]).to_i
       previous_order_item.save
       flash[:success] = "You have added #{params[:order_item][:quantity]} x #{product.name} to your cart."
-    else
-      order_item = order.order_items.new(quantity: params[:order_item][:quantity], 
-        product_id: product.id)
+    else # new product
+      # order_item = order.order_items.create(quantity: params[:order_item][:quantity], 
+      #   product_id: product.id, item_total: (product.price * (params[:order_item][:quantity]).to_i))
+      order_item = order.order_items.new(order_item_params)
+      order_item.product = product
+      order_item.item_total = product.price * order_item.quantity
       order_item.save
-      flash[:success] = "You have added #{order_item.quantity} x #{product.name} to your cart."
+      if order_item.save
+        flash[:success] = "You have added #{order_item.quantity} x #{product.name} to your cart."
+        # session[:order_id] = order.id
+      else
+        flash[:errors] = "There was a problem with adding this item to your cart."
+        if order.order_items.count == 0
+          order.delete
+          session[:order_id] = nil
+        end
+      end
+        redirect_to product
     end
-
-    session[:order_id] = order.id
-
-    redirect_to product
   end
 
   def update
