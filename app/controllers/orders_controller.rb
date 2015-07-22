@@ -42,6 +42,7 @@ class OrdersController < ApplicationController
     @user = User.find(params[:id])
     @order_items = @user.order_items
     @total_revenue = @order_items.sum(:item_total)
+    raise
   end
 
   def mark_shipped
@@ -50,6 +51,33 @@ class OrdersController < ApplicationController
     @order.mark_shipped!
     redirect_to order_fulfillment_path
   end
+
+  # def merchant
+  #   @products_array = []
+  #   @merchants = User.all
+  #   if params[:user].empty?
+  #     redirect_to products_path
+  #   else
+  #     @merchant = User.find(params[:user])
+  #     @merchant_products = @merchant.products
+  #     render :index
+  #   end
+  # end
+
+  def filter_status
+    @user = User.find(params[:id])
+    @order_items = @user.order_items
+
+    order_ids = []
+    @order_items.each do |order_item|
+      order_ids << order_item.order_id
+    end
+
+    @orders = Order.where(:id => order_ids )
+    # @completed_orders = @orders.where(status: "completed")
+
+  end
+
 
   private
 
