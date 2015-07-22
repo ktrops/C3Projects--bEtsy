@@ -1,4 +1,5 @@
 class ProductsController < ApplicationController
+  before_action :authenticate_user, except: [:merchant, :index]
 
   def index
     @products = Product.all
