@@ -34,6 +34,7 @@ class Product < ActiveRecord::Base
     order.order_items.each do |order_item|
       product = Product.find_by(id: order_item.product_id)
       product.stock -= order_item.quantity
+      product.active = false if product.stock == 0
       product.save
     end
   end
