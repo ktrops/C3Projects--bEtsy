@@ -39,7 +39,16 @@ class OrdersController < ApplicationController
     @user = User.find(params[:id])
     @orders = @user.order_items
     @total_revenue = @orders.sum(:item_total)
-    # @shipped
+  end
+
+  def mark_shipped
+    @user = User.find(params[:id])
+    @order = Order.find(params[:order_id])
+    @order.mark_shipped!
+    redirect_to order_fulfillment_path
+    # @product = Product.find(params[:id])
+    # @product.toggle_active!
+    # redirect_to @product
   end
 
   private

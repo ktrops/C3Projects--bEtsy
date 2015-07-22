@@ -27,6 +27,7 @@ Rails.application.routes.draw do
   get '/users/:user_id/products', to: 'products#merchant_index', as: 'products_merchant_index'
 
   get '/users/:id/order_fulfillment', to: 'orders#fulfillment', as: 'order_fulfillment'
+  put '/users/:id/order_fulfillment/mark_shipped', to: 'orders#mark_shipped', as: 'mark_shipped'
 
   get '/cart', to: 'order_items#cart', as: 'cart'
   # should the finalize route have the :id in the url?

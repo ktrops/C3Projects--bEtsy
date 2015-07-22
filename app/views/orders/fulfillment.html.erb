@@ -8,7 +8,7 @@
     (DONE) Each order item sold by me with a quantity and line-item subtotal
     (DONE) A link to the item description page
     (DONE) DateTime the order was placed
-    (____) Link to transition the order item to marked as shipped
+    (DONE) Link to transition the order item to marked as shipped
     (DONE) The current status of the order ("pending", "paid", "complete", "cancelled") -->
 
     <nav class="navbar navbar-default">
@@ -27,7 +27,9 @@
           </ul>
       </div>
     </nav>
-
+<pre>
+  <%= params %>
+</pre>
 
 <h2>Order Fulfillment</h2>
 <p>
@@ -35,25 +37,31 @@
 </p>
 
 ------------------------------
-<% @orders.each do |order| %>
+<% @orders.each do |order_item| %>
   <p>
-    <%= link_to "Order #{order.id}", user_order_path(user_id: @user.id), class: "btn btn-default" %>
+    <%= link_to "Order #{order_item.id}", user_order_path(user_id: @user.id), class: "btn btn-default" %>
   </p>
   <p>
-    Product: <%= link_to (Product.find(order.product_id).name), product_path, class: "btn btn-default" %>
+    Product: <%= link_to (Product.find(order_item.product_id).name), product_path, class: "btn btn-default" %>
   </p>
   <p>
-    Quantity: <%= order.quantity %>
+    Quantity: <%= order_item.quantity %>
   </p>
   <p>
-    Item Total: <%= readable_price(order.item_total) %>
+    Item Total: <%= readable_price(order_item.item_total) %>
   </p>
   <p>
-    Date Placed: <%= readable_date(order.created_at) %>
+    Date Placed: <%= readable_date(order_item.created_at) %>
   </p>
   <p>
-    Status: <%= Order.find(order.order_id).status %>
+    Payment Status: <%= Order.find(order_item.order_id).status %>
   </p>
+  <p>
+    Shipping Status: <%= frendly_shipped_status(order_item.order.shipped) %>
+  </p>
+  <% unless order_item.order.shipped == true %>
+    <%= link_to "Mark Shipped", mark_shipped_path(@user, order_id: order_item.order.id), method: :put, class: "btn btn-warning" %></p>
+  <% end %>
     ------------------------------
     <br>
     <br>

@@ -5,7 +5,7 @@ class Order < ActiveRecord::Base
 
   # Validations ----------------------------------------------------------------
   # US_STATE_LETTER_CODES = %w(AL AK AZ AR CA CO CT DE DC FL GA HI ID IL IN IA KS
-  #  KY LA ME MD MA MI MN MS MO MT NE NV NH NJ NM NY NC ND OH OK OR PA PR RI SC SD 
+  #  KY LA ME MD MA MI MN MS MO MT NE NV NH NJ NM NY NC ND OH OK OR PA PR RI SC SD
   #  TN TX UT VT VA WA WV WI WY)
 
 US_STATES = [
@@ -65,9 +65,9 @@ US_STATES = [
 
   US_STATE_LETTER_CODES = US_STATES.collect { |full_name, abbrev| abbrev }
 
-  validates :status, inclusion: { in: %w(pending paid complete cancelled), 
+  validates :status, inclusion: { in: %w(pending paid complete cancelled),
     message: "That is not a valid order status" }
-  validates :cc_number, numericality: { only_integer: true }, 
+  validates :cc_number, numericality: { only_integer: true },
     length: { in: 15..16 }, on: :update
   validates :address1, :city, :state, :cc_expiration, presence: true, on: :update
   validates :state, inclusion: { in: US_STATE_LETTER_CODES }, on: :update
@@ -87,4 +87,10 @@ US_STATES = [
   def total
     order_items.inject(0) { |sum, item| sum += (item.product.price * item.quantity) }
   end
+
+  # Custom ---------------------------------------------------------------------
+  def mark_shipped!
+      toggle!(:shipped)
+  end
+
 end
