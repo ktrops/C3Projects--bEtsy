@@ -1,35 +1,9 @@
 
-
 <%= render "nav" %>
-
-<div class = "col-sm-2">
-  <p>
-    username: <%= @user.username %>
-  </p>
-</div>
-<div class = "col-sm-3">
-  <p>
-    Email: <%= @user.email %>
-  </p>
-</div>
-<div class = "col-sm-2">
-  <p>
-    <%= link_to("Edit", edit_user_path, class: "") %>
-  </p>
-</div>
-<br>
-
-<%= link_to "Create a new Product", new_user_product_path(@user.id), method: :get %>
-
-<%= link_to "View Your Products", products_merchant_index_path(@user.id), method: :get %>
-
 
 <h2>
   <%= @message + @user.username %>!
 </h2>
-
-<%= render "nav" %>
-
 
 <h3>Sales to Date: $<%= @total_sales %></h3>
 <h3>Total Items Sold: <%= @quantity_sold %></h3>
