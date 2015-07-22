@@ -1,5 +1,5 @@
 class ProductsController < ApplicationController
-  before_action :authenticate_user, except: [:merchant, :index]
+  before_action :authenticate_user, except: [:merchant, :index, :show]
 
   def index
     @products = Product.all
@@ -9,13 +9,14 @@ class ProductsController < ApplicationController
   end
 
   def merchant_index
-    @merchant = User.find(params[:user_id])
+    @merchant = @current_user
     @products = @merchant.products
   end
 
   def new
     @product = Product.new
-    @merchant = User.find(params[:user_id])
+    # @merchant = User.find(params[:user_id])
+    @merchant = @current_user
     @product_id = Product.last.id + 1
     @product_categories = @product.product_categories.build
   end
@@ -66,13 +67,15 @@ class ProductsController < ApplicationController
 
   end
 
-
   def show
     @product = Product.find(params[:id])
     @reviews = @product.reviews
     @order_item = OrderItem.new
     @product_category = ProductCategory.new
     @user = User.find_by(id: session[:user_id])
+    if @user && @product.user_id != @user.id
+      redirect_to user_products_path(@user.id)
+    end
   end
 
   def toggle_active
@@ -82,7 +85,10 @@ class ProductsController < ApplicationController
   end
 
   def edit
-    @product = Product.find(params[:id])
+      @product = Product.find(params[:id])
+    if @product.user_id != @current_user.id
+      redirect_to user_products_path(@current_user.id)
+    end
   end
 
   def update
