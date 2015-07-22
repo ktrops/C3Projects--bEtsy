@@ -45,6 +45,14 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def error_messages(instance)
+    error_array = []
+    instance.errors.messages.each do |key, value|
+      error_array += [[key.to_s.capitalize, value.first]]
+    end
+    error_array
+  end
+
   def category_exists_for_product?(product_id, category_id)
     product_categories = ProductCategory.where(product_id: product_id)
     product_categories.each do |pc|
