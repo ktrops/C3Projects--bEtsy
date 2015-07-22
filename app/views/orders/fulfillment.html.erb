@@ -11,22 +11,6 @@
     (DONE) Link to transition the order item to marked as shipped
     (DONE) The current status of the order ("pending", "paid", "complete", "cancelled") -->
 
-    <nav class="navbar navbar-default">
-      <div class="container-fluid">
-        </div>
-        <div>
-          <ul class="nav navbar-nav">
-            <li><%= link_to("Home", user_path) %></li>
-            <li><%= link_to("Products", user_products_path(@user.id)) %></li>
-            <li><%= link_to("Orders", order_fulfillment_path) %></li>
-            <li><%= link_to "Create a new Product", new_user_product_path(@user.id), method: :get %></li>
-            <li><%= link_to("Go Shopping", products_path) %></li>
-          </ul>
-          <ul class="nav navbar-nav navbar-right">
-          <li><%= link_to("Edit Account", edit_user_path) %></li>
-          </ul>
-      </div>
-    </nav>
 <pre>
   <%= params %>
 </pre>
@@ -54,7 +38,7 @@
     <%= link_to "Order #{order_item.id}", user_order_path(user_id: @user.id), class: "btn btn-default" %>
   </p>
   <p>
-    Product: <%= link_to (Product.find(order_item.product_id).name), product_path, class: "btn btn-default" %>
+    Product: <%= link_to order_item.product.name, product_path, class: "btn btn-default" %>
   </p>
   <p>
     Quantity: <%= order_item.quantity %>
@@ -66,7 +50,7 @@
     Date Placed: <%= readable_date(order_item.created_at) %>
   </p>
   <p>
-    Payment Status: <%= Order.find(order_item.order_id).status %>
+    Payment Status: <%= order_item.order.status.capitalize %>
   </p>
   <p>
     Shipping Status: <%= frendly_shipped_status(order_item.order.shipped) %>
