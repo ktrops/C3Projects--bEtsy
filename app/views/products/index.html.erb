@@ -1,16 +1,18 @@
 
 <%= form_tag products_category_path, method: "get", class: "form" do %>
-  <div class="form-group inline-form">
-    <%= select_tag "category", options_from_collection_for_select(Category.all, "id", "name"), include_blank: "Filter by...", class: "form-control fit-width" %>
-  </div>
-  <%= submit_tag "Apply Filter", class: "btn btn-default" %>
-  <% end %>
+<div class="form-group inline-form">
+  <%= select_tag "category", options_from_collection_for_select(Category.all, "id", "name"), include_blank: "Filter by...", class: "form-control fit-width" %>
+</div>
+  <%= submit_tag "Filter by Category", class: "btn btn-default" %>
+<% end %>
 
 
 
 <%= form_tag products_merchant_path, method: "get" do %>
-  <%= select_tag "user", options_from_collection_for_select(User.all, "id", "username") %>
-  <%= submit_tag "Sort by Merchant" %>
+<div class="form-group inline-form">
+  <%= select_tag "user", options_from_collection_for_select(User.all, "id", "username"), include_blank: "Filter by...", class: "form-control fit-width" %>
+</div>
+  <%= submit_tag "Filter by Merchant", class: "btn btn-default" %>
 <% end %>
 
 <% if request.path.include?("filter") %>
@@ -18,8 +20,7 @@
 <% end %>
 
 
-
-<h1>All Products</h1> 
+<h1>Products</h1> 
 <div class = "container-fluid">
   <div class ="row">
     <div class = "col-sm-4">
@@ -32,9 +33,27 @@
       <h1>Price</h1>
     </div>
   </div>
-  <% if @products_array.empty? && @merchant_products.nil? %>
-    <% @products.each do |product| %>
-      <% if product.active %>
+    <% if @products_array.empty? && @merchant_products.nil? %>
+      <% unless @products.nil? %>
+        <% @products.each do |product| %>
+          <% if product.active %>
+            <div class="row">
+              <div class = "col-sm-4">
+                <p><%= link_to "#{product.name}", product_path(product.id) %></p>
+              </div>
+              <div class = "col-sm-4">
+                <p><%= image_tag("#{product.photo_url}", class: "photo") %></p>
+              </div>
+              <div class = "col-sm-4">
+                <p><%= readable_price(product.price) %></p>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% elsif @merchant_products.nil? %>
+      <% @products_array.each do |product| %>
+        <% if product.active %>
         <div class="row">
           <div class = "col-sm-4">
             <p><%= link_to "#{product.name}", product_path(product.id) %></p>
@@ -46,39 +65,24 @@
             <p><%= readable_price(product.price) %></p>
           </div>
         </div>
+        <% end %>
+      <% end %>
+    <% else %>
+      <% @merchant_products.each do |product| %>
+        <% if product.active %>
+        <div class="row">
+          <div class = "col-sm-4">
+            <p><%= link_to "#{product.name}", product_path(product.id) %></p>
+          </div>
+          <div class = "col-sm-4">
+            <p><%= image_tag("#{product.photo_url}", class: "photo") %></p>
+          </div>
+          <div class = "col-sm-4">
+            <p><%= readable_price(product.price) %></p>
+          </div>
+        </div>
+        <% end %>
       <% end %>
     <% end %>
-  <% elsif @merchant_products.nil? %>
-    <% @products_array.each do |product| %>
-      <% if product.active %>
-      <div class="row">
-        <div class = "col-sm-4">
-          <p><%= link_to "#{product.name}", product_path(product.id) %></p>
-        </div>
-        <div class = "col-sm-4">
-          <p><%= image_tag("#{product.photo_url}", class: "photo") %></p>
-        </div>
-        <div class = "col-sm-4">
-          <p><%= readable_price(product.price) %></p>
-        </div>
-      </div>
-      <% end %>
-    <% end %>
-  <% else %>
-    <% @merchant_products.each do |product| %>
-      <% if product.active %>
-      <div class="row">
-        <div class = "col-sm-4">
-          <p><%= link_to "#{product.name}", product_path(product.id) %></p>
-        </div>
-        <div class = "col-sm-4">
-          <p><%= image_tag("#{product.photo_url}", class: "photo") %></p>
-        </div>
-        <div class = "col-sm-4">
-          <p><%= readable_price(product.price) %></p>
-        </div>
-      </div>
-      <% end %>
-    <% end %>
-  <% end %>
+  
 </div>
