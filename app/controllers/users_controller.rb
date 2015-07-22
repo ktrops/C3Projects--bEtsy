@@ -1,11 +1,10 @@
 class UsersController < ApplicationController
 
-  before_action :require_login, except: [:new, :create]
-  before_action :authenticated_user, except: [:new, :create]
+  before_action :authenticate_user, except: [:new, :create]
   before_action :save_login_state, only: [:new]
 
   def new
-    @user = User.new(user_params[:user])
+    @new_user = User.new(user_params[:user])
   end
 
 # trip login so user is logged in as soon as they create the account
@@ -41,30 +40,6 @@ class UsersController < ApplicationController
   end
 
   private
-
-  # this could be added to any other controllers that also require login
-  def require_login
-    redirect_to login_path unless session[:user_id]
-  end
-
-  def authenticated_user
-    if session[:user_id]
-      @user = User.find session[:user_id]
-      return true
-    else
-      redirect_to user_path(login_path)
-      return false
-    end
-  end
-
-  def save_login_state
-    if session[:user_id]
-      redirect_to user_path(@user.id)
-      return false
-    else
-      return true
-    end
-  end
 
   def user_params
     params.permit(user: [:username, :email, :password, :password_confirmation])
