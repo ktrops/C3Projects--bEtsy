@@ -1,4 +1,6 @@
 class OrdersController < ApplicationController
+  before_action :authenticate_user, only: [:show, :fulfillment]
+
   def show
     @order = Order.find(params[:id])
     total_sales
