@@ -10,6 +10,7 @@
     <p class="alert alert-danger"><%= flash[:errors] %></p>
   </div>
 <% end %>
+
 <div class="row">
   <div class="col-sm-6">
     <p>
@@ -43,9 +44,24 @@
       <% end %>
     </p>
   </div>
+
   <div class="col-sm-6">
     <p><%= active_text(@product) %>
     <%= link_to 'Toggle Active', toggle_active_path(@product), method: :put, class: "btn btn-warning" %></p>
+
+    <%= link_to "Create a new Category", new_category_path, method: :get, class: "btn btn-default" %>
+
+    <%= form_for [@product, @product_category], html: { class: "form" } do |f| %>
+      <div class="form-group inline-form">
+        <%= f.select (:category_id), class: "form-control" do %>
+          <% Category.all.each do |category| %>
+            <%= content_tag(:option, category.name, value: category.id)%>
+          <% end %>
+        <% end %>
+      </div>
+
+      <%= f.submit "Add Category", class: "btn btn-primary" %>
+    <% end %>
   </div>
 </div>
 
