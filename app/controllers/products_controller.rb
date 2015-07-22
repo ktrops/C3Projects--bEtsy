@@ -73,9 +73,6 @@ class ProductsController < ApplicationController
     @order_item = OrderItem.new
     @product_category = ProductCategory.new
     @user = User.find_by(id: session[:user_id])
-    if @product.user_id != @user.id
-      redirect_to user_products_path(@user.id)
-    end
   end
 
   def toggle_active
