@@ -1,4 +1,6 @@
 class ProductsController < ApplicationController
+  before_action :authenticate_user, except: [:merchant, :index]
+  before_action :save_login_state, except: [:merchant, :index]
 
   def index
     @products = Product.all
