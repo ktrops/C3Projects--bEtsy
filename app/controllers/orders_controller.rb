@@ -39,8 +39,8 @@ class OrdersController < ApplicationController
 
   def fulfillment
     @user = User.find(params[:id])
-    @orders = @user.order_items
-    @total_revenue = @orders.sum(:item_total)
+    @order_items = @user.order_items
+    @total_revenue = @order_items.sum(:item_total)
   end
 
   def mark_shipped
@@ -48,9 +48,6 @@ class OrdersController < ApplicationController
     @order = Order.find(params[:order_id])
     @order.mark_shipped!
     redirect_to order_fulfillment_path
-    # @product = Product.find(params[:id])
-    # @product.toggle_active!
-    # redirect_to @product
   end
 
   private

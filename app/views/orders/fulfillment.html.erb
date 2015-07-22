@@ -1,7 +1,7 @@
 <!-- On the order fulfillment page:
-  (DONE) Total Revenue MWAHAHA
+  (DONE) Total Revenue
   (____) Total Revenue by status
-  (____) Total number of orders by status
+  (DONE) Total number of orders by status
   (____) Filter orders displayed by status
   (DONE) Link to each individual order
   A list of orders including at least one of my products:
@@ -35,9 +35,21 @@
 <p>
   Total Revenue: <%= readable_price(@total_revenue) %>
 </p>
+<p>
+  Pending Orders: <%= pending_orders %>
+</p>
+<p>
+  Paid Orders: <%= paid_orders %>
+</p>
+<p>
+  Complete Orders: <%= complete_orders %>
+</p>
+<p>
+  Cancelled Orders: <%= cancelled_orders %>
+</p>
 
 ------------------------------
-<% @orders.each do |order_item| %>
+<% @order_items.each do |order_item| %>
   <p>
     <%= link_to "Order #{order_item.id}", user_order_path(user_id: @user.id), class: "btn btn-default" %>
   </p>
