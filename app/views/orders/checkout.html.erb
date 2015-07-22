@@ -32,7 +32,7 @@
       <td><%= order_item.product.name %></td>
       <td><%= readable_price(order_item.product.price) %></td>
       <td><%= order_item.quantity %></td>
-      <td><%= readable_price(order_item.product.price * order_item.quantity) %></td>
+      <td><%= readable_price(order_item.item_total) %></td>
     </tr>
   <% end %>
 </table>
