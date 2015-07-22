@@ -27,7 +27,7 @@ class ProductCategoriesController < ApplicationController
   def create_category
     @category = Category.create(category_params)
     if @category.save
-      redirect_to session[:pervious_page]
+      redirect_to session[:previous_page]
     else
       render :new_category
     end
