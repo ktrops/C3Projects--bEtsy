@@ -15,7 +15,9 @@ class ApplicationController < ActionController::Base
     if session[:order_id]
       Order.find(session[:order_id])
     else
-      Order.new
+      new_order = Order.create
+      session[:order_id] = new_order.id
+      new_order
     end
   end
 
