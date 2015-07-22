@@ -1,8 +1,10 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user, only: [:show, :fulfillment]
+  before_action :belongs_to_user, only: [:show]
 
   def show
     @order = Order.find(params[:id])
+    @user_items = @current_user.order_items
     total_sales
   end
 
@@ -47,6 +49,18 @@ class OrdersController < ApplicationController
 
   private
 
+  def belongs_to_user
+    @order = Order.find(params[:id])
+    @array = []
+    @order.products.each do |x|
+      if x.user_id == @current_user.id
+        break
+      else
+        redirect_to order_fulfillment_path(@user.id)
+      end
+    end
+  end
+
   def order_params
     params.require(:order).permit(:status, :email, :cc_name, :cc_number,
       :cc_expiration, :cc_cvv, :billing_zip, :shipped, :address1, :address2,
@@ -56,8 +70,10 @@ class OrdersController < ApplicationController
   def total_sales
     @total_sales = 0
     @order.order_items.each do |x|
-    @total_sales += x.quantity * x.product.price
+      if @user_items.include?(x) == true
+        @total_sales += x.quantity * x.product.price
+      end
     end
-  @total_sales = @total_sales/100
+    @total_sales = @total_sales/100
   end
 end

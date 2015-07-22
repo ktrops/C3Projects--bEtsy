@@ -21,10 +21,6 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  # def require_login
-  #   redirect_to login_path unless session[:user_id]
-  # end
-
   def authenticate_user
     if session[:user_id]
        # set current user object to @current_user object variable
@@ -64,9 +60,3 @@ class ApplicationController < ActionController::Base
     end
   end
 end
-
-
-
-
-
-
