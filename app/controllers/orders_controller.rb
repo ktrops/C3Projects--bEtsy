@@ -32,6 +32,7 @@ class OrdersController < ApplicationController
   end
 
   def confirmation
+    flash.keep
     @order = Order.find(flash[:confirmed_order_id])
     # use the below line for debugging (to avoid losing the flash[:confirmed_order_id])
     # @order = Order.find(12)
