@@ -50,8 +50,17 @@ class OrdersController < ApplicationController
   private
 
   def belongs_to_user
+    @order = Order.find(params[:id])
+    @array = []
+    @order.products.each do |x|
+      if x.user_id == @current_user.id
+        break
+      else
+        redirect_to order_fulfillment_path(@user.id)
+      end
+    end
   end
-  
+
   def order_params
     params.require(:order).permit(:status, :email, :cc_name, :cc_number,
       :cc_expiration, :cc_cvv, :billing_zip, :shipped, :address1, :address2,
