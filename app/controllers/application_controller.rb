@@ -21,10 +21,6 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  # def require_login
-  #   redirect_to login_path unless session[:user_id]
-  # end
-
   def authenticate_user
     if session[:user_id]
        # set current user object to @current_user object variable
@@ -44,21 +40,4 @@ class ApplicationController < ActionController::Base
       return true
     end
   end
-
-  def category_exists_for_product?(product_id, category_id)
-    product_categories = ProductCategory.where(product_id: product_id)
-    product_categories.each do |pc|
-      if pc.product_id == product_id && pc.category_id == category_id
-        return true
-      else
-        return false
-      end
-    end
-  end
 end
-
-
-
-
-
-
