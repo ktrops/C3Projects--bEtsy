@@ -19,7 +19,7 @@
 <% end %>
 
 <!-- move this logic "@order_items.count > 0" to view helper? -->
-<% if @order.order_items.count > 0 %>
+<% if @order && @order.order_items.count > 0 %>
   <table class="table">
     <tr>
       <th>Item</th>
