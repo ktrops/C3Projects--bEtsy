@@ -15,14 +15,12 @@
       </h1>
 
       <% if @user %>
-        <%= link_to 'My Account', user_path(@user), class: "btn btn-primary" %>
+        <%= link_to 'My Account', user_path(@user.id), class: "btn btn-primary" %>
       <% end %>
 
       <%= link_to 'Cart', cart_path, class: "btn btn-primary"%>
 
-  <!-- <p>Order_id is: <%# session[:order_id] ? session[:order_id] : "none set" %></p> -->
-
-
+  <p>Order_id is: <%= session[:order_id] ? session[:order_id] : "none set" %></p>
+  <p>Logged-in user is: <%= @user ? @user.username : "none" %></p>
 
 </div>
-

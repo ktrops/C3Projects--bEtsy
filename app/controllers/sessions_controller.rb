@@ -29,4 +29,5 @@ class SessionsController < ApplicationController
       return true
     end
   end
+
 end
