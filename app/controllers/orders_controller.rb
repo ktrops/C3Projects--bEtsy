@@ -1,4 +1,6 @@
 class OrdersController < ApplicationController
+  before_action :authenticate_user, only: [:show, :fulfillment]
+
   def show
     @order = Order.find(params[:id])
     total_sales
@@ -62,7 +64,8 @@ class OrdersController < ApplicationController
   def total_sales
     @total_sales = 0
     @order.order_items.each do |x|
-      @total_sales += x.quantity * x.product.price
+    @total_sales += x.quantity * x.product.price
     end
+  @total_sales = @total_sales/100
   end
 end

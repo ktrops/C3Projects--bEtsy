@@ -54,7 +54,7 @@
           <%= x.quantity %>
         </td>
         <td>
-          <%= x.quantity * x.product.price %>
+          $<%= (x.quantity * x.product.price)/100 %>
         </td>
       </tr>
       <% end %>
@@ -63,7 +63,7 @@
           Order Total
         </th>
         <td>
-           <%= @total_sales %>
+           $<%= @total_sales %>
         </td>
       </tr>
       <tr>
