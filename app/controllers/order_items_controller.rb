@@ -2,6 +2,7 @@ class OrderItemsController < ApplicationController
   def create
     product = Product.find_by(id: params[:product_id])
     order = current_order
+    # is calling products on order a problem if it's a new order?
     previous_product = order.products.find_by(id: product.id)
 
     if previous_product
