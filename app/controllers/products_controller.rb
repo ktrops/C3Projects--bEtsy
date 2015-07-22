@@ -19,37 +19,52 @@ class ProductsController < ApplicationController
     @merchant = User.find(params[:user_id])
     @product_id = Product.last.id + 1
     @product_categories = @product.product_categories.build
-  end
+  end 
 
   def create
     @product = Product.create(product_params)
-    redirect_to products_path, method: :get
+    if @product.save
+      flash[:success] = "You have created a new product"
+      redirect_to products_path, method: :get
+    else
+      flash[:errors] = error_messages(@product)
+      redirect_to new_user_product_path
+    end
   end
+
 
   def category
     @merchant_products = nil
     @categories = Category.all
-    @category = Category.find(params[:category])
-    pro = @category.product_categories
-    product_id_array = []
-    pro.each do |item|
-      product_id_array << item.product_id
-    end
-    @products_array = []
-    products = product_id_array.each do |id|
-      @products_array << Product.find(id)
+    if params[:category].empty?
+      redirect_to products_path
+    else
+      @category = Category.find(params[:category])
+      pro = @category.product_categories
+      product_id_array = []
+      pro.each do |item|
+        product_id_array << item.product_id
+      end
+      @products_array = []
+      products = product_id_array.each do |id|
+        @products_array << Product.find(id)
+      end
+      render :index
     end
 
-    render :index
   end
 
   def merchant
     @products_array = []
     @merchants = User.all
-    @merchant = User.find(params[:user])
-    @merchant_products = @merchant.products
+    if params[:user].empty?
+      redirect_to products_path
+    else
+      @merchant = User.find(params[:user])
+      @merchant_products = @merchant.products
+      render :index
+    end
 
-    render :index
   end
 
 
@@ -68,7 +83,7 @@ class ProductsController < ApplicationController
   end
 
   def edit
-      @product = Product.find(params[:id])
+    @product = Product.find(params[:id])
   end
 
   def update
@@ -87,7 +102,7 @@ class ProductsController < ApplicationController
 
 
 
-  private
+
 
   def product_params
     params.require(:product).permit(:name, :price, :description, :active, :photo_url, :stock, :user_id, product_categories_attributes: [:id, :category_id, :product_id])
