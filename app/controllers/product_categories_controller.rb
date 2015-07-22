@@ -43,7 +43,7 @@ class ProductCategoriesController < ApplicationController
   def create_category
     @category = Category.create(category_params)
     if @category.save
-      redirect_to session[:previous_page]
+      redirect_to session[:pervious_page]
     else
       render :new_category
     end
@@ -52,7 +52,7 @@ class ProductCategoriesController < ApplicationController
   private
 
   def product_category_params
-    { product_id: params[:product_id], 
+    { product_id: params[:product_id],
       category_id: params[:product_category][:category_id] }
   end
 
