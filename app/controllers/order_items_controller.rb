@@ -8,6 +8,7 @@ class OrderItemsController < ApplicationController
     if previous_product
       previous_order_item = order.order_items.find_by(product_id: previous_product.id)
       previous_order_item.quantity += (params[:order_item][:quantity]).to_i
+      previous_order_item.item_total = product.price * previous_order_item.quantity
       previous_order_item.save
       flash[:success] = "You have added #{params[:order_item][:quantity]} x #{product.name} to your cart."
     else # new product
@@ -44,7 +45,7 @@ class OrderItemsController < ApplicationController
     else
       flash[:errors] = "There was a problem with your update."
     end
-      redirect_to cart_path
+    redirect_to cart_path
   end
 
   def destroy

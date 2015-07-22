@@ -14,8 +14,15 @@ class ProductCategoriesController < ApplicationController
 
   def destroy
     @product_category = ProductCategory.find(params[:id])
+    category_name = @product_category.category.name
     @product_category.destroy
 
+    # checks for if destroy goes wrong
+    if @product_category
+      flash[:errors] = "Something went wrong."
+    else
+      flash[:success] = "You have removed the category 'category_name'."
+    end
     @product = Product.find(params[:product_id])
     redirect_to @product
   end
