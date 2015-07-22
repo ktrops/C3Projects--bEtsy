@@ -1,4 +1,5 @@
 class Product < ActiveRecord::Base
+  before_save :stock_valid
   belongs_to :user
   has_many :orders, through: :order_items
   has_many :order_items
@@ -17,6 +18,12 @@ class Product < ActiveRecord::Base
   # implement by ranking?
   def self.front_page_list
     self.all.limit(20)
+  end
+
+  def stock_valid
+    if self.stock.nil?
+      self.stock = 0
+    end
   end
 
   def self.update_stock!(order)

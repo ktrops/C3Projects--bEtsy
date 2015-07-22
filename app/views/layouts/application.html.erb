@@ -11,6 +11,9 @@
 
       <%= render partial: 'shared/header' %>
 
+      <% if @user %>
+        <%= render "shared/nav" %>
+      <% end %>
       <div class="row">
         <div class="col-lg-12">
 
