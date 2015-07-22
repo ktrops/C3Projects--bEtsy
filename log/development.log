@@ -30094,3 +30094,94 @@ Processing by ProductsController#index as HTML
   Rendered shared/_header.html.erb (0.6ms)
   Rendered shared/_footer.html.erb (0.1ms)
 Completed 200 OK in 229ms (Views: 226.5ms | ActiveRecord: 0.8ms)
+
+
+Started GET "/users/3" for ::1 at 2015-07-22 10:19:47 -0700
+Processing by UsersController#show as HTML
+  Parameters: {"id"=>"3"}
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1[0m  [["id", 1]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1  [["id", 1]]
+  [1m[36mOrderItem Load (0.4ms)[0m  [1mSELECT "order_items".* FROM "order_items" INNER JOIN "products" ON "order_items"."product_id" = "products"."id" WHERE "products"."user_id" = ?[0m  [["user_id", 1]]
+  [1m[35mProduct Load (0.3ms)[0m  SELECT  "products".* FROM "products" WHERE "products"."id" = ? LIMIT 1  [["id", 1]]
+  [1m[36mProduct Load (0.2ms)[0m  [1mSELECT  "products".* FROM "products" WHERE "products"."id" = ? LIMIT 1[0m  [["id", 2]]
+  Rendered users/_nav.html.erb (1.5ms)
+  Rendered users/_nav.html.erb (0.6ms)
+  [1m[35mOrderItem Load (0.3ms)[0m  SELECT  "order_items".* FROM "order_items" INNER JOIN "products" ON "order_items"."product_id" = "products"."id" WHERE "products"."user_id" = ?  ORDER BY created_at DESC LIMIT 5  [["user_id", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "products".* FROM "products" WHERE "products"."id" = ? LIMIT 1[0m  [["id", 2]]
+  [1m[35mOrder Load (0.2ms)[0m  SELECT  "orders".* FROM "orders" WHERE "orders"."id" = ? LIMIT 1  [["id", 3]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "products".* FROM "products" WHERE "products"."id" = ? LIMIT 1[0m  [["id", 1]]
+  [1m[35mOrder Load (0.1ms)[0m  SELECT  "orders".* FROM "orders" WHERE "orders"."id" = ? LIMIT 1  [["id", 1]]
+  Rendered users/show.html.erb within layouts/application (32.6ms)
+  Rendered shared/_header.html.erb (0.4ms)
+  Rendered shared/_footer.html.erb (0.1ms)
+Completed 200 OK in 343ms (Views: 229.3ms | ActiveRecord: 6.2ms)
+
+
+Started GET "/users/3" for ::1 at 2015-07-22 10:19:47 -0700
+Processing by UsersController#show as HTML
+  Parameters: {"id"=>"3"}
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1[0m  [["id", 1]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1  [["id", 1]]
+  [1m[36mOrderItem Load (0.1ms)[0m  [1mSELECT "order_items".* FROM "order_items" INNER JOIN "products" ON "order_items"."product_id" = "products"."id" WHERE "products"."user_id" = ?[0m  [["user_id", 1]]
+  [1m[35mProduct Load (0.1ms)[0m  SELECT  "products".* FROM "products" WHERE "products"."id" = ? LIMIT 1  [["id", 1]]
+  [1m[36mProduct Load (0.1ms)[0m  [1mSELECT  "products".* FROM "products" WHERE "products"."id" = ? LIMIT 1[0m  [["id", 2]]
+  Rendered users/_nav.html.erb (0.8ms)
+  Rendered users/_nav.html.erb (1.2ms)
+  [1m[35mOrderItem Load (0.3ms)[0m  SELECT  "order_items".* FROM "order_items" INNER JOIN "products" ON "order_items"."product_id" = "products"."id" WHERE "products"."user_id" = ?  ORDER BY created_at DESC LIMIT 5  [["user_id", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "products".* FROM "products" WHERE "products"."id" = ? LIMIT 1[0m  [["id", 2]]
+  [1m[35mOrder Load (0.2ms)[0m  SELECT  "orders".* FROM "orders" WHERE "orders"."id" = ? LIMIT 1  [["id", 3]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "products".* FROM "products" WHERE "products"."id" = ? LIMIT 1[0m  [["id", 1]]
+  [1m[35mOrder Load (0.1ms)[0m  SELECT  "orders".* FROM "orders" WHERE "orders"."id" = ? LIMIT 1  [["id", 1]]
+  Rendered users/show.html.erb within layouts/application (11.5ms)
+  Rendered shared/_header.html.erb (0.4ms)
+  Rendered shared/_footer.html.erb (0.1ms)
+Completed 200 OK in 176ms (Views: 171.0ms | ActiveRecord: 1.1ms)
+
+
+Started GET "/users/1/products/new" for ::1 at 2015-07-22 10:19:56 -0700
+Processing by ProductsController#new as HTML
+  Parameters: {"authenticity_token"=>"3ic1Q2Gq7LdcDXcfYKBpa6ZQaQXrDRF+alPmIrohoQ6Ng1DJmD/foMXOBmF2OsOWsA6nbIli3z5Dr286DZSkiA==", "user_id"=>"1"}
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1[0m  [["id", 1]]
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1  [["id", 1]]
+  [1m[36mProduct Load (0.5ms)[0m  [1mSELECT  "products".* FROM "products"  ORDER BY "products"."id" DESC LIMIT 1[0m
+  [1m[35mCategory Load (0.2ms)[0m  SELECT "categories".* FROM "categories"
+  Rendered products/new.html.erb within layouts/application (12.3ms)
+  Rendered shared/_header.html.erb (0.6ms)
+  Rendered shared/_footer.html.erb (0.4ms)
+Completed 200 OK in 169ms (Views: 152.9ms | ActiveRecord: 1.5ms)
+
+
+Started GET "/category" for ::1 at 2015-07-22 10:19:58 -0700
+Processing by ProductCategoriesController#new_category as HTML
+  Parameters: {"authenticity_token"=>"U9sPUnOuE8Sz3g+pu6FWuVyEo16eEf7cCB5sd0MOv2wAf2rYijsg0yodftetO/xEStptN/x+MJwh4uVv9Lu66g=="}
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1[0m  [["id", 1]]
+  Rendered product_categories/new_category.html.erb within layouts/application (3.5ms)
+  Rendered shared/_header.html.erb (0.7ms)
+  Rendered shared/_footer.html.erb (0.2ms)
+Completed 200 OK in 149ms (Views: 145.7ms | ActiveRecord: 0.2ms)
+
+
+Started POST "/category" for ::1 at 2015-07-22 10:20:09 -0700
+Processing by ProductCategoriesController#create_category as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"E6q9urdijn8lXC29SU9FtwLQXVT1DQ8pLJTjP8LDg9RADtgwTve9aLyfXMNf1e9KFI6TPZdiwWkFaGondXaGUg==", "category"=>{"name"=>"Toys"}, "commit"=>"Create Category"}
+  [1m[35mUser Load (0.1ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1  [["id", 1]]
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "categories" ("name", "created_at", "updated_at") VALUES (?, ?, ?)  [["name", "Toys"], ["created_at", "2015-07-22 17:20:09.719380"], ["updated_at", "2015-07-22 17:20:09.719380"]]
+  [1m[36m (0.9ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mcommit transaction[0m
+Redirected to http://localhost:3000/users/1/products/new
+Completed 302 Found in 8ms (ActiveRecord: 1.8ms)
+
+
+Started GET "/users/1/products/new" for ::1 at 2015-07-22 10:20:09 -0700
+Processing by ProductsController#new as HTML
+  Parameters: {"user_id"=>"1"}
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1  [["id", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1[0m  [["id", 1]]
+  [1m[35mProduct Load (0.2ms)[0m  SELECT  "products".* FROM "products"  ORDER BY "products"."id" DESC LIMIT 1
+  [1m[36mCategory Load (0.2ms)[0m  [1mSELECT "categories".* FROM "categories"[0m
+  Rendered products/new.html.erb within layouts/application (6.1ms)
+  Rendered shared/_header.html.erb (0.3ms)
+  Rendered shared/_footer.html.erb (0.1ms)
+Completed 200 OK in 161ms (Views: 156.8ms | ActiveRecord: 0.7ms)
