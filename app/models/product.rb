@@ -26,4 +26,5 @@ class Product < ActiveRecord::Base
       product.save
     end
   end
+
 end
