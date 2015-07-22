@@ -21,10 +21,11 @@ class ProductCategoriesController < ApplicationController
   end
 
   def destroy
-    product_category = ProductCategory.find(params[:id])
-    category_name = product_category.category.name
-    product_category.destroy
-
+    product_category = ProductCategory.find_by(params[:id])
+    if product_category
+      category_name = product_category.category.name
+      product_category.destroy
+    end
     # checks for if destroy goes wrong
     product_category = ProductCategory.find_by(params[:id])
     if product_category
