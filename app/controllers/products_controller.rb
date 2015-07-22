@@ -26,6 +26,7 @@ class ProductsController < ApplicationController
       redirect_to products_path, method: :get
     else
       flash[:errors] = error_messages(@product)
+      raise
       redirect_to new_user_product_path
     end
   end
