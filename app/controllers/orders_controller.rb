@@ -19,6 +19,7 @@ class OrdersController < ApplicationController
     if @order.save
       Product.update_stock!(@order)
       flash[:confirmed_order_id] = @order.id
+      # how to persist page if refreshed?
       session[:order_id] = nil
 
       redirect_to confirmation_path

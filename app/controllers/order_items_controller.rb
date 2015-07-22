@@ -23,10 +23,19 @@ class OrderItemsController < ApplicationController
 
   def update
     order_item = OrderItem.find(params[:id])
+    old_quantity = order_item.quantity
     order_item.update(order_item_params)
-    flash[:success] = "Your order has been updated."
-
-    redirect_to cart_path
+    if order_item.save
+      if order_item.quantity == old_quantity
+        flash[:success] = "No change was made."
+      else
+        flash[:success] = "Your order has been updated."
+      end
+      redirect_to cart_path
+    else
+      flash[:errors] = "There was a problem with your update."
+      redirect_to cart_path
+    end
   end
 
   def destroy
@@ -41,7 +50,8 @@ class OrderItemsController < ApplicationController
 
   def cart
     @order = Order.find_by(id: session[:order_id])
-    @order_items = OrderItem.where(order_id: session[:order_id])
+    # raise
+    # @order_items = OrderItem.where(order_id: session[:order_id])
   end
 
   private
