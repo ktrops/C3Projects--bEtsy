@@ -14,7 +14,7 @@
         <small>Selling All The Secrets</small>
       </h1>
 
-      <% if @user %>
+<% if @user %>
         <%= link_to 'My Account', user_path(@user.id), class: "btn btn-primary" %>
       <% end %>
 
@@ -22,5 +22,4 @@
 
   <p>Order_id is: <%= session[:order_id] ? session[:order_id] : "none set" %></p>
   <p>Logged-in user is: <%= @user ? @user.username : "none" %></p>
-
 </div>
