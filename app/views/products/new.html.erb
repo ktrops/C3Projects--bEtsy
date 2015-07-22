@@ -1,3 +1,11 @@
+<%#unless @product.errors.empty? %>
+  <%# @product.errors.messages %>
+<%#end %>
+
+<% unless flash[:errors].nil? %>
+  <%= render partial: "shared/errors", locals: {instance: @product} %>
+<% end %>
+
 
 <%= form_for @product, url: user_products_path(@merchant.id), method: :post do |f| %>
   <%= f.label :name %>
@@ -27,6 +35,8 @@
   <%= f.submit %>
 
 <% end %>
+
+
 
 <%= link_to "Create a new Category", new_category_path, method: :get %>
 

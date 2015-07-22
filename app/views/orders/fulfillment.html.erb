@@ -1,0 +1,60 @@
+<!-- On the order fulfillment page:
+  (DONE) Total Revenue MWAHAHA
+  (____) Total Revenue by status
+  (____) Total number of orders by status
+  (____) Filter orders displayed by status
+  (DONE) Link to each individual order
+  A list of orders including at least one of my products:
+    (DONE) Each order item sold by me with a quantity and line-item subtotal
+    (DONE) A link to the item description page
+    (DONE) DateTime the order was placed
+    (____) Link to transition the order item to marked as shipped
+    (DONE) The current status of the order ("pending", "paid", "complete", "cancelled") -->
+
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        </div>
+        <div>
+          <ul class="nav navbar-nav">
+            <li><%= link_to("Home", user_path) %></li>
+            <li><%= link_to("Products", user_products_path(@user.id)) %></li>
+            <li><%= link_to("Orders", order_fulfillment_path) %></li>
+            <li><%= link_to "Create a new Product", new_user_product_path(@user.id), method: :get %></li>
+            <li><%= link_to("Go Shopping", products_path) %></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+          <li><%= link_to("Edit Account", edit_user_path) %></li>
+          </ul>
+      </div>
+    </nav>
+
+
+<h2>Order Fulfillment</h2>
+<p>
+  Total Revenue: <%= readable_price(@total_revenue) %>
+</p>
+
+------------------------------
+<% @orders.each do |order| %>
+  <p>
+    <%= link_to "Order #{order.id}", user_order_path(user_id: @user.id), class: "btn btn-default" %>
+  </p>
+  <p>
+    Product: <%= link_to (Product.find(order.product_id).name), product_path, class: "btn btn-default" %>
+  </p>
+  <p>
+    Quantity: <%= order.quantity %>
+  </p>
+  <p>
+    Item Total: <%= readable_price(order.item_total) %>
+  </p>
+  <p>
+    Date Placed: <%= readable_date(order.created_at) %>
+  </p>
+  <p>
+    Status: <%= Order.find(order.order_id).status %>
+  </p>
+    ------------------------------
+    <br>
+    <br>
+<% end %>

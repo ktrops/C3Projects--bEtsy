@@ -19,6 +19,7 @@ class OrdersController < ApplicationController
     if @order.save
       Product.update_stock!(@order)
       flash[:confirmed_order_id] = @order.id
+      # how to persist page if refreshed?
       session[:order_id] = nil
 
       redirect_to confirmation_path
@@ -32,6 +33,13 @@ class OrdersController < ApplicationController
     @order = Order.find(flash[:confirmed_order_id])
     # use the below line for debugging (to avoid losing the flash[:confirmed_order_id])
     # @order = Order.find(12)
+  end
+
+  def fulfillment
+    @user = User.find(params[:id])
+    @orders = @user.order_items
+    @total_revenue = @orders.sum(:item_total)
+    # @shipped
   end
 
   private
