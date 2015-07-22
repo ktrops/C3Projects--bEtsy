@@ -14,11 +14,15 @@ class Product < ActiveRecord::Base
   def toggle_active!
     toggle!(:active)
   end
+  def self.active_products(products)
+    products.select {|product| product.active}
+  end
 
   # implement by ranking?
   def self.front_page_list
-    self.all.limit(20)
+    self.active_products(self.all.limit(20))
   end
+
 
   def stock_valid
     if self.stock.nil?
