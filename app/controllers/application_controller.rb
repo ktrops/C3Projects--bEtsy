@@ -49,6 +49,7 @@ class ApplicationController < ActionController::Base
     product_categories = ProductCategory.where(product_id: product_id)
     product_categories.each do |pc|
       if pc.product_id == product_id && pc.category_id == category_id
+
         return true
       else
         return false
