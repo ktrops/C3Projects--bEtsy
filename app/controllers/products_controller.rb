@@ -17,16 +17,7 @@ class ProductsController < ApplicationController
     @merchant = User.find(params[:user_id])
     @product_id = Product.last.id + 1
     @product_categories = @product.product_categories.build
-  end
-
-  def error_messages(instance)
-    error_string = ""
-    instance.errors.messages.each do |key, value|
-      error_string += "#{key.to_s.capitalize} "
-      error_string += "#{value.first}. "
-    end
-    error_string
-  end
+  end 
 
   def create
     @product = Product.create(product_params)

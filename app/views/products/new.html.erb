@@ -2,11 +2,10 @@
   <%# @product.errors.messages %>
 <%#end %>
 
-<% if flash[:errors]%>
-  <p class="alert alert-danger">
-    <%= flash[:errors] %>
-  </p>
+<% unless flash[:errors].nil? %>
+  <%= render partial: "shared/errors", locals: {instance: @product} %>
 <% end %>
+
 
 <%= form_for @product, url: user_products_path(@merchant.id), method: :post do |f| %>
   <%= f.label :name %>
