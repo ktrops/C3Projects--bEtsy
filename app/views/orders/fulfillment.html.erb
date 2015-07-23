@@ -107,7 +107,7 @@
               Order
             </td>
             <td>
-              <%= link_to "#{order_item.id}", user_order_path(user_id: @user.id, id: order_item.order.id), class: "btn btn-default" %>
+              <%= link_to "#{order_item.order_id}", user_order_path(user_id: @user.id, id: order_item.order_id), class: "btn btn-default" %>
             </td>
           </tr>
           <tr>
@@ -183,7 +183,7 @@
               Order
             </td>
             <td>
-              <%= link_to "#{order_item.id}", user_order_path(user_id: @user.id, id: order_item.order.id), class: "btn btn-default" %>
+              <%= link_to "#{order_item.order_id}", user_order_path(user_id: @user.id, id: order_item.order_id), class: "btn btn-default" %>
             </td>
           </tr>
           <tr>
