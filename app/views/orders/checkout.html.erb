@@ -39,7 +39,7 @@
   <% end %>
 </table>
 
-<p>Order total: <%= readable_price(@order.total) %></p>
+<p>Order total: <%= readable_price(@order.subtotal) %></p>
 
 <%= link_to 'Edit order', cart_path, class: "btn btn-warning" %>
 

@@ -18,7 +18,7 @@
     <% end %>
   </table>
 
-<p>Order total: <%= readable_price(@order.total) %></p>
+<p>Order total: <%= readable_price(@order.final_total) %></p>
 
 <p>Order time: <%= readable_date(@order.updated_at) %></p>
 
