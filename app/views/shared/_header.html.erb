@@ -5,7 +5,7 @@
       <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container-fluid">
         <ul class="nav navbar-nav">
-          <% if @user %>
+          <% if session[:user_id] %>
             <li><%= link_to 'Log Out', logout_path, method: :delete %></li>
           <% else %>
             <li><%= link_to 'Log In', login_path %></li>
@@ -25,7 +25,8 @@
 
       <!-- uncomment for debugging, remove before submitting final project -->
       <p>Order_id is: <%= session[:order_id] ? session[:order_id] : "none set" %></p>
-      <p>Logged-in user is: <%= @user ? @user.username : "none" %></p>
+      <p>Logged-in user is: <%= session[:user_id] ? @user.username : "none" %></p>
+      <p>User id is: <%= session[:user_id] ? session[:user_id] : "none" %></p>
 
     </div>
   </div>
