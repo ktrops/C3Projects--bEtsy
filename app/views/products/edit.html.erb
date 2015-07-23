@@ -21,8 +21,8 @@
       </div>
 
       <div class="form-group">
-        <%= f.label :price, "Price (in pennies...)" %>
-        <%= f.number_field :price, class: "form-control" %>
+        <%= f.label :price %>
+        <%= f.text_field :price, value: readable_price(@product.price), class: "form-control" %>
       </div>
 
       <div class="form-group">

@@ -22,7 +22,8 @@ class ProductsController < ApplicationController
   end
 
   def create
-    @product = Product.create(product_params)
+    @product = Product.new(product_params)
+    @product.price = unformat_price(params[:product][:price])
     if @product.save
       flash[:success] = "You have created a new product"
       redirect_to products_merchant_index_path(params[:user_id]), method: :get
@@ -31,7 +32,6 @@ class ProductsController < ApplicationController
       redirect_to new_user_product_path
     end
   end
-
 
   def category
     @merchant_products = nil
@@ -92,7 +92,9 @@ class ProductsController < ApplicationController
 
   def update
     @product = Product.find(params[:id])
-    if @product.update(product_params)
+    @product.update(product_params)
+    @product.price = unformat_price(params[:product][:price])
+    if @product.save
       flash[:success] = "You successfully updated #{@product.name}."
       redirect_to product_path(@product)
     else
@@ -102,6 +104,12 @@ class ProductsController < ApplicationController
   end
 
   def destroy
+  end
+
+  private
+
+  def unformat_price(price)
+    price.delete("$").delete(",").to_f*100
   end
 
   def product_params
