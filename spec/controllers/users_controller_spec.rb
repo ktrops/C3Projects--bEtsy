@@ -47,7 +47,7 @@ RSpec.describe UsersController, type: :controller do
 
       it "redirects to the #new page after input fails" do
         post :create, user_params
-        expect(response).to redirect_to(new_user_path)
+        expect(response).to redirect_to(register_path)
       end
     end #end of let
   end #end of describe block

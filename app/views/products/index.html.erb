@@ -1,18 +1,18 @@
 
 <%= form_tag products_category_path, method: "get", class: "form" do %>
 <div class="form-group inline-form">
-  <%= select_tag "category", options_from_collection_for_select(Category.all, "id", "name"), include_blank: "Filter by...", class: "form-control fit-width" %>
+  <%= select_tag "category", options_from_collection_for_select(Category.all, "id", "name"), include_blank: "Select by...", class: "form-control fit-width" %>
 </div>
-  <%= submit_tag "Filter by Category", class: "btn btn-default" %>
+  <%= submit_tag "Select by Category", class: "btn btn-default" %>
 <% end %>
 
 
 
 <%= form_tag products_merchant_path, method: "get" do %>
 <div class="form-group inline-form">
-  <%= select_tag "user", options_from_collection_for_select(User.all, "id", "username"), include_blank: "Filter by...", class: "form-control fit-width" %>
+  <%= select_tag "user", options_from_collection_for_select(User.all, "id", "username"), include_blank: "Select by...", class: "form-control fit-width" %>
 </div>
-  <%= submit_tag "Filter by Merchant", class: "btn btn-default" %>
+  <%= submit_tag "Select by Merchant", class: "btn btn-default" %>
 <% end %>
 
 <% if request.path.include?("filter") %>
