@@ -25,6 +25,11 @@ body {
   max-width: 970px;
   margin: auto;
   padding-top: 30px;
+  padding-bottom: 40px;
+}
+
+footer {
+  padding-top: 40px;
 }
 
 select {
@@ -35,6 +40,10 @@ select {
 
 .photo {
   width: 100px;
+}
+
+.product-img-lg {
+  width: 200px;
 }
 
 .form-control {

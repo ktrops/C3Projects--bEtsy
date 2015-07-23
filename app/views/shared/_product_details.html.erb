@@ -3,7 +3,7 @@
     <h3 class="panel-title">Product details</h3>
   </div>
   <div class="panel-body">
-    <p><%= image_tag @product.photo_url, class: "img-responsive img-rounded" %></p>
+    <p><%= image_tag @product.photo_url, class: "img-responsive img-rounded product-img-lg" %></p>
     <p><%= @product.description %></p>
     <ul class="list-inline">
       <% @product.categories.each do |category| %>
