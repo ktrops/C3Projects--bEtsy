@@ -81,7 +81,11 @@ class Order < ActiveRecord::Base
   end
 
   # Scopes ---------------------------------------------------------------------
-  def total
+  def subtotal
     order_items.inject(0) { |sum, item| sum += (item.product.price * item.quantity) }
+  end
+
+  def final_total
+    order_items.inject(0) { |sum, item| sum += (item.item_total) }
   end
 end
