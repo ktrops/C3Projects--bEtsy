@@ -13,9 +13,11 @@ class Product < ActiveRecord::Base
   validates :price, presence: true, numericality: { greater_than: 0 }
 
   accepts_nested_attributes_for :product_categories
+
   def toggle_active!
     toggle!(:active)
   end
+
   def self.active_products(products)
     products.select {|product| product.active}
   end
@@ -39,8 +41,6 @@ class Product < ActiveRecord::Base
     true
   end
 
-
-
   def self.update_stock!(order)
     order.order_items.each do |order_item|
       product = Product.find_by(id: order_item.product_id)
@@ -49,5 +49,4 @@ class Product < ActiveRecord::Base
       product.save
     end
   end
-
 end
