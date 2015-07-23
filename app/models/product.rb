@@ -1,5 +1,6 @@
 class Product < ActiveRecord::Base
-  before_save :stock_valid
+  before_save :stock_0_make_inactive
+
   belongs_to :user
   has_many :orders, through: :order_items
   has_many :order_items
@@ -7,6 +8,7 @@ class Product < ActiveRecord::Base
   has_many :product_categories
   has_many :categories, through: :product_categories
 
+  validates :stock, presence: true, numericality: { integer: true }
   validates :name, presence: true, uniqueness: true
   validates :price, presence: true, numericality: { greater_than: 0 }
 
@@ -24,11 +26,20 @@ class Product < ActiveRecord::Base
   end
 
 
-  def stock_valid
-    if self.stock.nil?
-      self.stock = 0
+  # def stock_valid
+  #   if self.stock.nil?
+  #     self.stock = 0
+  #   end
+  # end
+
+  def stock_0_make_inactive
+    if self.stock == 0
+      self.active = false
     end
+    true
   end
+
+
 
   def self.update_stock!(order)
     order.order_items.each do |order_item|

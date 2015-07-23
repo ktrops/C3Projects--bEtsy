@@ -21,19 +21,20 @@ class ProductCategoriesController < ApplicationController
   end
 
   def destroy
-    product_category = ProductCategory.find(params[:id])
-    category_name = product_category.category.name
-    product_category.destroy
-
+    product_category = ProductCategory.find_by(id: params[:id])
+    if product_category
+      category_name = product_category.category.name
+      product_category.destroy
+    end
     # checks for if destroy goes wrong
-    product_category = ProductCategory.find_by(params[:id])
+    product_category = ProductCategory.find_by(id: params[:id])
     if product_category
       flash[:errors] = "Something went wrong."
     else
-      flash[:success] = "You have removed the category 'category_name'."
+      flash[:success] = "You have removed the category '#{category_name}'."
     end
-    product = Product.find(params[:product_id])
-    redirect_to product
+    
+    redirect_to session[:previous_page]
   end
 
   def new_category
@@ -43,7 +44,7 @@ class ProductCategoriesController < ApplicationController
   def create_category
     @category = Category.create(category_params)
     if @category.save
-      redirect_to session[:pervious_page]
+      redirect_to session[:previous_page]
     else
       render :new_category
     end

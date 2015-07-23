@@ -46,17 +46,19 @@
     </thead>
     <tbody>
       <% @order.order_items.each do |x| %>
-      <tr>
-        <td>
-          <%= x.product.name %>
-        </td>
-        <td>
-          <%= x.quantity %>
-        </td>
-        <td>
-          $<%= (x.quantity * x.product.price)/100 %>
-        </td>
-      </tr>
+      <% if @user_items.include?(x) == true %>
+        <tr>
+          <td>
+            <%= x.product.name %>
+          </td>
+          <td>
+            <%= x.quantity %>
+          </td>
+          <td>
+            $<%= (x.quantity * x.product.price)/100 %>
+          </td>
+        </tr>
+        <% end  %>
       <% end %>
       <tr>
         <th colspan="2">
