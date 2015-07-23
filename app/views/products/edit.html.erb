@@ -46,8 +46,8 @@
   </div>
 
   <div class="col-sm-6">
-    <p><%= active_text(@product) %>
-    <%= link_to 'Toggle Active', toggle_active_path(@product), method: :put, class: "btn btn-warning" %></p>
+    
+    <%= render partial: 'active_text_toggle_button' %>
     
     <p>Current categories:</p>
 
