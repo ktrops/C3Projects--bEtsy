@@ -58,6 +58,7 @@
             <%= x.quantity %>
           </td>
           <td>
+            <!-- if pending, show quantity * product.price, else show item_total -->
             $<%= (x.quantity * x.product.price)/100 %>
           </td>
         </tr>
