@@ -2,6 +2,14 @@
   <%# @product.errors.messages %>
 <%#end %>
 
+<% unless flash[:success].nil? %>
+  <div>
+    <p class="alert alert-success">
+      <%= flash[:success]%>
+    </p>
+  </div>
+<% end %>
+
 <% unless flash[:errors].nil? %>
   <%= render partial: "shared/errors", locals: {instance: @product} %>
 <% end %>
