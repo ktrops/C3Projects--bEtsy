@@ -15,7 +15,7 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
-html{
+html {
   background: #ddd
   url('matrix.jpg') no-repeat center fixed;
   background-size: cover;
@@ -24,6 +24,7 @@ html{
 body {
   max-width: 970px;
   margin: auto;
+  padding-top: 30px;
 }
 
 select {
@@ -77,5 +78,11 @@ select {
 }
 
 .badge a{
+  color: #fff;
+}
+
+.navbar-fixed-top {
+  width: 970px;
+  margin: auto;
   color: #fff;
 }
