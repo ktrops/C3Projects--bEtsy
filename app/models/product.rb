@@ -24,7 +24,7 @@ class Product < ActiveRecord::Base
 
   # implement by ranking?
   def self.front_page_list
-    self.active_products(self.all.limit(20))
+    self.active_products(self.all.limit(10))
   end
 
 
