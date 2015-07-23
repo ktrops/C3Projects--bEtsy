@@ -1,3 +1,23 @@
+<% unless flash[:successfull].nil? %>
+  <div>
+    <p class="alert alert-success">
+      <%= flash[:successfull] %>
+    </p>
+  </div>
+<% end %>
+
+<% unless flash[:success].nil? %>
+  <div>
+    <p class="alert alert-success">
+      <%= flash[:success] %>
+    </p>
+  </div>
+<% end %>
+
+<% unless flash[:failed].nil? %>
+  <%= render partial: "shared/errors", locals: {instance: @products} %>
+<% end %>
+
 <h1>All Products for <%= @merchant.username %></h1>
 <div class = "container-fluid">
   <div class ="row">
