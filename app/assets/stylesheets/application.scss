@@ -15,8 +15,10 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
-html {
-  background: #ddd;
+html{
+  background: #ddd
+  url('matrix.jpg') no-repeat center fixed;
+  background-size: cover;
 }
 
 body {
@@ -71,5 +73,9 @@ select {
   color: #fff;
 }
 .navbar-default .navbar-nav > li > a {
+  color: #fff;
+}
+
+.badge a{
   color: #fff;
 }

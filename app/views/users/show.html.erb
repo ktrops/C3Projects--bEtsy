@@ -31,7 +31,7 @@
           <%= link_to("#{x.product.name}", user_product_path(@user.id, x.product.id)) %>
         </td>
         <td>
-          <%= x.quantity %>
+          <span class="badge"><%= x.quantity %></span>
         </td>
         <td>
           <%= x.order.status %>
