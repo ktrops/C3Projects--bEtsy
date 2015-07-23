@@ -1,6 +1,6 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user, only: [:show, :fulfillment]
-  before_action :belongs_to_user, only: [:show]
+  # before_action :belongs_to_user, only: [:show]
 
   def show
     @order = Order.find(params[:id])
@@ -49,17 +49,16 @@ class OrdersController < ApplicationController
 
   private
 
-  def belongs_to_user
-    @order = Order.find(params[:id])
-    @array = []
-    @order.products.each do |x|
-      if x.user_id == @current_user.id
-        break
-      else
-        redirect_to order_fulfillment_path(@user.id)
-      end
-    end
-  end
+  # def belongs_to_user
+  #   @order = Order.find(params[:id])
+  #   @order.products.each do |x|
+  #     if x.user_id == @current_user.id
+  #       return
+  #     else
+  #       redirect_to order_fulfillment_path(@user.id)
+  #     end
+  #   end
+  # end
 
   def order_params
     params.require(:order).permit(:status, :email, :cc_name, :cc_number,
