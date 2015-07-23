@@ -22,7 +22,10 @@
       </tr>
       <tr>
         <th>Credit Card Expiration Date:</th>
-        <td><%= @order.cc_expiration %></td>
+        <% unless @order.cc_expiration.nil? %>
+          <td><%= @order.cc_expiration.month %>/<%=@order.cc_expiration.year%></td>
+        <% end %>
+
       </tr>
     </tbody>
   </table>

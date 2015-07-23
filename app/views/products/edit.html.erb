@@ -21,8 +21,8 @@
       </div>
 
       <div class="form-group">
-        <%= f.label :price, "Price (in pennies...)" %>
-        <%= f.number_field :price, class: "form-control" %>
+        <%= f.label :price %>
+        <%= f.text_field :price, value: readable_price(@product.price), class: "form-control" %>
       </div>
 
       <div class="form-group">
@@ -46,8 +46,8 @@
   </div>
 
   <div class="col-sm-6">
-    <p><%= active_text(@product) %>
-    <%= link_to 'Toggle Active', toggle_active_path(@product), method: :put, class: "btn btn-warning" %></p>
+    
+    <%= render partial: 'active_text_toggle_button' %>
     
     <p>Current categories:</p>
 
