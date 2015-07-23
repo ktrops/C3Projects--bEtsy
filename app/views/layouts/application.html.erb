@@ -11,7 +11,7 @@
 
       <%= render partial: 'shared/header' %>
 
-      <% if @user %>
+      <% if session[:user_id] %>
         <%= render "shared/nav" %>
       <% end %>
       <div class="row">

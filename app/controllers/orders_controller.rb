@@ -1,6 +1,6 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user, only: [:show, :fulfillment]
-  # before_action :belongs_to_user, only: [:show]
+  before_action :belongs_to_user, only: [:show]
 
   def show
     @order = Order.find(params[:id])
@@ -43,24 +43,57 @@ class OrdersController < ApplicationController
   end
 
   def fulfillment
-    # @user = User.find(params[:id])
-    @orders = @current_user.order_items
-    @total_revenue = @orders.sum(:item_total)
-    # @shipped
+    @user = User.find(params[:id])
+    @order_items = @user.order_items
+    @total_revenue = @order_items.sum(:item_total)
+    @filtered_order_items = nil
   end
+
+  def mark_shipped
+    @user = User.find(params[:id])
+    @order = Order.find(params[:order_id])
+    @order.mark_shipped!
+    redirect_to order_fulfillment_path
+  end
+
+  def merchant
+    @products_array = []
+    @merchants = User.all
+    if params[:user].empty?
+      redirect_to products_path
+    else
+      @merchant = User.find(params[:user])
+      @merchant_products = @merchant.products
+      render :index
+    end
+  end
+
+  def filter_status
+    if params[:status].empty?
+      redirect_to order_fulfillment_path
+    else
+      # setup for fulfillment action
+      @user = User.find(params[:id])
+      @order_items = @user.order_items
+
+      @filtered_order_items = OrderItem.joins(:order, :product).where(orders: { status: params[:status] }, products: { user_id: @user.id })
+
+      render :fulfillment
+    end
+  end
+
 
   private
 
-  # def belongs_to_user
-  #   @order = Order.find(params[:id])
-  #   @order.products.each do |x|
-  #     if x.user_id == @current_user.id
-  #       return
-  #     else
-  #       redirect_to order_fulfillment_path(@user.id)
-  #     end
-  #   end
-  # end
+  def belongs_to_user
+    @order = Order.find(params[:id])
+    @order.products.each do |x|
+      if x.user_id == @current_user.id
+        return
+      end
+    end
+    redirect_to order_fulfillment_path(@user.id)
+  end
 
   def order_params
     params.require(:order).permit(:status, :email, :cc_name, :cc_number,
