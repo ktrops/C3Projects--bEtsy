@@ -1,6 +1,6 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user, only: [:show, :fulfillment]
-  before_action :belongs_to_user, only: [:show]
+  # before_action :belongs_to_user, only: [:show]
 
   def show
     @order = Order.find(params[:id])
@@ -16,10 +16,12 @@ class OrdersController < ApplicationController
   def finalize
     @order = Order.find(session[:order_id])
     @order_items = @order.order_items
+    @order_items.each do |order_item|
+      order_item.set_item_total
+    end
     @order.update(order_params)
     @order.status = "paid"
     @order.save
-    # didn't redirect after bad info inputted
     if @order.save
       Product.update_stock!(@order)
       flash[:confirmed_order_id] = @order.id
@@ -83,17 +85,16 @@ class OrdersController < ApplicationController
 
   private
 
-  def belongs_to_user
-    @order = Order.find(params[:id])
-    @array = []
-    @order.products.each do |x|
-      if x.user_id == @current_user.id
-        break
-      else
-        redirect_to order_fulfillment_path(@user.id)
-      end
-    end
-  end
+  # def belongs_to_user
+  #   @order = Order.find(params[:id])
+  #   @order.products.each do |x|
+  #     if x.user_id == @current_user.id
+  #       return
+  #     else
+  #       redirect_to order_fulfillment_path(@user.id)
+  #     end
+  #   end
+  # end
 
   def order_params
     params.require(:order).permit(:status, :email, :cc_name, :cc_number,
@@ -105,7 +106,11 @@ class OrdersController < ApplicationController
     @total_sales = 0
     @order.order_items.each do |x|
       if @user_items.include?(x) == true
-        @total_sales += x.quantity * x.product.price
+        if @order.status == "pending"
+          @total_sales += x.quantity * x.product.price
+        else
+          @total_sales += x.item_total
+        end
       end
     end
     @total_sales = @total_sales/100

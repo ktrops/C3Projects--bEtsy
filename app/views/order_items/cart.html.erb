@@ -39,16 +39,15 @@
             <%= f.submit 'Update', class: "btn btn-default" %>
           <% end %>
         </td>
-        <td><%= readable_price(order_item.item_total) %></td>
+        <td><%= readable_price(unit_price * order_item.quantity) %></td>
         <td><%= link_to 'Remove', order_item_path(order_item), method: :delete, data: { confirm: "Remove this item from your cart?" }, class: "btn btn-danger" %></td>        
       </tr>
     <% end %>
     <tr>
       <td></td>
       <td></td>
-      <td></td>
       <th>Order total:</td>
-      <th><%= readable_price(@order.total) %></td>
+      <th><%= readable_price(@order.subtotal) %></td>
       <td></td>
     </tr>
   </table>

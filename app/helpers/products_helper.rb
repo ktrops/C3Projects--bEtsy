@@ -7,6 +7,10 @@ module ProductsHelper
     end
   end
 
+  def active_text_inverse(product)
+    product.active ? "inactive" : "active"
+  end
+
   def rating_to_stars(rating)
     case rating
     when 1

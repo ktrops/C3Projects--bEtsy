@@ -20,9 +20,9 @@ RSpec.describe UsersController, type: :controller do
       }
       end
 
-      it "creates a board game record" do
+      it "creates a user record" do
         post :create, user_params
-        expect(User.count).to eq 3
+        expect(User.count).to eq 4
       end
 
       it "redirects to the login page" do
@@ -42,7 +42,7 @@ RSpec.describe UsersController, type: :controller do
 
       it "does not persist invalid records" do
         post :create, user_params
-        expect(User.count).to eq 2
+        expect(User.count).to eq 3
       end
 
       it "redirects to the #new page after input fails" do
@@ -52,11 +52,13 @@ RSpec.describe UsersController, type: :controller do
     end #end of let
   end #end of describe block
 
-  # describe "PUT #edit" do
-  #   it "updates an existing record" do
-  #     post :update, id: 1, :user {username: "Sue"}
-  #     board_game.reload
-  #     expect(User.find(1).username).to eq("Sue")
-  #   end
-  # end #end of describe block
+  describe "PUT #edit" do
+    let(:user) {User.create(username: "James Games", email: "james@email.com", password: "password", password_confirmation: "password")}
+      it "updates an existing record" do
+        post :update, id: user, user: {username: "James Thames", email: "james@email.com", password: "password", password_confirmation: "password" }
+        user.reload
+        expect(user.username).to eq("James Thames")
+      end
+  end #end of describe block
+
 end
