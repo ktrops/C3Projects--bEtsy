@@ -37,7 +37,8 @@
 ------------------------------
 <% @orders.each do |order| %>
   <p>
-    <%= link_to "Order #{order.id}", user_order_path(user_id: @user.id), class: "btn btn-default" %>
+    <!-- <%= link_to "Order #{order.id}", user_order_path(user_id: @user.id), class: "btn btn-default" %> -->
+    <%= link_to "Order #{order.id}", user_order_path(@user.id, order.id), class: "btn btn-default" %>
   </p>
   <p>
     Product: <%= link_to (Product.find(order.product_id).name), product_path, class: "btn btn-default" %>
