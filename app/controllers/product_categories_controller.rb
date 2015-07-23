@@ -3,7 +3,6 @@ class ProductCategoriesController < ApplicationController
 
   def last_page
     session[:previous_page] = request.referer || :back
-
   end
 
   def create
