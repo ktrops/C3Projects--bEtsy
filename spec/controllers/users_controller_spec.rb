@@ -52,11 +52,13 @@ RSpec.describe UsersController, type: :controller do
     end #end of let
   end #end of describe block
 
-  # describe "PUT #edit" do
-  #   it "updates an existing record" do
-  #     post :update, id: 1, :user {username: "Sue"}
-  #     board_game.reload
-  #     expect(User.find(1).username).to eq("Sue")
-  #   end
-  # end #end of describe block
+  describe "PUT #edit" do
+    let(:user) {User.create(username: "James Games", email: "james@email.com", password: "password", password_confirmation: "password")}
+      it "updates an existing record" do
+        post :update, id: user, user: {username: "James Thames", email: "james@email.com", password: "password", password_confirmation: "password" }
+        user.reload
+        expect(user.username).to eq("James Thames")
+      end
+  end #end of describe block
+
 end
