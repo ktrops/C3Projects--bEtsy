@@ -4,11 +4,12 @@
 
 <h1>Add a New Category</h1>
 
-<%= form_for @category, url: category_path, method: :post do |f| %>
+<%= form_for @category, url: category_path, method: :post, html: {class: "form"} do |f| %>
+  <div class="form-group">
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </div>
 
-  <%= f.label :name %>
-  <%= f.text_area :name %>
-
-  <%= f.submit %>
+  <%= f.submit "Create a Category", class: "btn btn-default" %>
 
 <% end %>
