@@ -1,7 +1,6 @@
 class ProductsController < ApplicationController
   before_action :authenticate_user, except: [:merchant, :index, :show]
 
-
   def index
     @products = Product.all
     @categories = Category.all
@@ -77,9 +76,10 @@ class ProductsController < ApplicationController
   end
 
   def toggle_active
-    @product = Product.find(params[:id])
-    @product.toggle_active!
-    redirect_to @product
+    product = Product.find(params[:id])
+    product.toggle_active!
+
+    redirect_to :back
   end
 
   def edit
@@ -103,10 +103,6 @@ class ProductsController < ApplicationController
 
   def destroy
   end
-
-
-
-
 
   def product_params
     params.require(:product).permit(:name, :price, :description, :active, :photo_url, :stock, :user_id, product_categories_attributes: [:id, :category_id, :product_id])
