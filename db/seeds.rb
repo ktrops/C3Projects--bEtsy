@@ -30,21 +30,21 @@ orders = [
     cc_cvv: 452, billing_zip: 67189, shipped: false, address1: "123 Space Way",
     address2: nil, city: "Nope", state: "AK", mailing_name: "Space Ghost",
     mailing_zip: 67819 },
-  # { status: "complete", email: "brak@mail.com", cc_name: "Brak", cc_number: #6
-  # "0000123456785678",
-  #   cc_cvv: 452, billing_zip: 54712, shipped: false, address1: "123 Space Way",
-  #   address2: nil, city: "HiMom", state: "OH", mailing_name: "Brak",
-  #   mailing_zip: 54712 },
-  # { status: "complete", email: "brak@mail.com", cc_name: "Brak", cc_number: #7
-  # "0000123456785678",
-  #   cc_cvv: 452, billing_zip: 54712, shipped: false, address1: "123 Space Way",
-  #   address2: nil, city: "HiMom", state: "OH", mailing_name: "Brak",
-  #   mailing_zip: 54712 },
-  # { status: "paid", email: "moltar@mail.com", cc_name: "Moltar", cc_number: #8
-  # "0000123456785678",
-  #   cc_cvv: 452, billing_zip: 41237, shipped: false, address1: "123 Space Way",
-  #   address2: nil, city: "Lava City", state: "NM", mailing_name: "Moltar",
-  #   mailing_zip: 41237 }
+  { status: "complete", email: "brak@mail.com", cc_name: "Brak", cc_number: #6
+  "0000123456785678",
+    cc_cvv: 452, billing_zip: 54712, shipped: false, address1: "123 Space Way",
+    address2: nil, city: "HiMom", state: "OH", mailing_name: "Brak",
+    mailing_zip: 54712 },
+  { status: "complete", email: "brak@mail.com", cc_name: "Brak", cc_number: #7
+  "0000123456785678",
+    cc_cvv: 452, billing_zip: 54712, shipped: false, address1: "123 Space Way",
+    address2: nil, city: "HiMom", state: "OH", mailing_name: "Brak",
+    mailing_zip: 54712 },
+  { status: "paid", email: "moltar@mail.com", cc_name: "Moltar", cc_number: #8
+  "0000123456785678",
+    cc_cvv: 452, billing_zip: 41237, shipped: false, address1: "123 Space Way",
+    address2: nil, city: "Lava City", state: "NM", mailing_name: "Moltar",
+    mailing_zip: 41237 }
 ]
 
 orders.each do |order|
@@ -119,12 +119,12 @@ order_items = [
   { quantity: 3, item_total: 1500, product_id: 3, order_id: 4 },
   { quantity: 1, item_total: 1000, product_id: 1, order_id: 4 },
   { quantity: 2, item_total: 20000, product_id: 8, order_id: 5 },
-  # something buggy with this order, it seeds the items into the cart, no matter the status assigned
-  # { quantity: 1, item_total: 8000, product_id: 7, order_id: 6 },
-  # { quantity: 1, item_total: 1000, product_id: 5, order_id: 6 },
-  # { quantity: 2, item_total: 10000, product_id: 6, order_id: 7 },
-  # { quantity: 4, item_total: 12000, product_id: 10, order_id: 8 },
-  # { quantity: 1, item_total: 1000, product_id: 9, order_id: 8 }
+  # something buggy with order 6, it seeds the items into the cart, no matter the status assigned
+  { quantity: 1, item_total: 8000, product_id: 7, order_id: 6 },
+  { quantity: 1, item_total: 1000, product_id: 5, order_id: 6 },
+  { quantity: 2, item_total: 10000, product_id: 6, order_id: 7 },
+  { quantity: 4, item_total: 12000, product_id: 10, order_id: 8 },
+  { quantity: 1, item_total: 1000, product_id: 9, order_id: 8 }
 ]
 
 order_items.each do |order_item|
