@@ -49,7 +49,7 @@ class OrdersController < ApplicationController
 
   def mark_shipped
     @user = User.find(params[:id])
-    @order_items = Order.find(params[:order_id])
+    @order = Order.find(params[:order_id])
     @order.mark_shipped!
     redirect_to order_fulfillment_path
   end
@@ -67,13 +67,17 @@ class OrdersController < ApplicationController
   # end
 
   def filter_status
-    # setup for fulfillment action
-    @user = User.find(params[:id])
-    @order_items = @user.order_items
+    if params[:status].empty?
+      redirect_to order_fulfillment_path
+    else
+      # setup for fulfillment action
+      @user = User.find(params[:id])
+      @order_items = @user.order_items
 
-    @filtered_order_items = OrderItem.joins(:order, :product).where(orders: { status: params[:status] }, products: { user_id: @user.id })
+      @filtered_order_items = OrderItem.joins(:order, :product).where(orders: { status: params[:status] }, products: { user_id: @user.id })
 
-    render :fulfillment
+      render :fulfillment
+    end
   end
 
 
