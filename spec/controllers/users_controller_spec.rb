@@ -20,9 +20,9 @@ RSpec.describe UsersController, type: :controller do
       }
       end
 
-      it "creates a board game record" do
+      it "creates a user record" do
         post :create, user_params
-        expect(User.count).to eq 3
+        expect(User.count).to eq 4
       end
 
       it "redirects to the login page" do
@@ -42,7 +42,7 @@ RSpec.describe UsersController, type: :controller do
 
       it "does not persist invalid records" do
         post :create, user_params
-        expect(User.count).to eq 2
+        expect(User.count).to eq 3
       end
 
       it "redirects to the #new page after input fails" do
