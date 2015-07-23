@@ -3,8 +3,11 @@ require 'rails_helper'
 RSpec.describe SessionsController, type: :controller do
 
   describe "POST #create" do
+    let(:user) { build(:user)}
+    let(:params) { attributes_for(:user)}
+    
     it "creates a new user session" do
-      get :create
+      post :create
       expect(response).to have_http_status(:success)
     end
   end
