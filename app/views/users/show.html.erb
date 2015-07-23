@@ -23,10 +23,11 @@
     </tr>
   </thead>
   <tbody>
+    #array of order items
     <% @recent_sales.each do |x| %>
       <tr>
         <td>
-          <%= link_to("#{x.id}", user_order_path(@user.id, x.order.id)) %>
+          <%= link_to("#{x.id}", user_order_path(@user.id, x.order_id)) %>
         </td>
         <td>
           <%= link_to("#{x.product.name}", user_product_path(@user.id, x.product.id)) %>
