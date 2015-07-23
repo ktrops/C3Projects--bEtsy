@@ -2,10 +2,12 @@ Rails.application.routes.draw do
 
   root 'home#index'
 
-  resources :users do
+  resources :users, except: [:new] do
     resources :products, except: [:index]
     resources :orders, only: [:show, :update]
   end
+
+  get '/register', to: 'users#new', as: 'register'
 
   resources :products do
     resources :reviews, only: [:new, :create]
