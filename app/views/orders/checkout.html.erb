@@ -10,7 +10,7 @@
 <% end %>
 
 <!-- if @order.errors.count > 0 -->
-<% if @order.errors %>
+<% if @order.errors.messages.count > 0 %>
   <% @order.errors.messages.each do |message| %>
     <div>
       <p class="alert alert-danger">
