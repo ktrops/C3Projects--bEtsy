@@ -59,7 +59,11 @@
           </td>
           <td>
             <!-- if pending, show quantity * product.price, else show item_total -->
-            $<%= (x.quantity * x.product.price)/100 %>
+            <% if @order.status == "pending" %>
+              $<%= (x.quantity * x.product.price)/100 %>
+            <% else %>
+              $<%= x.item_total/100 %>
+            <% end %>
           </td>
         </tr>
         <% end  %>

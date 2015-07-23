@@ -72,7 +72,11 @@ class OrdersController < ApplicationController
     @total_sales = 0
     @order.order_items.each do |x|
       if @user_items.include?(x) == true
-        @total_sales += x.quantity * x.product.price
+        if @order.status == "pending"
+          @total_sales += x.quantity * x.product.price
+        else
+          @total_sales += x.item_total
+        end
       end
     end
     @total_sales = @total_sales/100
