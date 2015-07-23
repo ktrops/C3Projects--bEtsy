@@ -1,21 +1,83 @@
-<!-- On the order fulfillment page:
-  (DONE) Total Revenue
-  (DONE) Total Revenue by status
-  (DONE) Total number of orders by status
-  (____) Filter orders displayed by status
-  (DONE) Link to each individual order
-  A list of orders including at least one of my products:
-    (DONE) Each order item sold by me with a quantity and line-item subtotal
-    (DONE) A link to the item description page
-    (DONE) DateTime the order was placed
-    (DONE) Link to transition the order item to marked as shipped
-    (DONE) The current status of the order ("pending", "paid", "complete", "cancelled") -->
-
-<pre>
-  <%= params %>
-</pre>
-
 <h2>Order Fulfillment</h2>
+
+<% if @filtered_order_items == nil %>
+<div class="table-responsive">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>
+          Orders
+        </th>
+        <th>
+          Number
+        </th>
+        <th>
+          Revenue
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="active">
+        <td>
+          Total
+        </td>
+        <td>
+          <span class="badge"><%= @order_items.count %>
+        </td>
+        <td>
+          <%= readable_price(@total_revenue) %>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Pending
+        </td>
+        <td>
+          <span class="badge"><%= pending_orders %></span>
+        </td>
+        <td>
+          <%= readable_price(pending_order_revenue) %>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Paid
+        </td>
+        <td>
+          <span class="badge"><%= paid_orders %></span>
+        </td>
+        <td>
+          <%= readable_price(paid_order_revenue) %>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Complete
+        </td>
+        <td>
+          <span class="badge"><%= complete_orders %></span>
+        </td>
+        <td>
+          <%= readable_price(complete_order_revenue) %>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Cancelled
+        </td>
+        <td>
+          <span class="badge"><%= cancelled_orders %></span>
+        </td>
+        <td>
+          <%= readable_price(cancelled_order_revenue) %>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<% end %>
+
+
 <p>
   <%= form_tag order_status_path, method: "get" do %>
     <div class="form-group inline-form">
@@ -32,34 +94,92 @@
 
 <% if @filtered_order_items == nil %>
 
-  <p>
-    Total Revenue: <%= readable_price(@total_revenue) %>
-  </p>
-  <p>
-    Pending Orders: <%= pending_orders %>
-  </p>
-  <p>
-    Pending Order Revenue: <%= readable_price(pending_order_revenue) %>
-  </p>
-  <p>
-    Paid Orders: <%= paid_orders %>
-  </p>
-  <p>
-    Paid Order Revenue: <%= readable_price(paid_order_revenue) %>
-  </p>
-  <p>
-    Complete Orders: <%= complete_orders %>
-  </p>
-  <p>
-    Complete Order Revenue: <%= readable_price(complete_order_revenue) %>
-  </p>
-  <p>
-    Cancelled Orders: <%= cancelled_orders %>
-  </p>
-  <p>
-    Cancelled Order Revenue: <%= readable_price(cancelled_order_revenue) %>
-  </p>
+  <% @order_items.each do |order_item| %>
+    <br>
+    <div class="table-responsive">
+      <table class="table">
+        <tbody>
+          <tr class="active">
+            <td>
+              Order
+            </td>
+            <td>
+              <%= link_to "#{order_item.id}", user_order_path(user_id: @user.id, id: order_item.order.id), class: "btn btn-default" %>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Product
+            </td>
+            <td>
+              <%= link_to order_item.product.name, product_path, class: "btn btn-default" %>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Quantity
+            </td>
+            <td>
+              <%= order_item.quantity %>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Item Total
+            </td>
+            <td>
+              <%= readable_price(order_item.item_total) %>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Date Placed
+            </td>
+            <td>
+              <%= readable_date(order_item.created_at) %>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Payment Status
+            </td>
+            <td>
+              <%= order_item.order.status.capitalize %>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Shipping Status
+            </td>
+            <td>
+              <p><%= frendly_shipped_status(order_item.order.shipped) %></p>
+                <% unless order_item.order.shipped == true %>
+                  <%= link_to "Mark Shipped", mark_shipped_path(@user, order_id: order_item.order.id), method: :put, class: "btn btn-warning" %>
+              <% end %>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  <% end %>
+<% end %>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<% if @filtered_order_items == nil %>
   ------------------------------
   <% @order_items.each do |order_item| %>
     <p>
@@ -93,35 +213,35 @@
 
 <% else %>
 
-<h3>Filtered by <%= params[:status].capitalize %> Orders</h3>
-  <% @filtered_order_items.each do |order_item| %>
-    <p>
-      <%= link_to "Order #{order_item.id}", user_order_path(user_id: @user.id), class: "btn btn-default" %>
-    </p>
-    <p>
-      Product: <%= link_to order_item.product.name, product_path, class: "btn btn-default" %>
-    </p>
-    <p>
-      Quantity: <%= order_item.quantity %>
-    </p>
-    <p>
-      Item Total: <%= readable_price(order_item.item_total) %>
-    </p>
-    <p>
-      Date Placed: <%= readable_date(order_item.created_at) %>
-    </p>
-    <p>
-      Payment Status: <%= order_item.order.status.capitalize %>
-    </p>
-    <p>
-      Shipping Status: <%= frendly_shipped_status(order_item.order.shipped) %>
-    </p>
-    <% unless order_item.order.shipped == true %>
-      <%= link_to "Mark Shipped", mark_shipped_path(@user, order_id: order_item.order.id), method: :put, class: "btn btn-warning" %></p>
+  <h3>Filtered by <%= params[:status].capitalize %> Orders</h3>
+    <% @filtered_order_items.each do |order_item| %>
+      <p>
+        <%= link_to "Order #{order_item.id}", user_order_path(user_id: @user.id, id: order_item.order.id), class: "btn btn-default" %>
+      </p>
+      <p>
+        Product: <%= link_to order_item.product.name, product_path, class: "btn btn-default" %>
+      </p>
+      <p>
+        Quantity: <%= order_item.quantity %>
+      </p>
+      <p>
+        Item Total: <%= readable_price(order_item.item_total) %>
+      </p>
+      <p>
+        Date Placed: <%= readable_date(order_item.created_at) %>
+      </p>
+      <p>
+        Payment Status: <%= order_item.order.status.capitalize %>
+      </p>
+      <p>
+        Shipping Status: <%= frendly_shipped_status(order_item.order.shipped) %>
+      </p>
+      <% unless order_item.order.shipped == true %>
+        <%= link_to "Mark Shipped", mark_shipped_path(@user, order_id: order_item.order.id), method: :put, class: "btn btn-warning" %></p>
+      <% end %>
+        ------------------------------
+        <br>
+        <br>
     <% end %>
-      ------------------------------
-      <br>
-      <br>
-  <% end %>
 
 <% end %>
