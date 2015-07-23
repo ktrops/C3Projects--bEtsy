@@ -42,7 +42,8 @@ class OrdersController < ApplicationController
     @user = User.find(params[:id])
     @order_items = @user.order_items
     @total_revenue = @order_items.sum(:item_total)
-    raise
+    @filtered_order_items = nil
+
   end
 
   def mark_shipped
@@ -65,17 +66,31 @@ class OrdersController < ApplicationController
   # end
 
   def filter_status
+    # setup for fulfillment action
     @user = User.find(params[:id])
     @order_items = @user.order_items
 
+    # collect the Order IDs based on the user's particular OrderItems
+    # disparate associations == ow
     order_ids = []
     @order_items.each do |order_item|
       order_ids << order_item.order_id
     end
 
-    @orders = Order.where(:id => order_ids )
-    # @completed_orders = @orders.where(status: "completed")
+    # the user's orders
+    users_orders = Order.where(:id => order_ids )
+    # the user's orders filtered by a status
+    orders_by_a_status = users_orders.where(status: params[:order])
 
+    # collect the Order IDs of only that status
+    filtered_order_ids = []
+    @order_items.each do |order_item|
+      filtered_order_ids << order_item.order_id
+    end
+
+    @filtered_order_items = OrderItem.where(:order_id => filtered_order_ids)
+    @total_revenue = @filtered_order_items.sum(:item_total)
+    render :fulfillment
   end
 
 
