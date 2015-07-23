@@ -35,9 +35,9 @@
 </p>
 
 ------------------------------
-<% @orders.each do |order| %>
+<% @orders.each_with_index do |order, index| %>
   <p>
-    <%= link_to "Order #{order.id}", user_order_path(user_id: @user.id), class: "btn btn-default" %>
+    <%= link_to "Order #{index+1}", user_order_path(@user.id, order.order_id), class: "btn btn-default" %>
   </p>
   <p>
     Product: <%= link_to (Product.find(order.product_id).name), product_path, class: "btn btn-default" %>
