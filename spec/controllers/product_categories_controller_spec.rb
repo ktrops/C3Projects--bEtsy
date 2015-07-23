@@ -2,26 +2,20 @@ require 'rails_helper'
 
 RSpec.describe ProductCategoriesController, type: :controller do
   describe "POST #create" do
-    # context "valid product_category params" do
-    #   let(:product) do {
-    #     Product.create(name: "foo", price: 1000, stock: 4)
-    #   }
+    context "valid product_category params" do
+      let(:product) { Product.create(name: "foo", price: 1000, stock: 4) }
+      let(:category) { Category.create(name: "bar") }
 
-    #   let(:product_category_params) do {
-    #     product_category: {
-    #       product_id: 1,
-    #       category_id: 1
-    #     }
-    #   }
-    #   end
+      let(:product_category_params) do { product_category: { 
+        product_id: Product.last.id, category_id: Category.last.id } }
+      end
 
-    #   it "creates a product_category record" do
-    #     before
-    #     post :create, product_category_params
-    #     # number here is number of records in seeds plus 1
+      it "creates a product_category record" do
+        post :create, product_category_params
+        # number here is number of records in seeds plus 1
 
-    #     expect(ProductCategory.count).to eq 11
-    #   end
+        expect(ProductCategory.count).to eq 11
+      end
 
       # it "redirects to the login page" do
       #   post :create, user_params
