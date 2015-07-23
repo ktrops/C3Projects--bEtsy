@@ -1,5 +1,5 @@
 class ProductsController < ApplicationController
-  before_action :authenticate_user, except: [:merchant, :index, :show]
+  before_action :authenticate_user, except: [:merchant, :index, :show, :category]
 
   def index
     @products = Product.all
@@ -25,10 +25,10 @@ class ProductsController < ApplicationController
     @product = Product.new(product_params)
     @product.price = unformat_price(params[:product][:price])
     if @product.save
-      flash[:success] = "You have created a new product"
+      flash[:successfull] = "You have created a new product"
       redirect_to products_merchant_index_path(params[:user_id]), method: :get
     else
-      flash[:errors] = error_messages(@product)
+      flash[:failed] = error_messages(@product)
       redirect_to new_user_product_path
     end
   end

@@ -1,3 +1,23 @@
+<% unless flash[:successfull].nil? %>
+  <div>
+    <p class="alert alert-success">
+      <%= flash[:successfull] %>
+    </p>
+  </div>
+<% end %>
+
+<% unless flash[:success].nil? %>
+  <div>
+    <p class="alert alert-success">
+      <%= flash[:success] %>
+    </p>
+  </div>
+<% end %>
+
+<% unless flash[:failed].nil? %>
+  <%= render partial: "shared/errors", locals: {instance: @products} %>
+<% end %>
+
 <h1>All Products for <%= @merchant.username %></h1>
 <div class = "container-fluid">
   <div class ="row">
@@ -17,7 +37,7 @@
         <p><%= link_to "#{product.name}", product_path(product.id) %></p>
       </div>
       <div class = "col-sm-3">
-        <p><%= image_tag("#{product.photo_url}", class: "photo") %></p>
+        <p><%= image_tag("#{product.photo_url}", class: "product-img-sm") %></p>
       </div>
       <div class = "col-sm-3">
         <p><%= readable_price(product.price) %></p>

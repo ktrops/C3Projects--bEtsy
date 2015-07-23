@@ -1,6 +1,7 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user, only: [:show, :fulfillment]
   before_action :belongs_to_user, only: [:show]
+  before_action :correct_merchant, only: [:fulfillment]
 
   def show
     @order = Order.find(params[:id])
@@ -16,10 +17,12 @@ class OrdersController < ApplicationController
   def finalize
     @order = Order.find(session[:order_id])
     @order_items = @order.order_items
+    @order_items.each do |order_item|
+      order_item.set_item_total
+    end
     @order.update(order_params)
     @order.status = "paid"
     @order.save
-    # didn't redirect after bad info inputted
     if @order.save
       Product.update_stock!(@order)
       flash[:confirmed_order_id] = @order.id
@@ -41,24 +44,62 @@ class OrdersController < ApplicationController
   end
 
   def fulfillment
-    # @user = User.find(params[:id])
-    @orders = @current_user.order_items
-    @total_revenue = @orders.sum(:item_total)
-    # @shipped
+    @user = User.find(params[:id])
+    @order_items = @user.order_items
+    @total_revenue = @order_items.sum(:item_total)
+    @filtered_order_items = nil
   end
+
+  def mark_shipped
+    @user = User.find(params[:id])
+    @order = Order.find(params[:order_id])
+    @order.mark_shipped!
+    redirect_to order_fulfillment_path
+  end
+
+  def merchant
+    @products_array = []
+    @merchants = User.all
+    if params[:user].empty?
+      redirect_to products_path
+    else
+      @merchant = User.find(params[:user])
+      @merchant_products = @merchant.products
+      render :index
+    end
+  end
+
+  def filter_status
+    if params[:status].empty?
+      redirect_to order_fulfillment_path
+    else
+      # setup for fulfillment action
+      @user = User.find(params[:id])
+      @order_items = @user.order_items
+
+      @filtered_order_items = OrderItem.joins(:order, :product).where(orders: { status: params[:status] }, products: { user_id: @user.id })
+
+      render :fulfillment
+    end
+  end
+
 
   private
 
+  def correct_merchant
+    if request.path.include?(session[:user_id].to_s) == false
+      redirect_to user_path(@user.id)
+    end
+  end
+
   def belongs_to_user
     @order = Order.find(params[:id])
-    @array = []
     @order.products.each do |x|
       if x.user_id == @current_user.id
-        break
-      else
-        redirect_to order_fulfillment_path(@user.id)
+        return
       end
     end
+    redirect_to order_fulfillment_path(@user.id)
   end
 
   def order_params
@@ -71,7 +112,11 @@ class OrdersController < ApplicationController
     @total_sales = 0
     @order.order_items.each do |x|
       if @user_items.include?(x) == true
-        @total_sales += x.quantity * x.product.price
+        if @order.status == "pending"
+          @total_sales += x.quantity * x.product.price
+        else
+          @total_sales += x.item_total
+        end
       end
     end
     @total_sales = @total_sales/100

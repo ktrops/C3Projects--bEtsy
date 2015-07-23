@@ -15,7 +15,7 @@ class UsersController < ApplicationController
       redirect_to login_path
     else
       flash.now[:errors] = "Registration invalid, please try again."
-      redirect_to new_user_path
+      redirect_to register_path
     end
   end
 
@@ -53,7 +53,9 @@ class UsersController < ApplicationController
   def total_sales
     @total_sales = 0
     @user.order_items.each do |x|
-    @total_sales += x.quantity * x.product.price
+      if x.order.status != "cancelled"
+        @total_sales += x.quantity * x.product.price
+      end
     end
     @total_sales=@total_sales/100
   end
@@ -62,12 +64,14 @@ class UsersController < ApplicationController
     @quantity_sold = 0
     sales_array = @user.order_items
     sales_array.each do |x|
-      @quantity_sold += x.quantity
+      if x.order.status != "cancelled"
+        @quantity_sold += x.quantity
+      end
     end
   end
 
   def recent_sales
-    @recent_sales = @user.order_items.order('created_at DESC').limit(5)
+    @recent_sales = @current_user.order_items('created_at DESC').limit(5)
   end
 
 end # end of class

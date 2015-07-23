@@ -4,8 +4,7 @@ class Order < ActiveRecord::Base
   has_many :products, through: :order_items
 
   # Validations ----------------------------------------------------------------
-
-US_STATES = [
+  US_STATES = [
     ['Alabama', 'AL'],
     ['Alaska', 'AK'],
     ['Arizona', 'AZ'],
@@ -62,9 +61,9 @@ US_STATES = [
 
   US_STATE_LETTER_CODES = US_STATES.collect { |full_name, abbrev| abbrev }
 
-  validates :status, inclusion: { in: %w(pending paid complete cancelled), 
+  validates :status, inclusion: { in: %w(pending paid complete cancelled),
     message: "That is not a valid order status" }
-  validates :cc_number, numericality: { only_integer: true }, 
+  validates :cc_number, numericality: { only_integer: true },
     length: { in: 15..16 }, on: :update
   validates :address1, :city, :state, :cc_expiration, presence: true, on: :update
   validates :state, inclusion: { in: US_STATE_LETTER_CODES }, on: :update
@@ -81,8 +80,17 @@ US_STATES = [
   end
 
   # Scopes ---------------------------------------------------------------------
-  def total
+  def subtotal
     order_items.inject(0) { |sum, item| sum += (item.product.price * item.quantity) }
-    # order_items.inject(0) { |sum, item| sum += (item.item_total) }
   end
+
+  # Custom ---------------------------------------------------------------------
+  def mark_shipped!
+      toggle!(:shipped)
+  end
+
+  def final_total
+    order_items.inject(0) { |sum, item| sum += (item.item_total) }
+  end
+
 end

@@ -16,12 +16,20 @@
 @import "bootstrap";
 
 html {
-  background: #ddd;
+  background: #ddd
+  url('matrix.jpg') no-repeat center fixed;
+  background-size: cover;
 }
 
 body {
   max-width: 970px;
   margin: auto;
+  padding-top: 30px;
+  padding-bottom: 40px;
+}
+
+footer {
+  padding-top: 40px;
 }
 
 select {
@@ -30,8 +38,12 @@ select {
   vertical-align: middle;
 }
 
-.photo {
+.product-img-sm {
   width: 100px;
+}
+
+.product-img-lg {
+  width: 200px;
 }
 
 .form-control {
@@ -63,4 +75,23 @@ select {
 
 .navbar-right{
   margin-right: 5px;
+}
+
+.navbar-default{
+  background-color: #337ab7;
+  border-color: #2e6da4;
+  color: #fff;
+}
+.navbar-default .navbar-nav > li > a {
+  color: #fff;
+}
+
+.badge a{
+  color: #fff;
+}
+
+.navbar-fixed-top {
+  width: 970px;
+  margin: auto;
+  color: #fff;
 }

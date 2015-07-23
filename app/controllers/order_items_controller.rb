@@ -13,13 +13,11 @@ class OrderItemsController < ApplicationController
         previous_order_item.quantity = previous_product.stock
         flash[:errors] = "There are only #{previous_product.stock} x #{previous_product.name} available for sale."
       end
-      previous_order_item.item_total = product.price * previous_order_item.quantity
       previous_order_item.save
       flash[:success] = "You have added #{previous_order_item.quantity - previous_quantity} x #{product.name} to your cart."
     else # new product
       order_item = order.order_items.new(order_item_params)
       order_item.product = product
-      order_item.item_total = product.price * order_item.quantity
       order_item.save
       if order_item.save
         flash[:success] = "You have added #{order_item.quantity} x #{product.name} to your cart."
@@ -39,7 +37,6 @@ class OrderItemsController < ApplicationController
     order_item = OrderItem.find(params[:id])
     old_quantity = order_item.quantity
     order_item.update(order_item_params)
-    order_item.item_total = order_item.quantity * order_item.product.price
     order_item.save
     if order_item.save
       if order_item.quantity == old_quantity

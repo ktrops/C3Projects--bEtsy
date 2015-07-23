@@ -1,5 +1,7 @@
 <h1>Finalize order</h1>
 
+<%= link_to "Not ready to buy? Return to shopping...", products_path, class: "btn btn-primary btn-block" %>
+
 <% if flash.now[:errors] %>
   <div>
     <p class="alert alert-danger">
@@ -8,7 +10,7 @@
 <% end %>
 
 <!-- if @order.errors.count > 0 -->
-<% if @order.errors %>
+<% if @order.errors.messages.count > 0 %>
   <% @order.errors.messages.each do |message| %>
     <div>
       <p class="alert alert-danger">
@@ -32,12 +34,12 @@
       <td><%= order_item.product.name %></td>
       <td><%= readable_price(order_item.product.price) %></td>
       <td><%= order_item.quantity %></td>
-      <td><%= readable_price(order_item.item_total) %></td>
+      <td><%= readable_price(order_item.product.price * order_item.quantity) %></td>
     </tr>
   <% end %>
 </table>
 
-<p>Order total: <%= readable_price(@order.total) %></p>
+<p>Order total: <%= readable_price(@order.subtotal) %></p>
 
 <%= link_to 'Edit order', cart_path, class: "btn btn-warning" %>
 
@@ -95,5 +97,5 @@
     <%= f.label :billing_zip, "Billing zip code" %>
     <%= f.text_field :billing_zip, maxlength: 5, required: true, class: 'form-control' %>
   </div>
-    <%= f.submit "Place order", class: 'btn btn-danger btn-lg'%>
+    <%= f.submit "Place order", class: 'btn btn-danger btn-block'%>
 <% end %>
