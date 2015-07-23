@@ -4,7 +4,7 @@
 
 <h3>Sales to Date: $<%= @total_sales %></h3>
 <h3>Total Items Sold: <%= @quantity_sold %></h3>
-<h3>Recent Sales</h3>
+<h3>Recent Orders</h3>
 <table class="table">
   <thead>
     <tr>
@@ -27,7 +27,7 @@
     <% @recent_sales.each do |x| %>
       <tr>
         <td>
-          <%= link_to("#{x.id}", user_order_path(@user.id, x.order_id)) %>
+          <%= link_to("#{x.order_id}", user_order_path(@user.id, x.order_id)) %>
         </td>
         <td>
           <%= link_to("#{x.product.name}", user_product_path(@user.id, x.product.id)) %>

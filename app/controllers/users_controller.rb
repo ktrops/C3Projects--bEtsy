@@ -53,7 +53,7 @@ class UsersController < ApplicationController
   def total_sales
     @total_sales = 0
     @user.order_items.each do |x|
-      if x.order.status != "cancelled"
+      if x.order.status != "cancelled" && x.order.status != "pending"
         @total_sales += x.quantity * x.product.price
       end
     end
@@ -62,9 +62,9 @@ class UsersController < ApplicationController
 
   def sales_quantity
     @quantity_sold = 0
-    sales_array = @user.order_items
+    sales_array = @user.order_items 
     sales_array.each do |x|
-      if x.order.status != "cancelled"
+      if x.order.status != "cancelled" && x.order.status != "pending"
         @quantity_sold += x.quantity
       end
     end
