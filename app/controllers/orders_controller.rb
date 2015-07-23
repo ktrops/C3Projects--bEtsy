@@ -71,7 +71,7 @@ class OrdersController < ApplicationController
     @user = User.find(params[:id])
     @order_items = @user.order_items
 
-    @filtered_order_items = OrderItem.joins(:order, :product).where(order: { status: params[:status] }, product: { user_id: @user.id })
+    @filtered_order_items = OrderItem.joins(:order, :product).where(orders: { status: params[:status] }, products: { user_id: @user.id })
 
     # # collect the Order IDs based on the user's particular OrderItems
     # # disparate associations == ow
