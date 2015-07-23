@@ -45,12 +45,11 @@ class OrdersController < ApplicationController
     @order_items = @user.order_items
     @total_revenue = @order_items.sum(:item_total)
     @filtered_order_items = nil
-
   end
 
   def mark_shipped
     @user = User.find(params[:id])
-    @order = Order.find(params[:order_id])
+    @order_items = Order.find(params[:order_id])
     @order.mark_shipped!
     redirect_to order_fulfillment_path
   end
@@ -72,26 +71,35 @@ class OrdersController < ApplicationController
     @user = User.find(params[:id])
     @order_items = @user.order_items
 
-    # collect the Order IDs based on the user's particular OrderItems
-    # disparate associations == ow
-    order_ids = []
-    @order_items.each do |order_item|
-      order_ids << order_item.order_id
-    end
+    @filtered_order_items = OrderItem.joins(:order, :product).where(order: { status: params[:status] }, product: { user_id: @user.id })
 
-    # the user's orders
-    users_orders = Order.where(:id => order_ids )
-    # the user's orders filtered by a status
-    orders_by_a_status = users_orders.where(status: params[:order])
-
-    # collect the Order IDs of only that status
-    filtered_order_ids = []
-    @order_items.each do |order_item|
-      filtered_order_ids << order_item.order_id
-    end
-
-    @filtered_order_items = OrderItem.where(:order_id => filtered_order_ids)
-    @total_revenue = @filtered_order_items.sum(:item_total)
+    # # collect the Order IDs based on the user's particular OrderItems
+    # # disparate associations == ow
+    # order_ids = []
+    # @order_items.each do |order_item|
+    #   order_ids << order_item.order_id
+    # end
+    #
+    # # the user's orders
+    # users_orders = Order.where(:id => order_ids )
+    # # the user's orders filtered by a status
+    # orders_by_a_status = users_orders.where(status: params[:order])
+    #
+    # order_status_ids = []
+    # orders_by_a_status.each do |order|
+    #   order_status_ids << order.id
+    # end
+    #
+    # # collect the Order IDs of only that status
+    # filtered_order_ids = []
+    # @order_items.each do |order_item|
+    #   if order_status_ids.include?(order_item.order_id)
+    #     filtered_order_ids << order_item.order_id
+    #   end
+    # end
+    #
+    # @filtered_order_items = OrderItem.where(:order_id => filtered_order_ids)
+    # @total_revenue = @filtered_order_items.sum(:item_total)
     render :fulfillment
   end
 

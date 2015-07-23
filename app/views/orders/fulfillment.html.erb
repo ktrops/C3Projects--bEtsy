@@ -19,7 +19,7 @@
 <p>
   <%= form_tag order_status_path, method: "get" do %>
     <div class="form-group inline-form">
-      <%= select_tag "order", options_for_select([["Pending", "pending"], ["Paid", "paid"], ["Complete", "complete"], ["Cancelled", "cancelled"]]), include_blank: "Filter by...", class: "form-control fit-width" %>
+      <%= select_tag "status", options_for_select([["Pending", "pending"], ["Paid", "paid"], ["Complete", "complete"], ["Cancelled", "cancelled"]]), include_blank: "Filter by...", class: "form-control fit-width" %>
     </div>
     <%= submit_tag "Filter by Status", class: "btn btn-default" %>
   <% end %>
@@ -27,6 +27,7 @@
 <p>
   <%= link_to "See All Orders", order_fulfillment_path, class: "btn btn-default" %>
 </p>
+
 
 
 <% if @filtered_order_items == nil %>
@@ -62,7 +63,7 @@
   ------------------------------
   <% @order_items.each do |order_item| %>
     <p>
-      <%= link_to "Order #{order_item.id}", user_order_path(user_id: @user.id), class: "btn btn-default" %>
+      <%= link_to "Order #{order_item.id}", user_order_path(user_id: @user.id, id: order_item.order.id), class: "btn btn-default" %>
     </p>
     <p>
       Product: <%= link_to order_item.product.name, product_path, class: "btn btn-default" %>
@@ -92,7 +93,7 @@
 
 <% else %>
 
-<h3>Filtered by <%= params[:order].capitalize %> Orders</h3>
+<h3>Filtered by <%= params[:status].capitalize %> Orders</h3>
   <% @filtered_order_items.each do |order_item| %>
     <p>
       <%= link_to "Order #{order_item.id}", user_order_path(user_id: @user.id), class: "btn btn-default" %>
