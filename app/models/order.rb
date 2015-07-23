@@ -5,7 +5,7 @@ class Order < ActiveRecord::Base
 
   # Validations ----------------------------------------------------------------
 
-US_STATES = [
+  US_STATES = [
     ['Alabama', 'AL'],
     ['Alaska', 'AK'],
     ['Arizona', 'AZ'],
@@ -81,8 +81,11 @@ US_STATES = [
   end
 
   # Scopes ---------------------------------------------------------------------
-  def total
+  def subtotal
     order_items.inject(0) { |sum, item| sum += (item.product.price * item.quantity) }
-    # order_items.inject(0) { |sum, item| sum += (item.item_total) }
+  end
+
+  def final_total
+    order_items.inject(0) { |sum, item| sum += (item.item_total) }
   end
 end
