@@ -119,7 +119,6 @@ order_items = [
   { quantity: 3, item_total: 1500, product_id: 3, order_id: 4 },
   { quantity: 1, item_total: 1000, product_id: 1, order_id: 4 },
   { quantity: 2, item_total: 20000, product_id: 8, order_id: 5 },
-  # something buggy with order 6, it seeds the items into the cart, no matter the status assigned
   { quantity: 1, item_total: 8000, product_id: 7, order_id: 6 },
   { quantity: 1, item_total: 1000, product_id: 5, order_id: 6 },
   { quantity: 2, item_total: 10000, product_id: 6, order_id: 7 },

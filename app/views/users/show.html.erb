@@ -9,6 +9,9 @@
   <thead>
     <tr>
       <th>
+        Order
+      </th>
+      <th>
         Product
       </th>
       <th>
@@ -23,7 +26,10 @@
     <% @recent_sales.each do |x| %>
       <tr>
         <td>
-          <%= link_to("#{x.product.name}", user_order_path(@user.id, x.order.id)) %>
+          <%= link_to("#{x.id}", user_order_path(@user.id, x.order.id)) %>
+        </td>
+        <td>
+          <%= link_to("#{x.product.name}", user_product_path(@user.id, x.product.id)) %>
         </td>
         <td>
           <%= x.quantity %>
