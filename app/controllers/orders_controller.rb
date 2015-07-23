@@ -1,6 +1,7 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user, only: [:show, :fulfillment]
   before_action :belongs_to_user, only: [:show]
+  before_action :correct_merchant, only: [:fulfillment]
 
   def show
     @order = Order.find(params[:id])
@@ -84,6 +85,12 @@ class OrdersController < ApplicationController
 
 
   private
+
+  def correct_merchant
+    if request.path.include?(session[:user_id].to_s) == false
+      redirect_to user_path(@user.id)
+    end
+  end
 
   def belongs_to_user
     @order = Order.find(params[:id])
