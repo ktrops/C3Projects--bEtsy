@@ -44,14 +44,14 @@ class ProductCategoriesController < ApplicationController
     @category = Category.create(category_params)
     if @category.save
       flash[:success] = "You have created a new category"
-      if session[:previous_page] == request.path
-        redirect_to products_merchant_index_path(params[:user_id])
+      if session[:previous_page] == request.url
+        redirect_to products_merchant_index_path(session[:user_id])
       else
         redirect_to session[:previous_page] 
       end
     else
       flash[:errors] = error_messages(@category)
-      render :new_category
+      redirect_to new_category_path
     end
   end
 
