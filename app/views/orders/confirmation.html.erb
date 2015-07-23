@@ -13,7 +13,7 @@
         <td><%= link_to order_item.product.name, product_path(order_item.product) %></td>
         <td><%= readable_price(item_price) %></td>
         <td><%= order_item.quantity %></td>
-        <td><%= readable_price(item_price * order_item.quantity) %></td>
+        <td><%= readable_price(order_item.item_total) %></td>
       </tr>
     <% end %>
   </table>
