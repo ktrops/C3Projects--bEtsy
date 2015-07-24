@@ -103,7 +103,6 @@ class ProductsController < ApplicationController
     end
   end
 
-
   private
 
   def unformat_price(price)
