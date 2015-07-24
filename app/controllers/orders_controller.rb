@@ -31,7 +31,7 @@ class OrdersController < ApplicationController
 
       redirect_to confirmation_path
     else
-      flash.now[:errors] = "Please fill in every field to complete your order."
+      flash.now[:errors] = "Your order could not be completed. See below for errors."
       render :checkout
     end
   end
