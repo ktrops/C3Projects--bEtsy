@@ -36,6 +36,10 @@ class OrderItemsController < ApplicationController
   def update
     order_item = OrderItem.find(params[:id])
     old_quantity = order_item.quantity
+    if params[:order_item][:quantity].to_i > order_item.product.stock
+      flash[:errors] = "You can't buy that many. Stock available for this item: #{order_item.product.stock}."
+      redirect_to cart_path and return
+    end
     order_item.update(order_item_params)
     order_item.save
     if order_item.save
