@@ -21,13 +21,17 @@
   <div class="panel-body">
     <!-- refactor this logic '@user && @user == @product.user', make it be elsewhere -->
     <% unless @user && @user == @product.user %>
-      <p><%= link_to 'Write a Review', new_product_review_path(@product), class: "btn btn-default" %></p>
+      <p>
+        <%= link_to 'Write a Review', new_product_review_path(@product), class: "btn btn-default" %>
+      </p>
     <% end %>
     <%= render partial: 'review', collection: @reviews %>
   </div>
 </div>
 
-<p><%= link_to 'See All Products', products_path, class: "btn btn-lg btn-default" %></p>
+<p>
+  <%= link_to 'See All Products', products_path, class: "btn btn-lg btn-default" %>
+</p>
 
 <% if @user && @user == @product.user %>
   <div class="panel panel-default">
@@ -35,13 +39,12 @@
       <h3 class="panel-title">Merchant Tools</h3>
     </div>
     <div class="panel-body">
-      <p><%= link_to 'Edit Product', edit_product_path(@product), class: "btn btn-default" %></p>
-
-      <!-- <p><%# active_text(@product) %> -->
-      <!-- <%# link_to 'Toggle Active', toggle_active_path(@product), method: :put, class: "btn btn-warning" %></p> -->
+      <p>
+        <%= link_to 'Edit Product', edit_product_path(@product), class: "btn btn-default" %>
+      </p>
 
       <%= render partial: 'active_text_toggle_button' %>
-      
+
       <%= form_for [@product, @product_category], html: { class: "form" } do |f| %>
         <div class="form-group inline-form">
           <%= f.select (:category_id), class: "form-control" do %>
