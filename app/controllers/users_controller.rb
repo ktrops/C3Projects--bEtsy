@@ -22,7 +22,7 @@ class UsersController < ApplicationController
   def show
     sales_quantity
     total_sales
-    recent_sales
+    @recent_sales = @user.recent_sales
     @message = random_welcome
 
     render :show
@@ -68,10 +68,6 @@ class UsersController < ApplicationController
         @quantity_sold += x.quantity
       end
     end
-  end
-
-  def recent_sales
-    @recent_sales = @current_user.order_items('created_at DESC').limit(5)
   end
 
 end # end of class
