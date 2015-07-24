@@ -3,38 +3,27 @@ require 'rails_helper'
 RSpec.describe ProductsController, type: :controller do
 
   describe "#new" do
+
+    let(:product) {Product.new}
+
     it "creates a new product" do
-      product = Product.new
       get :new
       expect(product).to be_a_new(Product)
     end
 
+    it "returns http success" do
+      get :new
+      expect(response).to have_http_status(:success)
+    end
+  end
 
   describe "#create" do
-    it "should have 11 products" do
-      expect(Product.all.count).to eq(11)
-    end
 
-    it "should go to create" do
-      post :create
-      expect(response)
-    end
+    let(:count) {Product.all.count}
+    let(:user) {User.create(id: 2, username: "Holly Golightly", email: "h.golightly@mail.com", password: "password", password_confirmation: "password")}
 
-    it "creates" do
-      count = Product.all.count
-      product_params = {product: {name: "Millionaires cc numbers", 
-                    price: "100000000", 
-                    description: "Get thousands of dollars of stuff with these rich people's cc numbers",
-                    active: true, 
-                    photo_url: "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQxpaGsT8t_USebvf6DGOp_3EFUgm0bXWtVw1NlsWAMNY32D9eZ97HYj8o", 
-                    stock: 4 }}
-      Product.create!(product_params[:product])
-
-      expect(Product.all.count).to eq(count + 1)
-
-    end
-
-    it "creates a new product with correct attributes" do 
+    it "creates a new product with correct attributes" do
+    user 
     product_params = {product: {name: "Millionaires cc numbers", 
                         price: "1000", 
                         description: "Get thousands of dollars of stuff with these rich people's cc numbers",
@@ -42,74 +31,47 @@ RSpec.describe ProductsController, type: :controller do
                         photo_url: "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQxpaGsT8t_USebvf6DGOp_3EFUgm0bXWtVw1NlsWAMNY32D9eZ97HYj8o", 
                         stock: 4}, 
                         user_id: 2}
-      # Product.create({name: "Millionaires cc numbers", price: 100000000, description: "Get thousands of dollars of stuff with these rich people's cc numbers",
-                               # active: true, photo_url: "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQxpaGsT8t_USebvf6DGOp_3EFUgm0bXWtVw1NlsWAMNY32D9eZ97HYj8o", user_id: 2})
-      # binding.pry
+ 
       post(:create, product_params, {user_id: 2})
-
-
-      expect(Product.all.count).to eq(12) 
+      expect(count).to eq(1) 
     end
 
     it "doesn't create a new product" do
-      product = Product.create({name: nil, price: 100000000, 
+      user
+      product_params = {product: {name: nil, price: 100000000, 
                                 description: "Get thousands of dollars of stuff with these rich people's cc numbers",
-                                active: true, photo_url: nil, user_id: 2})
-      post :create
-
-      expect(product.errors.messages).to include(:name)
+                                active: true, photo_url: nil}, user_id: 2}
+      post(:create, product_params, {user_id: 2})
+      expect(count).to eq(0)
     end
   end
+
+  describe "#update" do
+    let(:user) {User.create(id: 2, username: "Holly Golightly", email: "h.golightly@mail.com", password: "password", password_confirmation: "password")}
+    let(:product) do 
+       Product.create(id: 1, name: "Millionaires cc numbers", 
+        price: "1000", 
+        description: "Get thousands of dollars of stuff with these rich people's cc numbers",
+        active: true, 
+        photo_url: "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQxpaGsT8t_USebvf6DGOp_3EFUgm0bXWtVw1NlsWAMNY32D9eZ97HYj8o", 
+        stock: 4, 
+        user_id: 2) 
+    end
+
+    it "updates a product" do
+      product
+      product_update = Product.find(1)
+      product_update.update(name: "So many millionaires")
+      expect(product_update.name).to eq("So many millionaires")
+    end
   end
 
+  # describe "#merchant_index" do
+  #   let(:user) {User.create(id: 1, username: "Doc", email: "doc@mail.com", password: "password", password_confirmation: "password")}
+  #   let(:user2) {User.create(id: 2, username: "Holly Golightly", email: "h.golightly@mail.com", password: "password", password_confirmation: "password")}
 
-  # describe "GET #index" do
-  #   it "returns http success" do
-  #     get :index
-  #     expect(response).to have_http_status(:success)
-  #   end
-  # end
-  #
-  # describe "GET #new" do
-  #   it "returns http success" do
-  #     get :new
-  #     expect(response).to have_http_status(:success)
-  #   end
-  # end
-  #
-  # describe "GET #create" do
-  #   it "returns http success" do
-  #     get :create
-  #     expect(response).to have_http_status(:success)
-  #   end
-  # end
-  #
-  # describe "GET #show" do
-  #   it "returns http success" do
-  #     get :show
-  #     expect(response).to have_http_status(:success)
-  #   end
-  # end
-  #
-  # describe "GET #edit" do
-  #   it "returns http success" do
-  #     get :edit
-  #     expect(response).to have_http_status(:success)
-  #   end
-  # end
-  #
-  # describe "GET #update" do
-  #   it "returns http success" do
-  #     get :update
-  #     expect(response).to have_http_status(:success)
-  #   end
-  # end
-  # 
-  # describe "GET #destroy" do
-  #   it "returns http success" do
-  #     get :destroy
-  #     expect(response).to have_http_status(:success)
-  #   end
-  # end
 
+  # end
 end
+
+
