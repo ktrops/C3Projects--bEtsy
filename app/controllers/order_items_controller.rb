@@ -29,7 +29,7 @@ class OrderItemsController < ApplicationController
         end
       end
     end
-    
+
     redirect_to product
   end
 
