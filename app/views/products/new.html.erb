@@ -39,7 +39,7 @@
 
   <div class="form-group">
     <%= f.label :stock %>
-    <%= f.number_field :stock, step: 1, value: 0, class: "form-control" %>
+    <%= f.number_field :stock, step: 1, min: 0, value: 0, class: "form-control" %>
   </div>
 
   <%= f.fields_for :product_categories do |pc| %>
