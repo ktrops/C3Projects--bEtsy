@@ -55,9 +55,9 @@ RSpec.describe UsersController, type: :controller do
   end #end of describe block
 
   describe "PUT #edit" do
-    user = User.create(username: "James Games", email: "james@email.com", password: "password", password_confirmation: "password")
       it "updates an existing record" do
-        post :update, id: user, user: {username: "James Thames", email: "james@email.com", password: "password", password_confirmation: "password" }
+        user = User.create(username: "James Games", email: "james@email.com", password: "password", password_confirmation: "password")
+        user.update(username: "James Thames", email: "james@email.com", password: "password", password_confirmation: "password")
         user.reload
         expect(user.username).to eq("James Thames")
       end
