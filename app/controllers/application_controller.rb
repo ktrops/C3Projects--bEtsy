@@ -49,12 +49,7 @@ class ApplicationController < ActionController::Base
     error_array
   end
 
-  def category_exists_for_product?(product_id, category_id)
-    existing_categories = ProductCategory.where(product_id: product_id)
-    duplicate = false
-    existing_categories.each do |existing_cat|
-      duplicate = true if existing_cat.product_id == product_id && existing_cat.category_id == category_id
-    end
-    duplicate
+  def category_exists_for_product?(prod_id, cat_id)
+    ProductCategory.find_by(product_id: prod_id, category_id: cat_id) ? true : false
   end
 end
