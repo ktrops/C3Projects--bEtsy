@@ -25,6 +25,17 @@ RSpec.describe OrderItemsController, type: :controller do
       end
     end
 
+    context "invalid quantity" do
+      let(:invalid_params) do
+        { product_id: @product.id, order_id: @order.id, quantity: 5 }
+      end
+
+      it "doesn't create an order_item" do
+        post :create, :product_id => @product.id, :order_item => invalid_params
+        expect(OrderItem.count).to eq 0
+      end
+    end
+
     context "previous order_item for same product & order exists" do
       before :each do
         @prev_order_item = OrderItem.create(product_id: @product.id, order_id: @order.id, quantity: 2)
