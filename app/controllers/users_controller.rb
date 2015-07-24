@@ -7,14 +7,16 @@ class UsersController < ApplicationController
     @new_user = User.new(user_params[:user])
   end
 
-# trip login so user is logged in as soon as they create the account
+  # trip login so user is logged in as soon as they create the account
   def create
     @user = User.create(user_params[:user])
     if @user.save
       flash[:success] = "Registration successful, take your shiny new username and password for a spin"
+
       redirect_to login_path
     else
       flash.now[:errors] = "Registration invalid, please try again."
+
       redirect_to register_path
     end
   end
@@ -29,25 +31,19 @@ class UsersController < ApplicationController
   end
 
   def edit
-
-    render :edit
   end
 
   def update
     @user.update(user_params[:user])
     @user.save
+
     redirect_to user_path
   end
 
   private
 
   def user_params
-    params.permit(user: [:username, :email, :password, :password_confirmation])
-  end
-
-  def random_welcome
-    welcomes = ["¡Bienvenidos ", "We missed you ", "Greetings ", "Take me to your leader ", "Good day ", "Happy to see you ", "Hey it's my favorite vendor ", "Hey boo, glad to see your face again ", "Oh hai there ", "Ni hao ", "Is that a new outfit? looking good "]
-    welcomes.sample
+    params.require(:user).permit(:username, :email, :password, :password_confirmation)
   end
 
   def total_sales
