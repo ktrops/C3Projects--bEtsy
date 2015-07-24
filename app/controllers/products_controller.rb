@@ -103,9 +103,6 @@ class ProductsController < ApplicationController
     end
   end
 
-  def destroy
-  end
-
   private
 
   def unformat_price(price)
