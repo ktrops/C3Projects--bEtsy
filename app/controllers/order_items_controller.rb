@@ -18,6 +18,10 @@ class OrderItemsController < ApplicationController
     else # new product
       order_item = order.order_items.new(order_item_params)
       order_item.product = product
+      if params[:order_item][:quantity].to_i > order_item.product.stock
+        flash[:errors] = "You can't buy that many. Stock available for this item: #{order_item.product.stock}."
+        redirect_to product and return
+      end
       order_item.save
       if order_item.save
         flash[:success] = "You have added #{order_item.quantity} x #{product.name} to your cart."
