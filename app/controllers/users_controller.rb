@@ -25,7 +25,6 @@ class UsersController < ApplicationController
     sales_quantity
     total_sales
     @recent_sales = @user.recent_sales
-    @message = random_welcome
 
     render :show
   end
