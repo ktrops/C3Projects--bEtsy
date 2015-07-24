@@ -68,7 +68,7 @@
     <%= f.text_field :city, required: true, class: 'form-control' %>
   </div>
   <div class="form-group">
-    <%= f.label :state, id: "state-label" %>
+    <%= f.label :state, class: "form-label" %>
     <%= f.select :state, Order::US_STATES, { include_blank: true }, { class: 'form-control' } %>
   </div>
   <div class="form-group">
@@ -86,7 +86,7 @@
     <%= f.text_field :cc_number, required: true, class: 'form-control' %>
   </div>
   <div class="form-group">
-    <%= f.label :cc_expiration, "Credit card expiration date", id: "cc-exp-label" %>
+    <%= f.label :cc_expiration, "Credit card expiration date", class: "form-label" %>
     <%= f.date_select :cc_expiration, use_month_numbers: true, use_two_digit_numbers: true, order: [:month, :year], start_year: Date.today.year, start_month: Date.today.month, end_year: Date.today.year+10, prompt: true, required: true, class: 'form-control' %>
   </div>
   <div class="form-group">
