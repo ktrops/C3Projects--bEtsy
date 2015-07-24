@@ -86,8 +86,12 @@
     </tr>
   </table>
 
-  <%= link_to 'Check out', checkout_path, class: "btn btn-success" %>
-  <%= link_to 'Continue shopping', products_path, class: 'btn btn-primary' %>
+  <p>
+    <%= link_to 'Check out', checkout_path, class: "btn btn-success btn-block" %>
+  </p>
+  <p>
+    <%= link_to 'Continue shopping', products_path, class: 'btn btn-primary' %>
+  </p>
 
 <% else %>
 

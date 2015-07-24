@@ -39,6 +39,7 @@
       <h3 class="panel-title">Merchant Tools</h3>
     </div>
     <div class="panel-body">
+
       <p>
         <%= link_to 'Edit Product', edit_product_path(@product), class: "btn btn-default" %>
       </p>
@@ -57,7 +58,6 @@
         <%= f.submit "Add Category", class: "btn btn-primary" %>
       <% end %>
 
-      <!-- or a set of checkboxes with the current category(ies) already checked -->
       <%= link_to 'Create a new category', new_category_path, class: "btn btn-default" %>
     </div>
   </div>
