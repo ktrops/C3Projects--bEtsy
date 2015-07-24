@@ -52,8 +52,13 @@
     </tr>
   </table>
 
-  <%= link_to 'Check out', checkout_path, class: "btn btn-success" %>
-  <%= link_to 'Continue shopping', products_path, class: 'btn btn-primary' %>
+  <p>
+    <%= link_to 'Check out', checkout_path, class: "btn btn-success btn-block" %>
+  </p>
+  <p>
+    <%= link_to 'Continue shopping', products_path, class: 'btn btn-primary' %>
+  </p>
+
 <% else %>
   <p>There are no items in your cart.</p>
   <%= link_to 'Return to shopping', products_path, class: "btn btn-primary" %> 
