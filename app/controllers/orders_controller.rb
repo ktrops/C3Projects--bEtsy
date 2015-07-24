@@ -15,15 +15,15 @@ class OrdersController < ApplicationController
   end
 
   def finalize
+
     @order = Order.find(session[:order_id])
     @order_items = @order.order_items
     @order_items.each do |order_item|
       order_item.set_item_total
     end
-    @order.update(order_params)
     @order.status = "paid"
-    @order.save
-    if @order.save
+      # binding.pry
+    if @order.update(order_params)
       Product.update_stock!(@order)
       flash[:confirmed_order_id] = @order.id
       # how to persist page if refreshed?

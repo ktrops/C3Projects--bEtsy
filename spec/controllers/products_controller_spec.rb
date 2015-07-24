@@ -10,11 +10,6 @@ RSpec.describe ProductsController, type: :controller do
       get :new
       expect(product).to be_a_new(Product)
     end
-
-    it "returns http success" do
-      get :new
-      expect(response).to have_http_status(:success)
-    end
   end
 
   describe "#create" do
