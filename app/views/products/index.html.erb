@@ -56,7 +56,7 @@
         <% if product.active %>
         <div class="row">
           <div class = "col-sm-4">
-            <p><%= link_to "#{product.name}", product_path(product.id) %></p>
+            <p><%= link_to "#{product.name}", product_path(product.id), class: "btn btn-default" %></p>
           </div>
           <div class = "col-sm-4">
             <p><%= image_tag("#{product.photo_url}", class: "product-img-sm") %></p>
@@ -72,7 +72,7 @@
         <% if product.active %>
         <div class="row">
           <div class = "col-sm-4">
-            <p><%= link_to "#{product.name}", product_path(product.id) %></p>
+            <p><%= link_to "#{product.name}", product_path(product.id), class: "btn btn-default" %></p>
           </div>
           <div class = "col-sm-4">
             <p><%= image_tag("#{product.photo_url}", class: "product-img-sm") %></p>
