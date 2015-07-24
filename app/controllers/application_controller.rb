@@ -50,13 +50,11 @@ class ApplicationController < ActionController::Base
   end
 
   def category_exists_for_product?(product_id, category_id)
-    product_categories = ProductCategory.where(product_id: product_id)
-    product_categories.each do |pc|
-      if pc.product_id == product_id && pc.category_id == category_id
-        return true
-      else
-        return false
-      end
+    existing_categories = ProductCategory.where(product_id: product_id)
+    duplicate = false
+    existing_categories.each do |existing_cat|
+      duplicate = true if existing_cat.product_id == product_id && existing_cat.category_id == category_id
     end
+    duplicate
   end
 end
