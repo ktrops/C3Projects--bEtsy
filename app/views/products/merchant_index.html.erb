@@ -15,35 +15,49 @@
 <% end %>
 
 <% unless flash[:failed].nil? %>
-  <%= render partial: "shared/errors", locals: {instance: @products} %>
+  <%= render partial: "shared/errors", locals: { instance: @products } %>
 <% end %>
 
 <h1>All Products for <%= @merchant.username %></h1>
 <div class = "container-fluid">
   <div class ="row">
     <div class = "col-sm-3">
-      <h1>Name</h1>
+      <h1>
+        Name
+      </h1>
     </div>
     <div class = "col-sm-3">
-      <h1>Photo</h1>
+      <h1>
+        Photo
+      </h1>
     </div>
     <div class = "col-sm-3">
-      <h1>Price</h1>
+      <h1>
+        Price
+      </h1>
     </div>
   </div>
   <% @products.each do |product| %>
     <div class="row">
       <div class = "col-sm-3">
-        <p><%= link_to "#{product.name}", product_path(product.id) %></p>
+        <p>
+          <%= link_to "#{product.name}", product_path(product.id) %>
+        </p>
       </div>
       <div class = "col-sm-3">
-        <p><%= image_tag("#{product.photo_url}", class: "product-img-sm") %></p>
+        <p>
+          <%= image_tag("#{product.photo_url}", class: "product-img-sm") %>
+        </p>
       </div>
       <div class = "col-sm-3">
-        <p><%= readable_price(product.price) %></p>
+        <p>
+          <%= readable_price(product.price) %>
+        </p>
       </div>
       <div class = "col-sm-3">
-        <p><%= link_to "Edit", edit_product_path(product.id) %></p>
+        <p>
+          <%= link_to "Edit", edit_product_path(product.id) %>
+        </p>
       </div>
     </div>
   <% end %>

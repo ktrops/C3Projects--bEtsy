@@ -3,14 +3,16 @@
 <% if flash.now[:errors] %>
   <div>
     <p class="alert alert-danger">
-    <%= flash.now[:errors] %> </p>
+      <%= flash.now[:errors] %>
+    </p>
   </div>
 <% end %>
 
 <% if flash[:success] %>
   <div>
     <p class="alert alert-success">
-    <%= flash[:success] %> </p>
+      <%= flash[:success] %>
+    </p>
   </div>
 <% end %>
 
@@ -36,5 +38,4 @@
   </div>
 
   <%= f.submit "Register", class: "btn btn-primary" %>
-
 <% end %>

@@ -22,23 +22,15 @@ class Product < ActiveRecord::Base
     products.select {|product| product.active}
   end
 
-  # implement by ranking?
   def self.front_page_list
     self.active_products(self.all.limit(10))
   end
-
-
-  # def stock_valid
-  #   if self.stock.nil?
-  #     self.stock = 0
-  #   end
-  # end
 
   def stock_0_make_inactive
     if self.stock == 0
       self.active = false
     end
-    true
+    return true
   end
 
   def self.update_stock!(order)

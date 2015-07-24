@@ -15,7 +15,6 @@
 <% end %>
 
 <h3>Enter a new product</h3>
-
 <%= form_for @product, url: user_products_path(@merchant.id), method: :post, html: { class: "form" } do |f| %>
 
   <div class="form-group">
@@ -49,7 +48,7 @@
       <%= pc.collection_select(:category_id, Category.all, :id, :name ) %>
       <%= pc.hidden_field :product_id, value: @product_id %>
     </div>
-  <% end %> 
+  <% end %>
 
     <p>
       <%= link_to "Create a new Category", new_category_path, method: :get, class: "btn btn-default" %>
@@ -65,4 +64,3 @@
   </p>
 
 <% end %>
-

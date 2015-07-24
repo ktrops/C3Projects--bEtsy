@@ -1,7 +1,8 @@
 <% if flash.now[:errors] %>
   <div>
     <p class = "alert alert-danger">
-    <%= flash.now[:errors] %> </p>
+      <%= flash.now[:errors] %>
+    </p>
   </div>
 <% end %>
 
@@ -27,5 +28,4 @@
   </div>
 
   <%= f.submit "Update", class: "btn btn-primary" %>
-
 <% end %>

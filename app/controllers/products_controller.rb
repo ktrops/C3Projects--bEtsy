@@ -26,9 +26,11 @@ class ProductsController < ApplicationController
     @product.price = unformat_price(params[:product][:price])
     if @product.save
       flash[:successfull] = "You have created a new product"
+
       redirect_to products_merchant_index_path(params[:user_id]), method: :get
     else
       flash[:failed] = error_messages(@product)
+
       redirect_to new_user_product_path
     end
   end
@@ -46,9 +48,10 @@ class ProductsController < ApplicationController
         product_id_array << item.product_id
       end
       @products_array = []
-      products = product_id_array.each do |id|
+      product_id_array.each do |id|
         @products_array << Product.find(id)
       end
+
       render :index
     end
 
@@ -62,6 +65,7 @@ class ProductsController < ApplicationController
     else
       @merchant = User.find(params[:user])
       @merchant_products = @merchant.products
+
       render :index
     end
 
@@ -96,9 +100,11 @@ class ProductsController < ApplicationController
     @product.price = unformat_price(params[:product][:price])
     if @product.save
       flash[:success] = "You successfully updated #{@product.name}."
+
       redirect_to product_path(@product)
     else
       flash.now[:errors] = "Edit failed, please try again."
+
       render :edit
     end
   end
@@ -110,7 +116,11 @@ class ProductsController < ApplicationController
   end
 
   def product_params
-    params.require(:product).permit(:name, :price, :description, :active, :photo_url, :stock, :user_id, 
-                                    product_categories_attributes: [:id, :category_id, :product_id])
+    params.require(:product).permit(
+      :name, :price, :description, :active, :photo_url, :stock, :user_id,
+        product_categories_attributes: [
+          :id, :category_id, :product_id
+        ]
+      )
   end
 end

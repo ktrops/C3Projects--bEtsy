@@ -68,7 +68,6 @@ class Order < ActiveRecord::Base
   validates :address1, :city, :state, :cc_expiration, presence: true, on: :update
   validates :state, inclusion: { in: US_STATE_LETTER_CODES }, on: :update
   validate :expiration_date_cannot_be_in_the_past, on: :update
-
   validates :cc_cvv, numericality: { only_integer: true }, length: { is: 3 }, on: :update
   validates :billing_zip, numericality: { only_integer: true }, length: { is: 5 }, on: :update
   validates :mailing_zip, numericality: { only_integer: true }, length: { is: 5 }, on: :update
@@ -92,5 +91,4 @@ class Order < ActiveRecord::Base
   def final_total
     order_items.inject(0) { |sum, item| sum += (item.item_total) }
   end
-
 end

@@ -8,9 +8,11 @@ class SessionsController < ApplicationController
     if @user && @user.authenticate(params[:session][:password])
       session[:user_id] = @user.id
       session[:order_id] = nil
+
       redirect_to user_path(@user.id)
     else
       flash.now[:errors] = "Login failed. Try again."
+
       render :new
     end
   end
@@ -18,6 +20,7 @@ class SessionsController < ApplicationController
   def destroy
     session[:user_id] = nil
     session[:order_id] = nil
+
     redirect_to root_path
   end
 
@@ -25,11 +28,11 @@ class SessionsController < ApplicationController
 
   def save_login_state
     if session[:user_id] && @user
+
       redirect_to user_path(@user.id)
       return false
     else
       return true
     end
   end
-
 end

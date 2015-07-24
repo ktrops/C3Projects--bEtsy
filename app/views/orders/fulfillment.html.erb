@@ -23,7 +23,9 @@
             Total
           </td>
           <td>
-            <span class="badge"><%= @order_items.count %>
+            <span class="badge">
+              <%= @order_items.count %>
+            </span>
           </td>
           <td>
             <%= readable_price(@total_revenue) %>
@@ -34,7 +36,9 @@
             Pending
           </td>
           <td>
-            <span class="badge"><%= pending_orders %></span>
+            <span class="badge">
+              <%= pending_orders %>
+            </span>
           </td>
           <td>
             <%= readable_price(pending_order_revenue) %>
@@ -45,7 +49,9 @@
             Paid
           </td>
           <td>
-            <span class="badge"><%= paid_orders %></span>
+            <span class="badge">
+              <%= paid_orders %>
+            </span>
           </td>
           <td>
             <%= readable_price(paid_order_revenue) %>
@@ -56,7 +62,9 @@
             Complete
           </td>
           <td>
-            <span class="badge"><%= complete_orders %></span>
+            <span class="badge">
+              <%= complete_orders %>
+            </span>
           </td>
           <td>
             <%= readable_price(complete_order_revenue) %>
@@ -67,7 +75,9 @@
             Cancelled
           </td>
           <td>
-            <span class="badge"><%= cancelled_orders %></span>
+            <span class="badge">
+              <%= cancelled_orders %>
+            </span>
           </td>
           <td>
             <%= readable_price(cancelled_order_revenue) %>
@@ -80,21 +90,21 @@
 
 <% end %>
 
-
 <p>
   <%= form_tag order_status_path, method: "get" do %>
+
     <div class="form-group inline-form">
       <%= select_tag "status", options_for_select([["Pending", "pending"], ["Paid", "paid"], ["Complete", "complete"], ["Cancelled", "cancelled"]]), include_blank: "Filter by...", class: "form-control fit-width" %>
     </div>
+
     <%= submit_tag "Filter by Status", class: "btn btn-default" %>
+
   <% end %>
 </p>
 
 <p>
   <%= link_to "See All Orders", order_fulfillment_path, class: "btn btn-default" %>
 </p>
-
-
 
 <% if @filtered_order_items == nil %>
   <% @order_items.each do |order_item| %>
@@ -155,9 +165,11 @@
               Shipping Status
             </td>
             <td>
-              <p><%= frendly_shipped_status(order_item.order.shipped) %></p>
-                <% unless order_item.order.shipped == true %>
-                  <%= link_to "Mark Shipped", mark_shipped_path(@user, order_id: order_item.order.id), method: :put, class: "btn btn-warning" %>
+              <p>
+                <%= frendly_shipped_status(order_item.order.shipped) %>
+              </p>
+              <% unless order_item.order.shipped == true %>
+                <%= link_to "Mark Shipped", mark_shipped_path(@user, order_id: order_item.order.id), method: :put, class: "btn btn-warning" %>
               <% end %>
             </td>
           </tr>
@@ -166,15 +178,11 @@
     </div>
   <% end %>
 
-
-
-
 <% else %>
 
   <h3>Filtered by <%= params[:status].capitalize %> Orders</h3>
   <% @filtered_order_items.each do |order_item| %>
     <br>
-
     <div class="table-responsive">
       <table class="table">
         <tbody>
@@ -231,9 +239,11 @@
               Shipping Status
             </td>
             <td>
-              <p><%= frendly_shipped_status(order_item.order.shipped) %></p>
-                <% unless order_item.order.shipped == true %>
-                  <%= link_to "Mark Shipped", mark_shipped_path(@user, order_id: order_item.order.id), method: :put, class: "btn btn-warning" %>
+              <p>
+                <%= frendly_shipped_status(order_item.order.shipped) %>
+              </p>
+              <% unless order_item.order.shipped == true %>
+                <%= link_to "Mark Shipped", mark_shipped_path(@user, order_id: order_item.order.id), method: :put, class: "btn btn-warning" %>
               <% end %>
             </td>
           </tr>

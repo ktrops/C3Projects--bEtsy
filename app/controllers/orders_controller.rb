@@ -32,6 +32,7 @@ class OrdersController < ApplicationController
       redirect_to confirmation_path
     else
       flash.now[:errors] = "Your order could not be completed. See below for errors."
+
       render :checkout
     end
   end
@@ -62,6 +63,7 @@ class OrdersController < ApplicationController
     @user = User.find(params[:id])
     @order = Order.find(params[:order_id])
     @order.mark_shipped!
+
     redirect_to order_fulfillment_path
   end
 
@@ -73,6 +75,7 @@ class OrdersController < ApplicationController
     else
       @merchant = User.find(params[:user])
       @merchant_products = @merchant.products
+
       render :index
     end
   end
@@ -82,18 +85,20 @@ class OrdersController < ApplicationController
       redirect_to order_fulfillment_path
     else
       # setup for fulfillment action
+      # page still needs @order_items != nil
+      # even though not rendering it
       @user = User.find(params[:id])
       @order_items = @user.order_items
-
+      # orders displayed after filter
       @filtered_order_items = OrderItem.joins(:order, :product).where(orders: { status: params[:status] }, products: { user_id: @user.id })
 
       render :fulfillment
     end
   end
 
-
   private
 
+  # ensures merchant signed in can only see their own user pages
   def correct_merchant
     if request.path.include?(session[:user_id].to_s) == false
       redirect_to user_path(@user.id)
@@ -107,6 +112,7 @@ class OrdersController < ApplicationController
         return
       end
     end
+
     redirect_to order_fulfillment_path(@user.id)
   end
 

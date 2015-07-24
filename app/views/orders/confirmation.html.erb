@@ -2,26 +2,46 @@
 
 <table class="table">
     <tr>
-      <th>Item</th>
-      <th>Price</th>
-      <th>Quantity</th>
-      <th>Item total</th>
+      <th>
+        Item
+      </th>
+      <th>
+        Price
+      </th>
+      <th>
+        Quantity
+      </th>
+      <th>
+        Item total
+      </th>
     </tr>
     <% @order.order_items.each do |order_item| %>
       <% item_price = order_item.product.price %>
       <tr>
-        <td><%= link_to order_item.product.name, product_path(order_item.product) %></td>
-        <td><%= readable_price(item_price) %></td>
-        <td><%= order_item.quantity %></td>
-        <td><%= readable_price(order_item.item_total) %></td>
+        <td>
+          <%= link_to order_item.product.name, product_path(order_item.product) %>
+        </td>
+        <td>
+          <%= readable_price(item_price) %>
+        </td>
+        <td>
+          <%= order_item.quantity %>
+        </td>
+        <td>
+          <%= readable_price(order_item.item_total) %>
+        </td>
       </tr>
     <% end %>
   </table>
 
-<p>Order total: <%= readable_price(@order.final_total) %></p>
-
-<p>Order time: <%= readable_date(@order.updated_at) %></p>
-
-<p>Current status: <%= @order.status %></p>
+<p>
+  Order total: <%= readable_price(@order.final_total) %>
+</p>
+<p>
+  Order time: <%= readable_date(@order.updated_at) %>
+</p>
+<p>
+  Current status: <%= @order.status %>
+</p>
 <%= button_to "Cancel Order", cancel_order_path, class: "btn btn-danger" %>
 <%= link_to "Return to shopping", products_path, class: "btn btn-primary" %>

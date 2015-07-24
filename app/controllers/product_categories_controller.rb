@@ -11,9 +11,11 @@ class ProductCategoriesController < ApplicationController
     @product = Product.find(product_id)
     unless category_exists_for_product?(product_id, category_id)
       ProductCategory.create(product_category_params)
+
       redirect_to @product
     else
       flash[:errors] = "You cannot assign the same category"
+
       redirect_to @product
     end
   end
@@ -47,6 +49,7 @@ class ProductCategoriesController < ApplicationController
       end
     else
       flash[:errors] = error_messages(@category)
+
       redirect_to new_category_path
     end
   end

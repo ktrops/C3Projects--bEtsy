@@ -3,16 +3,26 @@
     </div>
     <div>
       <ul class="nav navbar-nav">
-        <li><%= link_to("My Account", user_path(@user.id)) %></li>
-        <li><%= link_to("Products", user_products_path(@user.id)) %></li>
-        <li><%= link_to("Orders", order_fulfillment_path(@user.id)) %></li>
-        <li><%= link_to("Create a new Product", new_user_product_path(@user.id), method: :get) %></li>
-        <li><%= link_to("Go Shopping", root_path) %></li>
-        <!-- <li><%= link_to('Cart', cart_path) %></li> -->
+        <li>
+          <%= link_to("My Account", user_path(@user.id)) %>
+        </li>
+        <li>
+          <%= link_to("Products", user_products_path(@user.id)) %>
+        </li>
+        <li>
+          <%= link_to("Orders", order_fulfillment_path(@user.id)) %>
+        </li>
+        <li>
+          <%= link_to("Create a new Product", new_user_product_path(@user.id), method: :get) %>
+        </li>
+        <li>
+          <%= link_to("Go Shopping", root_path) %>
+        </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-      <li><%= link_to("Edit Account", edit_user_path(@user.id)) %></li>
-      <!-- <li><%= link_to('Log Out', logout_path, method: :delete) %></li> -->
+        <li>
+          <%= link_to("Edit Account", edit_user_path(@user.id)) %>
+        </li>
       </ul>
   </div>
 </nav>

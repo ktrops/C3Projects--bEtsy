@@ -3,12 +3,18 @@
     <h3 class="panel-title">Product details</h3>
   </div>
   <div class="panel-body">
-    <p><%= image_tag @product.photo_url, class: "img-responsive img-rounded product-img-lg" %></p>
-    <p><%= @product.description %></p>
+    <p>
+      <%= image_tag @product.photo_url, class: "img-responsive img-rounded product-img-lg" %>
+    </p>
+    <p>
+      <%= @product.description %>
+    </p>
 
     <%= render partial: 'shared/category_display', locals: { product: @product } %>
 
-    <p><%= @product.stock %> available for <%= readable_price(@product.price) %> each</p>
+    <p>
+      <%= @product.stock %> available for <%= readable_price(@product.price) %> each
+    </p>
 
     <% if shopping_page %>
       <% if @product.stock > 0 && !(@user && @product.user == @user) %>
@@ -17,7 +23,6 @@
             <%= f.label :quantity %>
             <%= f.number_field :quantity, in: 1..@product.stock, step: 1, value: 1, class: "form-control" %>
           </div>
-
             <%= f.submit 'Add to Cart', class: "btn btn-primary" %>
         <% end %>
       <% end %>
