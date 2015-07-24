@@ -28,12 +28,11 @@ class SessionsController < ApplicationController
 
   def save_login_state
     if session[:user_id] && @user
-      
+
       redirect_to user_path(@user.id)
       return false
     else
       return true
     end
   end
-
 end

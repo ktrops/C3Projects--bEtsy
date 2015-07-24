@@ -3,12 +3,6 @@ module OrdersHelper
     shipped_status ? "Shipped" : "Not Shipped"
   end
 
-  # order status
-  # "pending", "paid", "complete", "cancelled"
-
-    # @user = User.find(params[:id])
-    # @orders = @user.order_items
-
   def pending_orders
     orders = 0
     @order_items.each do |order_item|
@@ -88,5 +82,4 @@ module OrdersHelper
     end
     return revenue
   end
-
 end
