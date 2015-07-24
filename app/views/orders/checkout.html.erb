@@ -1,6 +1,8 @@
-<h1>Finalize order</h1>
+<h3>Finalize order</h3>
 
-<%= link_to "Not ready to buy? Return to shopping...", products_path, class: "btn btn-primary btn-block" %>
+<p>
+  <%= link_to "Not ready to buy? Return to shopping...", products_path, class: "btn btn-primary btn-block" %>
+</p>
 
 <% if flash.now[:errors] %>
   <div>
@@ -9,12 +11,11 @@
   </div>
 <% end %>
 
-<!-- if @order.errors.count > 0 -->
 <% if @order.errors.messages.count > 0 %>
-  <% @order.errors.messages.each do |message| %>
+  <% @order.errors.full_messages.each do |message| %>
     <div>
-      <p class="alert alert-danger">
-        <%= "#{message.first}: #{message.last.first}" %>
+      <p class="alert alert-warning">
+        <%= message %>
       </p>
     </div>
   <% end %>
