@@ -16,7 +16,7 @@ RSpec.describe ProductCategoriesController, type: :controller do
 
       it "creates a product_category record" do
         post :create, :product_id => @product.id, :product_category => valid_params
-        expect(ProductCategory.count).to eq 12
+        expect(ProductCategory.count).to eq 1
       end
     end
   end

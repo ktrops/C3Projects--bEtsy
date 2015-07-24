@@ -15,10 +15,39 @@ RSpec.describe ProductsController, type: :controller do
       expect(Product.all.count).to eq(11)
     end
 
-    it "creates a new product with correct attributes" do 
-      product = Product.create(name: "Millionaires cc numbers", price: 100000000, description: "Get thousands of dollars of stuff with these rich people's cc numbers",
-                               active: true, photo_url: "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQxpaGsT8t_USebvf6DGOp_3EFUgm0bXWtVw1NlsWAMNY32D9eZ97HYj8o", user_id: 2)
+    it "should go to create" do
       post :create
+      expect(response)
+    end
+
+    it "creates" do
+      count = Product.all.count
+      product_params = {product: {name: "Millionaires cc numbers", 
+                    price: "100000000", 
+                    description: "Get thousands of dollars of stuff with these rich people's cc numbers",
+                    active: true, 
+                    photo_url: "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQxpaGsT8t_USebvf6DGOp_3EFUgm0bXWtVw1NlsWAMNY32D9eZ97HYj8o", 
+                    stock: 4 }}
+      Product.create!(product_params[:product])
+
+      expect(Product.all.count).to eq(count + 1)
+
+    end
+
+    it "creates a new product with correct attributes" do 
+    product_params = {product: {name: "Millionaires cc numbers", 
+                        price: "1000", 
+                        description: "Get thousands of dollars of stuff with these rich people's cc numbers",
+                        active: true, 
+                        photo_url: "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQxpaGsT8t_USebvf6DGOp_3EFUgm0bXWtVw1NlsWAMNY32D9eZ97HYj8o", 
+                        stock: 4}, 
+                        user_id: 2}
+      # Product.create({name: "Millionaires cc numbers", price: 100000000, description: "Get thousands of dollars of stuff with these rich people's cc numbers",
+                               # active: true, photo_url: "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQxpaGsT8t_USebvf6DGOp_3EFUgm0bXWtVw1NlsWAMNY32D9eZ97HYj8o", user_id: 2})
+      # binding.pry
+      post(:create, product_params, {user_id: 2})
+
+
       expect(Product.all.count).to eq(12) 
     end
 

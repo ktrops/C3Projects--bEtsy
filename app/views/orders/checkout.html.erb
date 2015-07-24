@@ -1,6 +1,8 @@
-<h1>Finalize order</h1>
+<h3>Finalize order</h3>
 
-<%= link_to "Not ready to buy? Return to shopping...", products_path, class: "btn btn-primary btn-block" %>
+<p>
+  <%= link_to "Not ready to buy? Return to shopping...", products_path, class: "btn btn-primary btn-block" %>
+</p>
 
 <% if flash.now[:errors] %>
   <div>
@@ -9,12 +11,11 @@
   </div>
 <% end %>
 
-<!-- if @order.errors.count > 0 -->
 <% if @order.errors.messages.count > 0 %>
-  <% @order.errors.messages.each do |message| %>
+  <% @order.errors.full_messages.each do |message| %>
     <div>
-      <p class="alert alert-danger">
-        <%= "#{message.first}: #{message.last.first}" %>
+      <p class="alert alert-warning">
+        <%= message %>
       </p>
     </div>
   <% end %>
@@ -68,7 +69,7 @@
     <%= f.text_field :city, required: true, class: 'form-control' %>
   </div>
   <div class="form-group">
-    <%= f.label :state, id: "state-label" %>
+    <%= f.label :state, class: "form-label" %>
     <%= f.select :state, Order::US_STATES, { include_blank: true }, { class: 'form-control' } %>
   </div>
   <div class="form-group">
@@ -86,7 +87,7 @@
     <%= f.text_field :cc_number, required: true, class: 'form-control' %>
   </div>
   <div class="form-group">
-    <%= f.label :cc_expiration, "Credit card expiration date", id: "cc-exp-label" %>
+    <%= f.label :cc_expiration, "Credit card expiration date", class: "form-label" %>
     <%= f.date_select :cc_expiration, use_month_numbers: true, use_two_digit_numbers: true, order: [:month, :year], start_year: Date.today.year, start_month: Date.today.month, end_year: Date.today.year+10, prompt: true, required: true, class: 'form-control' %>
   </div>
   <div class="form-group">
