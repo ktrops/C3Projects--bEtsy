@@ -5,16 +5,8 @@
   <div class="panel-body">
     <p><%= image_tag @product.photo_url, class: "img-responsive img-rounded product-img-lg" %></p>
     <p><%= @product.description %></p>
-    <ul class="list-inline">
-      <% @product.categories.each do |category| %>
-        <% pc = category.product_categories.find_by(product_id: @product.id) %>
-        <li><p><span class="label label-info"><%= category.name %></span></p>
-          <% if @user && @user == @product.user %>
-            <%= link_to 'Remove Category', product_product_category_path(@product, pc), method: :delete, class: "btn btn-sm btn-danger" %>
-          <% end %>
-        </li>
-      <% end %>
-    </ul>
+
+    <%= render partial: 'shared/category_display', locals: { product: @product } %>
 
     <p><%= @product.stock %> available for <%= readable_price(@product.price) %> each</p>
 
