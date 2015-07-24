@@ -9,9 +9,8 @@ class ProductCategoriesController < ApplicationController
     product_id = params[:product_id]
     category_id = params[:product_category][:category_id]
     @product = Product.find(product_id)
-    if category_exists_for_product?(product_id, category_id) == false
+    unless category_exists_for_product?(product_id, category_id)
       ProductCategory.create(product_category_params)
-      
       redirect_to @product
     else
       flash[:errors] = "You cannot assign the same category"
