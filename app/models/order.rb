@@ -74,7 +74,7 @@ class Order < ActiveRecord::Base
   validates :mailing_zip, numericality: { only_integer: true }, length: { is: 5 }, on: :update
 
   def expiration_date_cannot_be_in_the_past
-    if cc_expiration < Date.today
+    if cc_expiration && cc_expiration < Date.today
       errors.add(:cc_expiration, "cannot be in the past.")
     end
   end
