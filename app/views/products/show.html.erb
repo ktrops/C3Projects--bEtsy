@@ -37,9 +37,6 @@
     <div class="panel-body">
       <p><%= link_to 'Edit Product', edit_product_path(@product), class: "btn btn-default" %></p>
 
-      <!-- <p><%# active_text(@product) %> -->
-      <!-- <%# link_to 'Toggle Active', toggle_active_path(@product), method: :put, class: "btn btn-warning" %></p> -->
-
       <%= render partial: 'active_text_toggle_button' %>
       
       <%= form_for [@product, @product_category], html: { class: "form" } do |f| %>

@@ -23,4 +23,19 @@ RSpec.describe ProductCategoriesController, type: :controller do
       end
     end
   end
+
+  describe "POST #create_category" do
+    let(:category_params) do {
+      category:{
+        name: 'video games'
+      }
+    }
+    end
+
+    it "creates a new category" do
+      session[:previous_page] = root_path
+      post :create_category, category_params
+      expect(Category.count).to eq 1
+    end
+  end
 end
