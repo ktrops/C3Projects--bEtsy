@@ -37,7 +37,7 @@
         <p><%= link_to "#{product.name}", product_path(product.id) %></p>
       </div>
       <div class = "col-sm-3">
-        <p><%= image_tag("#{product.photo_url}", class: "photo") %></p>
+        <p><%= image_tag("#{product.photo_url}", class: "product-img-sm") %></p>
       </div>
       <div class = "col-sm-3">
         <p><%= readable_price(product.price) %></p>
