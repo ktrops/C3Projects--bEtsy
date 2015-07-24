@@ -6,8 +6,8 @@ class ProductCategoriesController < ApplicationController
   end
 
   def create
-    product_id = params[:product_id].to_i
-    category_id = params[:product_category][:category_id].to_i
+    product_id = params[:product_id]
+    category_id = params[:product_category][:category_id]
     @product = Product.find(product_id)
     if category_exists_for_product?(product_id, category_id) == false
       ProductCategory.create(product_category_params)
