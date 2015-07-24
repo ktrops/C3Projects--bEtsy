@@ -12,7 +12,6 @@ RSpec.describe OrderItemsController, type: :controller do
   end
 
   describe "POST #create" do
-
     context "valid order_item params" do
       it "creates a order_item record" do
         post :create, :product_id => @product.id, :order_item => valid_params
@@ -79,21 +78,3 @@ RSpec.describe OrderItemsController, type: :controller do
     end
   end
 end
-
-# describe "PUT #update" do
-#     let(:medium) { model.create(title: 'some title', creator: 'some person') }
-
-#     context "valid medium params" do
-#       before(:each) do
-#         post :update, id: medium, medium_symbol => { title: "updated title", creator: 'some person' }
-#       end
-
-#       it "updates an medium with valid params" do
-#         medium.reload
-#         expect(medium.title).to eq("updated title")
-#       end
-
-#       it "redirects to medium_path" do
-#         expect(subject).to redirect_to(send(medium_path, assigns(medium_symbol)))
-#       end
-#     end

@@ -56,4 +56,6 @@ group :development, :test do
   gem 'binding_of_caller'
 
   gem 'pry-rails'
+  # for inspecting route usage
+  gem 'traceroute'
 end
