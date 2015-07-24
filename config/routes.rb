@@ -2,14 +2,14 @@ Rails.application.routes.draw do
 
   root 'home#index'
 
-  resources :users, except: [:new] do
-    resources :products, except: [:index]
-    resources :orders, only: [:show, :update]
+  resources :users, except: [:new, :index, :destroy] do #added :index, :destroy to except
+    resources :products, except: [:index, :destroy]
+    resources :orders, only: [:show] #removed :update from only
   end
 
   get '/register', to: 'users#new', as: 'register'
 
-  resources :products do
+  resources :products, except: [:destroy] do
     resources :reviews, only: [:new, :create]
     resources :order_items, only: [:create, :destroy]
     resources :product_categories, only: [:create, :destroy]
