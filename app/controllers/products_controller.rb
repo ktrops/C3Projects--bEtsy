@@ -103,10 +103,6 @@ class ProductsController < ApplicationController
     end
   end
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 1510bdda0734e4e9726e0b02c12520f9b558ae9b
   private
 
   def unformat_price(price)
