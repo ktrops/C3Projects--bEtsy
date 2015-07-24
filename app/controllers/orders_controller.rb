@@ -43,6 +43,14 @@ class OrdersController < ApplicationController
     # @order = Order.find(12)
   end
 
+  def cancel
+    @order = Order.find(flash[:confirmed_order_id])
+    @order.status = "cancelled"
+    @order.save
+
+    redirect_to root_path
+  end
+
   def fulfillment
     @user = User.find(params[:id])
     @order_items = @user.order_items
