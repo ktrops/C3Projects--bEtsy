@@ -88,7 +88,7 @@ products = [
   { name: "Random Sony Playstation Account Information", price: 1000, #9
     description: "Troll, rack up fees or steal games using this account password.", active: true, photo_url: "troll.png", stock: 12, user_id: 3 },
   { name: "Level 30 League of Legends Account", price: 3000, #10
-    description: "Comes with 30,000 IP", active: true, photo_url: "lol.jpeg", stock: 8, user_id: 3 },
+    description: "Comes with 30,000 IP", active: true, photo_url: "lol.jpg", stock: 8, user_id: 3 },
     { name: "Ashley Madison Administrative Account", price: 25000, description:
     "Go rogue and instate your own vigilante moral justice or blackmail cheaters, either way you win!", active: true, photo_url: "ashley.jpg", stock: 1, user_id: 2} #11
 ]
