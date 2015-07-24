@@ -23,4 +23,8 @@ RSpec.describe ProductCategoriesController, type: :controller do
       end
     end
   end
+
+  # describe "POST #create_category" do
+  #   post :create_category, :category_id
+  # end
 end
