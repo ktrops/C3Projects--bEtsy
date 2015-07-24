@@ -2,14 +2,16 @@
   <%= render partial: "shared/errors", locals: {instance: @category} %>
 <% end %>
 
-<h1>Add a New Category</h1>
+<h3>Add a New Category</h3>
 
 <%= form_for @category, url: category_path, method: :post, html: {class: "form"} do |f| %>
   <div class="form-group">
     <%= f.label :name %>
-    <%= f.text_field :name %>
+    <%= f.text_field :name, class: "form-control" %>
   </div>
 
-  <%= f.submit "Create a Category", class: "btn btn-default" %>
+  <p>
+    <%= f.submit "Create a Category", class: "btn btn-info" %>
+  </p>
 
 <% end %>

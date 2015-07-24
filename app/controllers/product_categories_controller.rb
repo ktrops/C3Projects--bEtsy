@@ -9,9 +9,8 @@ class ProductCategoriesController < ApplicationController
     product_id = params[:product_id]
     category_id = params[:product_category][:category_id]
     @product = Product.find(product_id)
-    if category_exists_for_product?(product_id, category_id) == false
+    unless category_exists_for_product?(product_id, category_id)
       ProductCategory.create(product_category_params)
-      
       redirect_to @product
     else
       flash[:errors] = "You cannot assign the same category"
@@ -26,14 +25,11 @@ class ProductCategoriesController < ApplicationController
       product_category.destroy
     end
     # checks for if destroy goes wrong
-    product_category = ProductCategory.find_by(id: params[:id])
-    if product_category
-      flash[:errors] = "Something went wrong."
-    else
+    product_category2 = ProductCategory.find_by(id: params[:id])
+    product_category2 ? flash[:errors] = "Something went wrong." : 
       flash[:success] = "You have removed the category '#{category_name}'."
-    end
-    
-    redirect_to session[:previous_page]
+
+    redirect_to :back
   end
 
   def new_category
