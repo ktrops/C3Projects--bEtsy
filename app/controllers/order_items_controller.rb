@@ -27,10 +27,6 @@ class OrderItemsController < ApplicationController
         flash[:success] = "You have added #{order_item.quantity} x #{product.name} to your cart."
       else
         flash[:errors] = "There was a problem with adding this item to your cart."
-        if order.order_items.count == 0
-          order.delete
-          session[:order_id] = nil
-        end
       end
     end
 

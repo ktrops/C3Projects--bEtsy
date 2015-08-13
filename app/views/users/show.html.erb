@@ -22,19 +22,19 @@
     </tr>
   </thead>
   <tbody>
-    <% @recent_sales.each do |x| %>
+    <% @recent_sales.each do |sale| %>
       <tr>
         <td>
-          <%= link_to("#{x.order_id}", user_order_path(@user.id, x.order_id)) %>
+          <%= link_to("#{sale.order_id}", user_order_path(@user.id, sale.order_id)) %>
         </td>
         <td>
-          <%= link_to("#{x.product.name}", user_product_path(@user.id, x.product.id)) %>
+          <%= link_to("#{sale.product.name}", user_product_path(@user.id, sale.product.id)) %>
         </td>
         <td>
-          <span class="badge"><%= x.quantity %></span>
+          <span class="badge"><%= sale.quantity %></span>
         </td>
         <td>
-          <%= x.order.status.capitalize %>
+          <%= sale.order.status.capitalize %>
         </td>
       </tr>
     <% end %>

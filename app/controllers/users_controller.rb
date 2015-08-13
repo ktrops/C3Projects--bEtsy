@@ -23,7 +23,7 @@ class UsersController < ApplicationController
 
   def show
     sales_quantity
-    total_sales
+    @total_sales = total_sales_for_current_user
     @recent_sales = @user.recent_sales
 
     render :show
@@ -45,22 +45,23 @@ class UsersController < ApplicationController
     params.permit(user: [:username, :email, :password, :password_confirmation])
   end
 
-  def total_sales
-    @total_sales = 0
-    @user.order_items.each do |x|
-      if x.order.status != "cancelled"
-        @total_sales += x.quantity * x.product.price
+  # this calculates total sales for the current_user, which is set in the sessions[:user_id]
+  def total_sales_for_current_user
+    total_sales = 0
+    @user.order_items.each do |order_item|
+      if order_item.order.status != "cancelled"
+        total_sales += order_item.quantity * order_item.product.price
       end
     end
-    @total_sales=@total_sales/100
+    total_sales/100
   end
 
   def sales_quantity
     @quantity_sold = 0
     sales_array = @user.order_items
-    sales_array.each do |x|
-      if x.order.status != "cancelled"
-        @quantity_sold += x.quantity
+    sales_array.each do |sale|
+      if sale.order.status != "cancelled"
+        @quantity_sold += sale.quantity
       end
     end
   end

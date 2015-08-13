@@ -6,7 +6,7 @@ class OrdersController < ApplicationController
   def show
     @order = Order.find(params[:id])
     @user_items = @current_user.order_items
-    total_sales
+    @total_sales = total_sales(@order, @user_items)
   end
 
   def checkout
@@ -122,17 +122,17 @@ class OrdersController < ApplicationController
       :city, :state, :mailing_zip, :mailing_name)
   end
 
-  def total_sales
-    @total_sales = 0
-    @order.order_items.each do |x|
-      if @user_items.include?(x) == true
-        if @order.status == "pending"
-          @total_sales += x.quantity * x.product.price
+  def total_sales(order, user_items)
+    total_sales = 0
+    order.order_items.each do |order_item|
+      if user_items.include?(order_item)
+        if order.status == "pending"
+          total_sales += order_item.quantity * order_item.product.price
         else
-          @total_sales += x.item_total
+          total_sales += order_item.item_total
         end
       end
     end
-    @total_sales = @total_sales/100
+    total_sales/100
   end
 end

@@ -49,6 +49,8 @@ class ApplicationController < ActionController::Base
     error_array
   end
 
+  private
+
   def category_exists_for_product?(prod_id, cat_id)
     ProductCategory.find_by(product_id: prod_id, category_id: cat_id) ? true : false
   end
