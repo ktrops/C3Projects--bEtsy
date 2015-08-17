@@ -1,5 +1,4 @@
-Brenna, Alice, Elsa, Katie
-
+Kari + Kyna
 #how to merge your branch and pull changes from the master
 1) git add and commit your changes on your branch
 2) git checkout master_branch_name
