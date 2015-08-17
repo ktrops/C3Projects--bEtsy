@@ -40,11 +40,6 @@ RSpec.configure do |config|
     mocks.verify_partial_doubles = true
   end
 
-  # wanted to try fixtures but was unable to find a way to regenerate the rails Test folder # since we installed the application without it
-  config.before(:suite) do
-    Rails.application.load_seed # loading seeds
-  end
-
 # The settings below are suggested to provide a good initial experience
 # with RSpec, but feel free to customize to your heart's content.
 =begin

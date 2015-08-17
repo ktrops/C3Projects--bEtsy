@@ -40,6 +40,7 @@ RSpec.describe User, type: :model do
       user.save
       product.save
       item.save
+      user.products << product
     end
     after(:each) do
       user.destroy
@@ -47,10 +48,10 @@ RSpec.describe User, type: :model do
       product.destroy
     end
     it "has many products" do
-      expect(user.products).to include(product)
+      expect(user.products.first).to eq(product)
     end
     it "has many order items through products" do
-      expect(user.order_items).to include(item)
+      expect(user.products.first.order_items.first).to eq(item)
     end
   end
 end # end of describe

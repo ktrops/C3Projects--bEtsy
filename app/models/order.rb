@@ -4,11 +4,7 @@ class Order < ActiveRecord::Base
   has_many :products, through: :order_items
 
   # Validations ----------------------------------------------------------------
-  # US_STATE_LETTER_CODES = %w(AL AK AZ AR CA CO CT DE DC FL GA HI ID IL IN IA KS
-  #  KY LA ME MD MA MI MN MS MO MT NE NV NH NJ NM NY NC ND OH OK OR PA PR RI SC SD 
-  #  TN TX UT VT VA WA WV WI WY)
-
-US_STATES = [
+  US_STATES = [
     ['Alabama', 'AL'],
     ['Alaska', 'AK'],
     ['Arizona', 'AZ'],
@@ -65,26 +61,34 @@ US_STATES = [
 
   US_STATE_LETTER_CODES = US_STATES.collect { |full_name, abbrev| abbrev }
 
-  validates :status, inclusion: { in: %w(pending paid complete cancelled), 
+  validates :status, inclusion: { in: %w(pending paid complete cancelled),
     message: "That is not a valid order status" }
-  validates :cc_number, numericality: { only_integer: true }, 
+  validates :cc_number, numericality: { only_integer: true },
     length: { in: 15..16 }, on: :update
   validates :address1, :city, :state, :cc_expiration, presence: true, on: :update
   validates :state, inclusion: { in: US_STATE_LETTER_CODES }, on: :update
   validate :expiration_date_cannot_be_in_the_past, on: :update
-
   validates :cc_cvv, numericality: { only_integer: true }, length: { is: 3 }, on: :update
   validates :billing_zip, numericality: { only_integer: true }, length: { is: 5 }, on: :update
   validates :mailing_zip, numericality: { only_integer: true }, length: { is: 5 }, on: :update
 
   def expiration_date_cannot_be_in_the_past
-    if cc_expiration < Date.today
+    if cc_expiration && cc_expiration < Date.today
       errors.add(:cc_expiration, "cannot be in the past.")
     end
   end
 
   # Scopes ---------------------------------------------------------------------
-  def total
+  def subtotal
     order_items.inject(0) { |sum, item| sum += (item.product.price * item.quantity) }
+  end
+
+  # Custom ---------------------------------------------------------------------
+  def mark_shipped!
+      toggle!(:shipped)
+  end
+
+  def final_total
+    order_items.inject(0) { |sum, item| sum += (item.item_total) }
   end
 end
