@@ -45,13 +45,14 @@ class OrdersController < ApplicationController
 
     HTTParty.post(API_URI,
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type" => "application/json"
       },
       body: {
       origin: ORIGIN,
       destination: destination,
       packages: @packages
-    })
+      }.to_json
+    )
 
     @order.update(
       address1: params[:order][:address1],
