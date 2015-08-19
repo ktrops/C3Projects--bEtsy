@@ -9,7 +9,13 @@ class OrdersController < ApplicationController
     @total_sales = total_sales(@order, @user_items)
   end
 
-  def checkout
+  def checkout1
+    @order = Order.find(session[:order_id])
+  end
+
+  def checkout2
+    # save order addy
+
     @order = Order.find(session[:order_id])
     @order_items = @order.order_items
   end
@@ -22,7 +28,6 @@ class OrdersController < ApplicationController
       order_item.set_item_total
     end
     @order.status = "paid"
-      # binding.pry
     if @order.update(order_params)
       Product.update_stock!(@order)
       flash[:confirmed_order_id] = @order.id
