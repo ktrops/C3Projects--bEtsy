@@ -129,7 +129,7 @@ class OrdersController < ApplicationController
   def order_params
     params.require(:order).permit(:status, :email, :cc_name, :cc_number,
       :cc_expiration, :cc_cvv, :billing_zip, :shipped, :address1, :address2,
-      :city, :state, :mailing_zip, :mailing_name, :shipping)
+      :city, :state, :mailing_zip, :mailing_name, :shipping, :packages => [])
   end
 
   def url_format(order)
