@@ -2,6 +2,7 @@ class OrdersController < ApplicationController
   before_action :authenticate_user, only: [:show, :fulfillment]
   before_action :belongs_to_user, only: [:show]
   before_action :correct_merchant, only: [:fulfillment]
+  before_action :find_order, only: [:checkout, :shipping, :finalize]
 
   def show
     @order = Order.find(params[:id])
@@ -9,15 +10,15 @@ class OrdersController < ApplicationController
     @total_sales = total_sales(@order, @user_items)
   end
 
-  def checkout
-    @order = Order.find(session[:order_id])
-    @order_items = @order.order_items
+  def checkout; end
+
+  def shipping
+    @order.update(order_params)
+    @order.save(validate: false)
+    redirect_to :back
   end
 
   def finalize
-
-    @order = Order.find(session[:order_id])
-    @order_items = @order.order_items
     @order_items.each do |order_item|
       order_item.set_item_total
     end
@@ -97,6 +98,11 @@ class OrdersController < ApplicationController
   end
 
   private
+
+  def find_order
+    @order = Order.find(session[:order_id])
+    @order_items = @order.order_items
+  end
 
   # ensures merchant signed in can only see their own user pages
   def correct_merchant
