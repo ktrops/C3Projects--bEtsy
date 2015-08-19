@@ -43,7 +43,11 @@ class OrdersController < ApplicationController
       @packages.push(PCKG_DETAILS)
     end
 
-    HTTParty.post(API_URI, body: {
+    HTTParty.post(API_URI,
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: {
       origin: ORIGIN,
       destination: destination,
       packages: @packages
@@ -60,7 +64,6 @@ class OrdersController < ApplicationController
   end
 
   def finalize
-    raise
     @order = Order.find(session[:order_id])
 
     @order_items = @order.order_items
