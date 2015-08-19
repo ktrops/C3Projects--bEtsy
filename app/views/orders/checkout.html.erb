@@ -61,7 +61,7 @@
 
 <%= link_to 'Edit order', cart_path, class: "btn btn-warning" %>
 
-<%= form_for @order, url: finalize_order_path(@order), method: :put, class: "form" do |f| %>
+<%= form_for @order, url: shipping_path(@order), method: :put, class: "form" do |f| %>
 
   <h3>Shipping</h3>
 
@@ -100,6 +100,18 @@
     <%= f.text_field :mailing_zip, maxlength: 5, required: true, class: 'form-control' %>
   </div>
 
+  <%= f.submit "Calculate Shipping", class: 'btn btn-danger btn-block'%>
+
+  <% end %>
+
+  <h3>Shipping Estimates</h3>
+  <%= form_for @order, url: finalize_order_path(@order), method: :put, class: "form" do |f| %>
+
+  <div class="form-group">
+      <%= f.label :shipping, "Options" %>
+      <%= f.select :shipping shipping_options, {include_blank: true}, class: "form-control" %>
+  </div>
+
   <h3>Payment</h3>
 
   <div class="form-group">
@@ -128,5 +140,5 @@
   </div>
 
     <%= f.submit "Place order", class: 'btn btn-danger btn-block'%>
-    
+
 <% end %>
