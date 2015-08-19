@@ -14,7 +14,7 @@ class OrdersController < ApplicationController
 
   COUNTRY = "US"
 
-  API_URI = "localhost:3001/api/v1/carriers"
+  API_URI = "http://localhost:3001/api/v1/carriers/"
 
   def show
     @order = Order.find(params[:id])
@@ -43,14 +43,20 @@ class OrdersController < ApplicationController
       packages.push(PCKG_DETAILS)
     end
 
-    HTTParty.post(API_URI + "/", body: {
+    HTTParty.post(API_URI, body: {
       origin: ORIGIN,
       destination: destination,
       packages: packages
     })
 
-    @order.update(order_params)
-
+    @order.update(
+      address1: params[:order][:address1],
+      address2: params[:order][:address2],
+      city: params[:order][:city],
+      state: params[:order][:state],
+      mailing_zip: params[:order][:mailing_zip]
+      )
+    raise
     @order_items = @order.order_items
   end
 
