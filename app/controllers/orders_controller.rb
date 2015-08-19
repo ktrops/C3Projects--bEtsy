@@ -3,10 +3,12 @@ class OrdersController < ApplicationController
   before_action :belongs_to_user, only: [:show]
   before_action :correct_merchant, only: [:fulfillment]
 
+  API_URI = "http://localhost:3001/api/v1/carriers/"
+
   ORIGIN = {
-    city: "Great Bend",
-    state: "KS",
-    zip: "67530",
+    city:    "Great Bend",
+    state:   "KS",
+    zip:     "67530",
     country: "US"
   }
 
@@ -14,11 +16,11 @@ class OrdersController < ApplicationController
 
   COUNTRY = "US"
 
-  API_URI = "http://localhost:3001/api/v1/carriers/"
-
   def show
     @order = Order.find(params[:id])
+
     @user_items = @current_user.order_items
+
     @total_sales = total_sales(@order, @user_items)
   end
 
@@ -30,9 +32,10 @@ class OrdersController < ApplicationController
     @order = Order.find(session[:order_id])
 
     destination = {
-      city: params[:order][:city],
-      state: params[:order][:state],
-      zip: params[:order][:mailing_zip]
+      city:    params[:order][:city],
+      state:   params[:order][:state],
+      zip:     params[:order][:mailing_zip],
+      country: "US"
     }
 
     quantity = @order.order_items.count
@@ -43,24 +46,26 @@ class OrdersController < ApplicationController
       @packages.push(PCKG_DETAILS)
     end
 
-    HTTParty.post(API_URI,
+    HTTParty.post(
+      API_URI,
       headers: {
         "Content-Type" => "application/json"
       },
       body: {
-      origin: ORIGIN,
-      destination: destination,
-      packages: @packages
+        origin:      ORIGIN,
+        destination: destination,
+        packages:    @packages
       }.to_json
     )
 
     @order.update(
-      address1: params[:order][:address1],
-      address2: params[:order][:address2],
-      city: params[:order][:city],
-      state: params[:order][:state],
+      address1:    params[:order][:address1],
+      address2:    params[:order][:address2],
+      city:        params[:order][:city],
+      state:       params[:order][:state],
       mailing_zip: params[:order][:mailing_zip]
       )
+
     @order_items = @order.order_items
   end
 
@@ -71,7 +76,9 @@ class OrdersController < ApplicationController
     @order_items.each do |order_item|
       order_item.set_item_total
     end
+
     @order.status = "paid"
+
     if @order.update(order_params)
       Product.update_stock!(@order)
       flash[:confirmed_order_id] = @order.id
