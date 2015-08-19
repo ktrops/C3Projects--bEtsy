@@ -18,7 +18,14 @@ class OrdersController < ApplicationController
     @order.update(order_params)
     @order.save(validate: false)
     query = url_format(@order)
-    @shipping_options = ShippingApi.new.calc_shipping(query)
+    response = ShippingApi.new.calc_shipping(query)
+
+    @shipping_options = []
+
+    response.each do |r|
+      @shipping_options << r[0] + " $" + r[1].to_s
+    end
+
     render :checkout
   end
 
