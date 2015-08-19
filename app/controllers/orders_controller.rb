@@ -3,6 +3,19 @@ class OrdersController < ApplicationController
   before_action :belongs_to_user, only: [:show]
   before_action :correct_merchant, only: [:fulfillment]
 
+  ORIGIN = {
+    city: "Great Bend",
+    state: "KS",
+    zip: "67530",
+    country: "US"
+  }
+
+  PCKG_DETAILS = [20, [20, 10, 10]]
+
+  COUNTRY = "US"
+
+  API_URI = "localhost:3001/api/v1/carriers"
+
   def show
     @order = Order.find(params[:id])
     @user_items = @current_user.order_items
@@ -14,15 +27,32 @@ class OrdersController < ApplicationController
   end
 
   def checkout2
-    # save order addy
-
     @order = Order.find(session[:order_id])
+
+    destination = {
+      city: params[:order][:city],
+      state: params[:order][:state],
+      zip: params[:order][:mailing_zip]
+    }
+
+    quantity = @order.order_items.count
+
+    packages = []
+
+    quantity.times do
+      packages.push(PCKG_DETAILS)
+    end
+
+    HTTParty.get(API_URI + "/#{ORIGIN}/#{destination}/#{packages}")
+    raise
+    @order.update(order_params)
+
     @order_items = @order.order_items
   end
 
   def finalize
-
     @order = Order.find(session[:order_id])
+
     @order_items = @order.order_items
     @order_items.each do |order_item|
       order_item.set_item_total

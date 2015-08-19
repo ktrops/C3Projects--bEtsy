@@ -35,7 +35,7 @@ Rails.application.routes.draw do
 
   resources :order_items, only: [:update, :destroy]
   get '/checkout1',     to: 'orders#checkout1',     as: 'checkout1'
-  get '/checkout2',     to: 'orders#checkout2',     as: 'checkout2'
+  put '/checkout2',     to: 'orders#checkout2',     as: 'checkout2'
 
   get '/confirmation', to: 'orders#confirmation', as: 'confirmation'
   post "/cancel",      to: "orders#cancel",       as: 'cancel_order'
