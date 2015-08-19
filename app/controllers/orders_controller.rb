@@ -37,16 +37,16 @@ class OrdersController < ApplicationController
 
     quantity = @order.order_items.count
 
-    packages = []
+    @packages = []
 
     quantity.times do
-      packages.push(PCKG_DETAILS)
+      @packages.push(PCKG_DETAILS)
     end
 
     HTTParty.post(API_URI, body: {
       origin: ORIGIN,
       destination: destination,
-      packages: packages
+      packages: @packages
     })
 
     @order.update(
@@ -56,11 +56,11 @@ class OrdersController < ApplicationController
       state: params[:order][:state],
       mailing_zip: params[:order][:mailing_zip]
       )
-    raise
     @order_items = @order.order_items
   end
 
   def finalize
+    raise
     @order = Order.find(session[:order_id])
 
     @order_items = @order.order_items
