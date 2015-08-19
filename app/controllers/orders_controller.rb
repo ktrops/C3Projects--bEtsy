@@ -8,7 +8,7 @@ class OrdersController < ApplicationController
     state: "KS",
     zip: "67530",
     country: "US"
-  }.to_query
+  }
 
   PCKG_DETAILS = [20, [20, 10, 10]]
 
@@ -33,8 +33,7 @@ class OrdersController < ApplicationController
       city: params[:order][:city],
       state: params[:order][:state],
       zip: params[:order][:mailing_zip]
-    }.to_query
-    # querizes hash into something we can send via URI
+    }
 
     quantity = @order.order_items.count
 
@@ -44,10 +43,12 @@ class OrdersController < ApplicationController
       packages.push(PCKG_DETAILS)
     end
 
-    # packages = packages.to_query
+    HTTParty.post(API_URI + "/", body: {
+      origin: ORIGIN,
+      destination: destination,
+      packages: packages
+    })
 
-    HTTParty.get(API_URI + "/#{ORIGIN}/#{destination}/#{packages}")
-    raise
     @order.update(order_params)
 
     @order_items = @order.order_items
