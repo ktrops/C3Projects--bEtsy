@@ -10,12 +10,16 @@ class OrdersController < ApplicationController
     @total_sales = total_sales(@order, @user_items)
   end
 
-  def checkout; end
+  def checkout
+    @shipping_options = []
+  end
 
   def shipping
     @order.update(order_params)
     @order.save(validate: false)
-    redirect_to :back
+    query = url_format(@order)
+    @shipping_options = ShippingApi.new.calc_shipping(query)
+    render :checkout
   end
 
   def finalize
@@ -125,7 +129,15 @@ class OrdersController < ApplicationController
   def order_params
     params.require(:order).permit(:status, :email, :cc_name, :cc_number,
       :cc_expiration, :cc_cvv, :billing_zip, :shipped, :address1, :address2,
-      :city, :state, :mailing_zip, :mailing_name)
+      :city, :state, :mailing_zip, :mailing_name, :shipping)
+  end
+
+  def url_format(order)
+    packages = []
+    order.products.each do |p|
+      packages << {length: p.length, width: p.width, height: p.height, weight: p.weight}
+    end
+    query = "state=#{order.state}&city=#{order.city}&zip=#{order.mailing_zip}&packages=#{packages}"
   end
 
   def total_sales(order, user_items)

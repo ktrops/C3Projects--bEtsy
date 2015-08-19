@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150819175904) do
+ActiveRecord::Schema.define(version: 20150819185355) do
 
   create_table "categories", force: :cascade do |t|
     t.string   "name"
@@ -28,25 +28,8 @@ ActiveRecord::Schema.define(version: 20150819175904) do
     t.integer  "item_total"
   end
 
-  create_table "orders", force: :cascade do |t|
-    t.string   "status",          default: "pending"
-    t.string   "email"
-    t.string   "cc_name"
-    t.string   "cc_number"
-    t.date     "cc_expiration"
-    t.integer  "cc_cvv"
-    t.integer  "billing_zip"
-    t.boolean  "shipped",         default: false
-    t.string   "address1"
-    t.string   "address2"
-    t.string   "city"
-    t.string   "state"
-    t.integer  "mailing_zip"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
-    t.string   "mailing_name"
-    t.string   "tracking_number"
-  end
+# Could not dump table "orders" because of following NoMethodError
+#   undefined method `[]' for nil:NilClass
 
   create_table "product_categories", force: :cascade do |t|
     t.integer  "product_id"
@@ -68,6 +51,7 @@ ActiveRecord::Schema.define(version: 20150819175904) do
     t.float    "length"
     t.float    "width"
     t.float    "height"
+    t.float    "weight"
   end
 
   create_table "reviews", force: :cascade do |t|
