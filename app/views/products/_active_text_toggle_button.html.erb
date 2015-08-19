@@ -1,0 +1,4 @@
+<p>
+  <%= active_text(@product) %>
+  <%= link_to "Make #{active_text_inverse(@product)}", toggle_active_path(@product), method: :put, class: "btn btn-warning" %>
+</p>

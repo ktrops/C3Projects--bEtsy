@@ -1,10 +1,17 @@
-<h1>Add a New Category</h1>
+<% unless flash[:errors].nil? %>
+  <%= render partial: "shared/errors", locals: { instance: @category } %>
+<% end %>
 
-<%= form_for @category, url: category_path, method: :post do |f| %>
+<h3>Add a New Category</h3>
 
-  <%= f.label :name %>
-  <%= f.text_area :name %>
+<%= form_for @category, url: category_path, method: :post, html: { class: "form" } do |f| %>
+  <div class="form-group">
+    <%= f.label :name %>
+    <%= f.text_field :name, class: "form-control" %>
+  </div>
 
-  <%= f.submit %>
+  <p>
+    <%= f.submit "Create a Category", class: "btn btn-info" %>
+  </p>
 
 <% end %>

@@ -3,6 +3,8 @@ require 'rails_helper'
 RSpec.describe Product, type: :model do
   # MODEL VALIDATIONS
   # -----------------
+  # before_save :stock_0_make_inactive
+  #
   # belongs_to :user
   # has_many :orders, through: :order_items
   # has_many :order_items
@@ -10,15 +12,14 @@ RSpec.describe Product, type: :model do
   # has_many :product_categories
   # has_many :categories, through: :product_categories
   #
+  # validates :stock, presence: true, numericality: { integer: true }
   # validates :name, presence: true, uniqueness: true
   # validates :price, presence: true, numericality: { greater_than: 0 }
   #
+  # accepts_nested_attributes_for :product_categories
+  #
   # def toggle_active!
   #   toggle!(:active)
-  # end
-  #
-  # def self.front_page_list
-  #   self.all.limit(20)
   # end
   # -----------------
 
@@ -31,8 +32,8 @@ RSpec.describe Product, type: :model do
     end
 
     it "name is unique" do
-      Product.create(name: "CIA operative identity", price: 1_000_000_000)
-      same_name_product = Product.new(name: "CIA operative identity", price: 100)
+      Product.create(name: "CIA operative identity", price: 1_000_000_000, stock: 1)
+      same_name_product = Product.new(name: "CIA operative identity", price: 100, stock: 1)
 
       expect(same_name_product).to_not be_valid
       expect(same_name_product.errors.keys).to include(:name)
@@ -46,13 +47,13 @@ RSpec.describe Product, type: :model do
     end
 
     it "price is a number" do
-      lol_product = Product.new(name: "lol", price: "lol")
+      lol_product = Product.new(name: "lol", price: "lol", stock: 1)
 
       expect(lol_product).to_not be_valid
       expect(lol_product.errors.keys).to include(:price)
 
 
-      yay_product = Product.new(name: "yay", price: 100)
+      yay_product = Product.new(name: "yay", price: 100, stock: 1)
 
       expect(yay_product).to be_valid
     end
@@ -61,14 +62,14 @@ RSpec.describe Product, type: :model do
 
     context "price > 0" do
       it "price can't be negative" do
-        negative_product = Product.new(name: "negative", price: -1)
+        negative_product = Product.new(name: "negative", price: -1, stock: 1)
 
         expect(negative_product).to_not be_valid
         expect(negative_product.errors.keys).to include(:price)
       end
 
       it "price can't be 0" do
-        zero_product = Product.new(name: "zero", price: 0)
+        zero_product = Product.new(name: "zero", price: 0, stock: 1)
 
         expect(zero_product).to_not be_valid
         expect(zero_product.errors.keys).to include(:price)
@@ -76,7 +77,7 @@ RSpec.describe Product, type: :model do
 
 
       it "price can be more than 1" do
-        positive_product = Product.new(name: "positive", price: 1)
+        positive_product = Product.new(name: "positive", price: 1, stock: 1)
 
         expect(positive_product).to be_valid
       end
@@ -85,7 +86,7 @@ RSpec.describe Product, type: :model do
     context "associations" do
       it "belongs to User" do
         User.create(id: 1, username: "Hackman", email: "hackman@hackers.hack", password: "password", password_confirmation: "password")
-        nk_product = Product.create(name: "Kim Jeong Un's twitter", price: 100_000, user_id: 1)
+        nk_product = Product.create(name: "Kim Jeong Un's twitter", price: 100_000, stock: 1, user_id: 1)
 
         expect(nk_product.user.username).to eq("Hackman")
       end
@@ -96,7 +97,7 @@ RSpec.describe Product, type: :model do
           OrderItem.create(quantity: 1, product_id: 2, order_id: 4)
           Order.create(id: 3)
           Order.create(id: 4)
-          @product = Product.create(id: 2, name: "lol", price: 100)
+          @product = Product.create(id: 2, name: "lol", price: 100, stock: 1)
         end
 
         it "has many orders through order items" do
@@ -109,7 +110,7 @@ RSpec.describe Product, type: :model do
       end
 
       it "has many reviews" do
-        product = Product.create(id: 3, name: "Secret Sauce", price: 100)
+        product = Product.create(id: 3, name: "Secret Sauce", price: 100, stock: 1)
         Review.create(rating: 5, product_id: 3)
         Review.create(rating: 1, product_id: 3)
 
@@ -118,7 +119,7 @@ RSpec.describe Product, type: :model do
 
       context "multiple product categories" do
         before :each do
-          @product = Product.create(id: 4, name: "Joe Biden's hotmail", price: 100)
+          @product = Product.create(id: 4, name: "Joe Biden's hotmail", price: 100, stock: 1)
           Category.create(id: 10, name: "password")
           Category.create(id: 11, name: "state secret")
           ProductCategory.create(product_id: 4, category_id: 10)
@@ -137,17 +138,31 @@ RSpec.describe Product, type: :model do
 
     describe "can be toggled between active and inactive" do
       it "can be toggled to active" do
-        product = Product.create(name: "Was Inactive", price: 100, active: false)
+        product = Product.create(name: "Was Inactive", price: 100, stock: 1, active: false)
         product.toggle_active!
 
         expect(product.active).to be(true)
       end
 
       it "can be toggled to inactive" do
-        product = Product.create(name: "Was Active", price: 100, active: true)
+        product = Product.create(name: "Was Active", price: 100, stock: 1, active: true)
         product.toggle_active!
 
         expect(product.active).to be(false)
+      end
+    end
+
+    describe "automatically inactive when out of stock" do
+      it "will be active when in stock" do
+        product = Product.create(name: "has stock", price: 100, stock: 1, active: true)
+
+        expect(product.active).to eq(true)
+      end
+
+      it "will be inactive when out of stock" do
+        product = Product.create(name: "has stock", price: 100, stock: 0)
+
+        expect(product.active).to eq(false)
       end
     end
 

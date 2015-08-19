@@ -1,6 +1,5 @@
 class ProductsController < ApplicationController
-  before_action :authenticate_user, except: [:merchant, :index]
-  before_action :save_login_state, except: [:merchant, :index]
+  before_action :authenticate_user, except: [:merchant, :index, :show, :category]
 
   def index
     @products = Product.all
@@ -10,28 +9,31 @@ class ProductsController < ApplicationController
   end
 
   def merchant_index
-    @merchant = User.find(params[:user_id])
+    @merchant = @current_user
     @products = @merchant.products
   end
 
   def new
     @product = Product.new
-    @merchant = User.find(params[:user_id])
+    # @merchant = User.find(params[:user_id])
+    @merchant = @current_user
     @product_id = Product.last.id + 1
     @product_categories = @product.product_categories.build
-  end 
+  end
 
   def create
-    @product = Product.create(product_params)
+    @product = Product.new(product_params)
+    @product.price = unformat_price(params[:product][:price])
     if @product.save
-      flash[:success] = "You have created a new product"
-      redirect_to products_path, method: :get
+      flash[:successfull] = "You have created a new product"
+
+      redirect_to products_merchant_index_path(params[:user_id]), method: :get
     else
-      flash[:errors] = error_messages(@product)
+      flash[:failed] = error_messages(@product)
+
       redirect_to new_user_product_path
     end
   end
-
 
   def category
     @merchant_products = nil
@@ -46,9 +48,10 @@ class ProductsController < ApplicationController
         product_id_array << item.product_id
       end
       @products_array = []
-      products = product_id_array.each do |id|
+      product_id_array.each do |id|
         @products_array << Product.find(id)
       end
+
       render :index
     end
 
@@ -62,11 +65,11 @@ class ProductsController < ApplicationController
     else
       @merchant = User.find(params[:user])
       @merchant_products = @merchant.products
+
       render :index
     end
 
   end
-
 
   def show
     @product = Product.find(params[:id])
@@ -77,34 +80,47 @@ class ProductsController < ApplicationController
   end
 
   def toggle_active
-    @product = Product.find(params[:id])
-    @product.toggle_active!
-    redirect_to @product
+    product = Product.find(params[:id])
+    product.toggle_active!
+
+    redirect_to :back
   end
 
   def edit
     @product = Product.find(params[:id])
+    @product_category = ProductCategory.new
+    if @product.user_id != @current_user.id
+      redirect_to user_products_path(@current_user.id)
+    end
   end
 
   def update
     @product = Product.find(params[:id])
-    if @product.update(product_params)
+    @product.update(product_params)
+    @product.price = unformat_price(params[:product][:price])
+    if @product.save
       flash[:success] = "You successfully updated #{@product.name}."
+
       redirect_to product_path(@product)
     else
       flash.now[:errors] = "Edit failed, please try again."
+
       render :edit
     end
   end
 
-  def destroy
+  private
+
+  def unformat_price(price)
+    price.delete("$").delete(",").to_f*100
   end
 
-
-
-
-
   def product_params
-    params.require(:product).permit(:name, :price, :description, :active, :photo_url, :stock, :user_id, product_categories_attributes: [:id, :category_id, :product_id])
+    params.require(:product).permit(
+      :name, :price, :description, :active, :photo_url, :stock, :user_id,
+        product_categories_attributes: [
+          :id, :category_id, :product_id
+        ]
+      )
   end
 end

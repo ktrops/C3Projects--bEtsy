@@ -1,4 +1,7 @@
-<h1>Review</h1>
+<h2>Write a review for <%= link_to @product.name, @product %></h2>
+
+<%= render partial: 'shared/product_details', locals: { shopping_page: false } %>
+
 <%= form_for [@product, @review], url: product_reviews_path, html: { class: "form" } do |f| %>
   <div class="form-group">
     <%= f.label :rating %>

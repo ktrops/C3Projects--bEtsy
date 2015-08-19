@@ -1,13 +1,4 @@
 Kari + Kyna
-#how to merge your branch and pull changes from the master
-1) git add and commit your changes on your branch
-2) git checkout master_branch_name
-3) git pull
-4) git merge your_branch_name
-5) git push
-6) git checkout your_branch_name
-7) git merge master_branch_name
-8) breathe a sigh of relief if you did not get any errors :)
 
 # C3Projects--bEtsy
 [b]Etsy will be an online store where a wide variety of products can be listed and sold by any user. In this project we will focus on reinforcing the major components of Rails, Model Validation, as well as introducing some more complex logic such as user authentication.

@@ -15,18 +15,16 @@ class ApplicationController < ActionController::Base
     if session[:order_id]
       Order.find(session[:order_id])
     else
-      Order.new
+      new_order = Order.create
+      session[:order_id] = new_order.id
+      new_order
     end
   end
-
-  # def require_login
-  #   redirect_to login_path unless session[:user_id]
-  # end
 
   def authenticate_user
     if session[:user_id]
        # set current user object to @current_user object variable
-      @current_user = User.find session[:user_id]
+      @current_user = User.find(session[:user_id])
       return true
     else
       redirect_to(login_path)
@@ -41,6 +39,7 @@ class ApplicationController < ActionController::Base
     else
       return true
     end
+  end
 
   def error_messages(instance)
     error_array = []
@@ -48,5 +47,11 @@ class ApplicationController < ActionController::Base
       error_array += [[key.to_s.capitalize, value.first]]
     end
     error_array
+  end
+
+  private
+
+  def category_exists_for_product?(prod_id, cat_id)
+    ProductCategory.find_by(product_id: prod_id, category_id: cat_id) ? true : false
   end
 end

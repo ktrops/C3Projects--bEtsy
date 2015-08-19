@@ -2,27 +2,40 @@
   <div class="col-lg-12">
     <div class="page-header">
 
-      <% if @user %>
-        <%= link_to 'Log Out', logout_path, method: :delete, class: "btn btn-primary" %>
-      <% else %>
-        <%= link_to 'Log In', login_path, class: "btn btn-primary" %>
-        <%= link_to 'Register', new_user_path, class: "btn btn-default" %>
-      <% end %>
+      <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+        <ul class="nav navbar-nav">
+          <% if session[:user_id] %>
+            <li>
+              <%= link_to 'Log Out', logout_path, method: :delete %>
+            </li>
+          <% else %>
+            <li>
+              <%= link_to 'Log In', login_path %>
+            </li>
+            <li>
+              <%= link_to 'Register', register_path %>
+            </li>
+          <% end %>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li>
+            <%= link_to 'Cart', cart_path %>
+          </li>
+        </ul>
+        </div>
+      </nav>
 
       <h1>
         <%= link_to "Secrets R Us", root_path %>
         <small>Selling All The Secrets</small>
       </h1>
 
-      <% if @user %>
-        <%= link_to 'My Account', user_path(@user.id), class: "btn btn-primary" %>
-      <% end %>
+      <!-- uncomment for debugging, remove before submitting final project -->
+      <!-- <p>Order_id is: <%#= session[:order_id] ? session[:order_id] : "none set" %></p> -->
+      <!-- <p>Logged-in user is: <%#= session[:user_id] ? @user.username : "none" %></p> -->
+      <!-- <p>User id is: <%#= session[:user_id] ? session[:user_id] : "none" %></p> -->
 
-      <%= link_to 'Cart', cart_path, class: "btn btn-primary"%>
-
-  <!-- <p>Order_id is: <%# session[:order_id] ? session[:order_id] : "none set" %></p> -->
-
-
-
+    </div>
+  </div>
 </div>
-
