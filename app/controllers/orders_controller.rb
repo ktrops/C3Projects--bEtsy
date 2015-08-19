@@ -15,8 +15,7 @@ class OrdersController < ApplicationController
   end
 
   def shipping
-    @order.update(order_params)
-    @order.save(validate: false)
+    @order.assign_attributes(order_params)
     query = url_format(@order)
     response = ShippingApi.new.calc_shipping(query)
 
@@ -141,7 +140,7 @@ class OrdersController < ApplicationController
 
   def url_format(order)
     packages_query = ""
-    
+
     order.products.each do |p|
       packages_query += "&packages[][length]=#{p.length}&packages[][width]=#{p.width}&packages[][height]=#{p.height}&packages[][weight]=#{p.weight}"
     end
