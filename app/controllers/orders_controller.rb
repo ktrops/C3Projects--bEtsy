@@ -133,11 +133,15 @@ class OrdersController < ApplicationController
   end
 
   def url_format(order)
-    packages = []
+    packages_query = ""
+    
     order.products.each do |p|
-      packages << {length: p.length, width: p.width, height: p.height, weight: p.weight}
+      packages_query += "&packages[][length]=#{p.length}&packages[][width]=#{p.width}&packages[][height]=#{p.height}&packages[][weight]=#{p.weight}"
     end
-    query = "state=#{order.state}&city=#{order.city}&zip=#{order.mailing_zip}&packages=#{packages}"
+
+    destination_query = "state=#{order.state}&city=#{order.city}&zip=#{order.mailing_zip}"
+
+    final_query = destination_query + packages_query
   end
 
   def total_sales(order, user_items)
