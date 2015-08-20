@@ -15,22 +15,30 @@ class OrdersController < ApplicationController
   end
 
   def shipping
+    # assigns address attributes to use in params w/o saving to db
     @order.assign_attributes(order_params)
 
-    package_sort(@order_items)
+    # incomplete method below --------------------------------------------------
 
-    packages.each do |merchant, items|
-      merchant.
-    raise
+    # merchant_orders = hash of user keys and all order_item values of that user
+    merchant_orders = package_sort(@order_items)
+    # iterate each key/value pair to instantiate new origin for each user
+    # and new package with API call - destination remains the same
 
-    query = url_format(@order)
-    response = ShippingApi.new.calc_shipping(query)
+    # how do we pass address params for both origin and destination?
+    all_responses = []
+    merchant_orders.each do |merchant, package|
+      query = url_format(merchant, package, @order)
+      raise
+      response = ShippingApi.new.calc_shipping(query)
 
-    @shipping_options = []
-
-    response.each do |r|
-      @shipping_options << r[0] + " $" + r[1].to_s
+      options = []
+      response.each do |r|
+        options << r[0] + " $" + r[1].to_s
+      end
+      all_responses << options
     end
+    # incomplete method --------------------------------------------------
 
     render :checkout
   end
@@ -145,16 +153,19 @@ class OrdersController < ApplicationController
       :city, :state, :mailing_zip, :mailing_name, :shipping, :packages => [])
   end
 
-  def url_format(order)
+  def url_format(merchant, package, order)
+    destination_query = "state=#{order.state}&city=#{order.city}&zip=#{order.mailing_zip}"
+
     packages_query = ""
 
-    order.products.each do |p|
+    package.each do |i|
+      p = i.product
       packages_query += "&packages[][length]=#{p.length}&packages[][width]=#{p.width}&packages[][height]=#{p.height}&packages[][weight]=#{p.weight}"
     end
 
-    destination_query = "state=#{order.state}&city=#{order.city}&zip=#{order.mailing_zip}"
+    origin_query = "o_state=#{order.state}&o_city=#{order.city}&o_zip=#{order.mailing_zip}"
 
-    final_query = destination_query + packages_query
+    final_query = destination_query + packages_query + origin_query
   end
 
   def total_sales(order, user_items)
@@ -169,5 +180,18 @@ class OrdersController < ApplicationController
       end
     end
     total_sales/100
+  end
+
+  def package_sort(order_items)
+    packages = {}
+    order_items.each do |item|
+      merchant = item.product.user
+      if packages.has_key?(merchant)
+        packages[merchant] << item
+      else
+        packages[merchant] = [item]
+      end
+    end
+    return packages
   end
 end

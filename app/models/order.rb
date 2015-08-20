@@ -1,6 +1,6 @@
 class Order < ActiveRecord::Base
   serialize :shipping, Array
-  
+
   # Associations ---------------------------------------------------------------
   has_many :order_items
   has_many :products, through: :order_items
@@ -93,4 +93,18 @@ class Order < ActiveRecord::Base
   def final_total
     order_items.inject(0) { |sum, item| sum += (item.item_total) }
   end
+
+  def package_sort(order_items)
+    packages = {}
+    order_items.each do |item|
+      merchant = item.product.user
+      if packages.has_key?(merchant)
+        packages[merchant] << item
+      else
+        packages[merchant] = [item]
+      end
+    end
+    return packages
+  end
+
 end
