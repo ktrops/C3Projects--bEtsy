@@ -1,8 +1,6 @@
 <section class="checkout_view">
   <h2>Finalize Order</h2>
 
-  <%= link_to "Return to Shopping", products_path, class: "btn btn-primary" %>
-
   <% if flash.now[:errors] %>
     <div>
       <p class="alert alert-danger"><%= flash.now[:errors] %></p>
