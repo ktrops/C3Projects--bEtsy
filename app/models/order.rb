@@ -94,17 +94,4 @@ class Order < ActiveRecord::Base
     order_items.inject(0) { |sum, item| sum += (item.item_total) }
   end
 
-  def package_sort(order_items)
-    packages = {}
-    order_items.each do |item|
-      merchant = item.product.user
-      if packages.has_key?(merchant)
-        packages[merchant] << item
-      else
-        packages[merchant] = [item]
-      end
-    end
-    return packages
-  end
-
 end

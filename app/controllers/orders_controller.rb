@@ -11,6 +11,7 @@ class OrdersController < ApplicationController
   end
 
   def checkout
+    # place holder for functionality
     @shipping_options = []
   end
 
@@ -18,27 +19,36 @@ class OrdersController < ApplicationController
     # assigns address attributes to use in params w/o saving to db
     @order.assign_attributes(order_params)
 
-    # incomplete method below --------------------------------------------------
-
     # merchant_orders = hash of user keys and all order_item values of that user
     merchant_orders = package_sort(@order_items)
     # iterate each key/value pair to instantiate new origin for each user
     # and new package with API call - destination remains the same
 
-    # how do we pass address params for both origin and destination?
     all_responses = []
     merchant_orders.each do |merchant, package|
       query = url_format(merchant, package, @order)
-      raise
       response = ShippingApi.new.calc_shipping(query)
-
-      options = []
-      response.each do |r|
-        options << r[0] + " $" + r[1].to_s
-      end
-      all_responses << options
+      all_responses << response
     end
-    # incomplete method --------------------------------------------------
+
+    ship_types = all_responses.flatten!(1).group_by{ |array| array.first }
+    ship_types.each do |key, costs|
+      ship_types[key].flatten!.delete_if{|o| o.class == String }
+    end
+
+    ship_types.each do |type, cost|
+    cost_per_type = 0
+      cost.each do |num|
+         cost_per_type += num
+       end
+       ship_types[type] = cost_per_type
+     end
+
+    @options = []
+    ship_types.to_a.each do |array|
+      @options << array[0] + " $" + array[1].round(2).to_s
+    end
+    @options
 
     render :checkout
   end
@@ -160,12 +170,13 @@ class OrdersController < ApplicationController
 
     package.each do |i|
       p = i.product
-      packages_query += "&packages[][length]=#{p.length}&packages[][width]=#{p.width}&packages[][height]=#{p.height}&packages[][weight]=#{p.weight}"
+      # take out hard coded weight params
+      packages_query += "&packages[][length]=#{p.length}&packages[][width]=#{p.width}&packages[][height]=#{p.height}&packages[][weight]=1.0"
     end
 
-    origin_query = "o_state=#{order.state}&o_city=#{order.city}&o_zip=#{order.mailing_zip}"
+    origin_query = "&o_state=#{order.state}&o_city=#{order.city}&o_zip=#{order.mailing_zip}"
 
-    final_query = destination_query + packages_query + origin_query
+    final_query = destination_query + origin_query + packages_query
   end
 
   def total_sales(order, user_items)
