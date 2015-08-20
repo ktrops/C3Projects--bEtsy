@@ -23,29 +23,27 @@
 <% end %>
 
 <h3>Order details:</h3>
-<p>
-  2 day
-</p>
-<%= @rate_2day["service_name"] %>
-<%= @rate_2day["delivery_date"] %>
-<!-- strftime -->
-<%= number_to_currency(@rate_2day["total_price"]/100.00) %>
+    <%= @rate_2day["service_name"] %>
+    <%= @rate_2day["delivery_date"] %>
+    <!-- strftime -->
+    <%= number_to_currency(@rate_2day["total_price"]/100.00) %>
 
-<p>
-  ground
-</p>
-<%= @rate_ground["service_name"] %>
-<%= @rate_ground["delivery_date"] %>
-<!-- strftime -->
-<%= number_to_currency(@rate_ground["total_price"]/100.00) %>
+    <p>
+      ground
+    </p>
+    <%= @rate_ground["service_name"] %>
+    <%= @rate_ground["delivery_date"] %>
+    <!-- strftime -->
+    <%= number_to_currency(@rate_ground["total_price"]/100.00) %>
 
-<p>
-  standard
-</p>
-<%= @rate_standard_on["service_name"] %>
-<%= @rate_standard_on["delivery_date"] %>
-<!-- strftime -->
-<%= number_to_currency(@rate_standard_on["total_price"]/100.00) %>
+    <p>
+      standard
+    </p>
+    <%= @rate_standard_on["service_name"] %>
+    <%= @rate_standard_on["delivery_date"] %>
+    <!-- strftime -->
+    <%= number_to_currency(@rate_standard_on["total_price"]/100.00) %>
+
 
 
 <table class="table">
@@ -80,6 +78,7 @@
     </tr>
   <% end %>
 </table>
+
 
 <p>Order total: <%= readable_price(@order.subtotal) %></p>
 

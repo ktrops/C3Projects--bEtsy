@@ -31,7 +31,7 @@ class OrdersController < ApplicationController
     @order = Order.find(session[:order_id])
   end
 
-  def checkout2
+  def shipping_confirmation
     @order = Order.find(session[:order_id])
 
     get_rates
@@ -39,6 +39,10 @@ class OrdersController < ApplicationController
     set_services
 
     set_order_address
+  end
+
+  def checkout2
+    @order = Order.find(session[:order_id])
 
     @order_items = @order.order_items
   end
