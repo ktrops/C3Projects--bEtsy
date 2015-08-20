@@ -43,7 +43,7 @@ class OrdersController < ApplicationController
 
   def checkout2
     @order = Order.find(session[:order_id])
-
+    @shipping = params[:price]
     @order_items = @order.order_items
   end
 
