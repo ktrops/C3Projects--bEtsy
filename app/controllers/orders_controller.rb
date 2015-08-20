@@ -11,19 +11,44 @@ class OrdersController < ApplicationController
   end
 
   def checkout
+    # place holder for functionality
     @shipping_options = []
   end
 
   def shipping
+    # assigns address attributes to use in params w/o saving to db
     @order.assign_attributes(order_params)
-    query = url_format(@order)
-    response = ShippingApi.new.calc_shipping(query)
 
-    @shipping_options = []
+    # merchant_orders = hash of user keys and all order_item values of that user
+    merchant_orders = package_sort(@order_items)
+    # iterate each key/value pair to instantiate new origin for each user
+    # and new package with API call - destination remains the same
 
-    response.each do |r|
-      @shipping_options << r[0] + " $" + r[1].to_s
+    all_responses = []
+    merchant_orders.each do |merchant, package|
+      query = url_format(merchant, package, @order)
+      response = ShippingApi.new.calc_shipping(query)
+      all_responses << response
     end
+
+    ship_types = all_responses.flatten!(1).group_by{ |array| array.first }
+    ship_types.each do |key, costs|
+      ship_types[key].flatten!.delete_if{|o| o.class == String }
+    end
+
+    ship_types.each do |type, cost|
+    cost_per_type = 0
+      cost.each do |num|
+         cost_per_type += num
+       end
+       ship_types[type] = cost_per_type
+     end
+
+    @options = []
+    ship_types.to_a.each do |array|
+      @options << array[0] + " $" + array[1].round(2).to_s
+    end
+    @options
 
     render :checkout
   end
@@ -138,16 +163,20 @@ class OrdersController < ApplicationController
       :city, :state, :mailing_zip, :mailing_name, :shipping, :packages => [])
   end
 
-  def url_format(order)
-    packages_query = ""
-
-    order.products.each do |p|
-      packages_query += "&packages[][length]=#{p.length}&packages[][width]=#{p.width}&packages[][height]=#{p.height}&packages[][weight]=#{p.weight}"
-    end
-
+  def url_format(merchant, package, order)
     destination_query = "state=#{order.state}&city=#{order.city}&zip=#{order.mailing_zip}"
 
-    final_query = destination_query + packages_query
+    packages_query = ""
+
+    package.each do |i|
+      p = i.product
+      # take out hard coded weight params
+      packages_query += "&packages[][length]=#{p.length}&packages[][width]=#{p.width}&packages[][height]=#{p.height}&packages[][weight]=1.0"
+    end
+
+    origin_query = "&o_state=#{order.state}&o_city=#{order.city}&o_zip=#{order.mailing_zip}"
+
+    final_query = destination_query + origin_query + packages_query
   end
 
   def total_sales(order, user_items)
@@ -162,5 +191,18 @@ class OrdersController < ApplicationController
       end
     end
     total_sales/100
+  end
+
+  def package_sort(order_items)
+    packages = {}
+    order_items.each do |item|
+      merchant = item.product.user
+      if packages.has_key?(merchant)
+        packages[merchant] << item
+      else
+        packages[merchant] = [item]
+      end
+    end
+    return packages
   end
 end

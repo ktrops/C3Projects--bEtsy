@@ -53,11 +53,11 @@ end
 
 users = [
   { username: "Sue Boo", email: "sue.boo@example.com", #1
-    password: "password", password_confirmation: "password" },
+    password: "password", password_confirmation: "password", country: "US", state: "FL", city: "Miami", zip: 33101 },
   { username: "Kate Plate", email: "kate.plate@example.com", #2
-    password: "password", password_confirmation: "password" },
+    password: "password", password_confirmation: "password", country: "US", state: "CA", city: "San Diego", zip: 92129 },
   { username: "Bob Cobb", email: "bob.cobb@example.com", #3
-    password: "password", password_confirmation: "password" }
+    password: "password", password_confirmation: "password", country: "US", state: "TX", city: "League City", zip: 77573 }
 ]
 
 users.each do |user|

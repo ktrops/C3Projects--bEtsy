@@ -100,7 +100,7 @@
   <!-- ################################################### -->
   <% if action_name == "shipping" %>
     <%= form_for @order, url: finalize_order_path(@order), method: :put, class: "form" do |f| %>
-      
+
       <hr>
       <div id="shipping_info">
         <div class="checkout_section">
@@ -108,7 +108,7 @@
 
           <div class="form-group">
               <%= f.label :shipping, "Carrier Options" %>
-              <%= f.select :shipping, @shipping_options, {include_blank: true}, class: "form-control" %>
+              <%= f.select :shipping, @options, {include_blank: true}, class: "form-control" %>
           </div>
         </div>
 
