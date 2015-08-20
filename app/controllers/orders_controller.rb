@@ -123,7 +123,6 @@ class OrdersController < ApplicationController
         packages:    packages
       }.to_json
     )
-    raise
   end
 
   def set_services
