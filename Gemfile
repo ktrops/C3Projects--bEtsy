@@ -1,4 +1,6 @@
 source 'https://rubygems.org'
+gem "rack-timeout", require:"rack/timeout/base"
+
 gem 'httparty'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.3'
