@@ -67,11 +67,11 @@ class Order < ActiveRecord::Base
   validates :address1, :city, :state, presence: true, on: :update
   validates :state, inclusion: { in: US_STATE_LETTER_CODES }, on: :update
 
-  validates :cc_number, numericality: { only_integer: true }, length: { in: 15..16 }
-  validates :cc_expiration, presence: true
-  validates :cc_cvv, numericality: { only_integer: true }, length: { is: 3 }
-  validate :expiration_date_cannot_be_in_the_past
-  validates :billing_zip, numericality: { only_integer: true }, length: { is: 5 }
+  validates :cc_number, numericality: { only_integer: true }, length: { in: 15..16 }, on: :update
+  validates :cc_expiration, presence: true, on: :update
+  validates :cc_cvv, numericality: { only_integer: true }, length: { is: 3 }, on: :update
+  validate :expiration_date_cannot_be_in_the_past, on: :update
+  validates :billing_zip, numericality: { only_integer: true }, length: { is: 5 }, on: :update
 
   def expiration_date_cannot_be_in_the_past
     if cc_expiration && cc_expiration < Date.today
