@@ -1,5 +1,9 @@
 FactoryGirl.define do
-  
+  factory :order do
+    status "pending"
+  end
+
+
   # factory :book do
   #   name "House of Leaves"
   #   author "Mark Z. Danielewski"

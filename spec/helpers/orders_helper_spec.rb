@@ -11,5 +11,20 @@ require 'rails_helper'
 #   end
 # end
 RSpec.describe OrdersHelper, type: :helper do
-  # pending "add some examples to (or delete) #{__FILE__}"
+  
+  describe "order view helpers" do
+    let(:unshipped_order) { create :order }
+    let(:shipped_order) { create :order, shipped: true }
+
+    context "order is shipped" do
+      it "returns 'shipped'" do
+        expect(frendly_shipped_status(shipped_order.shipped)).to eq "Shipped"
+      end
+    end
+    context "order is not shipped" do
+      it "returns 'not shipped'" do
+        expect(frendly_shipped_status(unshipped_order.shipped)).to eq "Not Shipped"
+      end
+    end
+  end
 end
