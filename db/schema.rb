@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150820025334) do
+ActiveRecord::Schema.define(version: 20150820222502) do
 
   create_table "categories", force: :cascade do |t|
     t.string   "name"
@@ -29,23 +29,23 @@ ActiveRecord::Schema.define(version: 20150820025334) do
   end
 
   create_table "orders", force: :cascade do |t|
-    t.string   "status",          default: "pending"
+    t.string   "status",        default: "pending"
     t.string   "email"
     t.string   "cc_name"
     t.string   "cc_number"
     t.date     "cc_expiration"
     t.integer  "cc_cvv"
     t.integer  "billing_zip"
-    t.boolean  "shipped",         default: false
+    t.boolean  "shipped",       default: false
     t.string   "address1"
     t.string   "address2"
     t.string   "city"
     t.string   "state"
     t.integer  "mailing_zip"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
     t.string   "mailing_name"
-    t.string   "tracking_number"
+    t.string   "shipping"
   end
 
   create_table "product_categories", force: :cascade do |t|

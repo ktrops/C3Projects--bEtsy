@@ -36,18 +36,19 @@ class OrdersController < ApplicationController
       ship_types[key].flatten!.delete_if{|o| o.class == String || o.class == NilClass}
     end
 
-    ship_types.each do |type, cost|
-    cost_per_type = 0
-      cost.each do |num|
-         cost_per_type += num
-       end
-       ship_types[type] = cost_per_type
-     end
-
     @options = []
-    ship_types.to_a.each do |array|
-      @options << array[0] + " $" + array[1].round(2).to_s
-    end
+
+    ship_types.each do |type, cost_datetime|
+      cost_per_type = 0
+        cost_datetime.each do |obj|
+           if obj.class == Integer
+             cost_per_type += obj
+           end
+         end
+      #  ship_types[type] => cost[0]
+
+      @options << type + " $" + cost_per_type.to_s + "  " + cost_datetime[1].to_s
+     end
     @options
 
     render :checkout
