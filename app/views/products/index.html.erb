@@ -1,15 +1,15 @@
 <%= form_tag products_category_path, method: "get", class: "form" do %>
   <div class="form-group inline-form">
-    <%= select_tag "category", options_from_collection_for_select(Category.all, "id", "name"), include_blank: "Select by...", class: "form-control fit-width" %>
+    <%= select_tag "category", options_from_collection_for_select(Category.all, "id", "name"), include_blank: "Categories...", class: "form-control fit-width" %>
   </div>
-  <%= submit_tag "Select by Category", class: "btn btn-default" %>
+  <%= button_tag(type: "submit", class: "btn btn-default") do %><span class="glyphicon glyphicon-search"></span><% end %>
 <% end %>
 
 <%= form_tag products_merchant_path, method: "get" do %>
   <div class="form-group inline-form">
-    <%= select_tag "user", options_from_collection_for_select(User.all, "id", "username"), include_blank: "Select by...", class: "form-control fit-width" %>
+    <%= select_tag "user", options_from_collection_for_select(User.all, "id", "username"), include_blank: "Merchants...", class: "form-control fit-width" %>
   </div>
-  <%= submit_tag "Select by Merchant", class: "btn btn-default" %>
+  <%= button_tag(type: "submit", class: "btn btn-default") do %><span class="glyphicon glyphicon-search"></span><% end %>
 <% end %>
 
 <% if request.path.include?("filter") %>
@@ -19,21 +19,9 @@
 <h1>Products</h1>
 <div class = "container-fluid">
   <div class ="row">
-    <div class = "col-sm-4 hidden-xs">
-      <h1>
-        Name
-      </h1>
-    </div>
-    <div class = "col-sm-4 hidden-xs">
-      <h1>
-        Photo
-      </h1>
-    </div>
-    <div class = "col-sm-4 hidden-xs">
-      <h1>
-        Price
-      </h1>
-    </div>
+    <div class = "col-sm-4 hidden-xs"><h2>Name</h2></div>
+    <div class = "col-sm-4 hidden-xs"></div>
+    <div class = "col-sm-4 hidden-xs"><h2>Price</h2></div>
   </div>
     <% if @products_array.empty? && @merchant_products.nil? %>
       <% unless @products.nil? %>
@@ -41,19 +29,13 @@
           <% if product.active %>
             <div class="row">
               <div class = "col-sm-4">
-                <p>
-                  <%= link_to "#{product.name}", product_path(product.id), class: "btn btn-default" %>
-                </p>
+                <p><%= link_to "#{product.name}", product_path(product.id), class: "btn btn-default" %></p>
               </div>
               <div class = "col-sm-4">
-                <p>
-                  <%= image_tag("#{product.photo_url}", class: "product-img-sm") %>
-                </p>
+                <p><%= image_tag("#{product.photo_url}", class: "product-img-sm") %></p>
               </div>
               <div class = "col-sm-4">
-                <p>
-                  <%= readable_price(product.price) %>
-                </p>
+                <p><%= readable_price(product.price) %></p>
               </div>
             </div>
           <% end %>
@@ -64,19 +46,13 @@
         <% if product.active %>
           <div class="row">
             <div class = "col-sm-4">
-              <p>
-                <%= link_to "#{product.name}", product_path(product.id), class: "btn btn-default" %>
-              </p>
+              <p><%= link_to "#{product.name}", product_path(product.id), class: "btn btn-default" %></p>
             </div>
             <div class = "col-sm-4">
-              <p>
-                <%= image_tag("#{product.photo_url}", class: "product-img-sm") %>
-              </p>
+              <p><%= image_tag("#{product.photo_url}", class: "product-img-sm") %></p>
             </div>
             <div class = "col-sm-4">
-              <p>
-                <%= readable_price(product.price) %>
-              </p>
+              <p><%= readable_price(product.price) %></p>
             </div>
           </div>
         <% end %>
@@ -86,19 +62,13 @@
         <% if product.active %>
           <div class="row">
             <div class = "col-sm-4">
-              <p>
-                <%= link_to "#{product.name}", product_path(product.id), class: "btn btn-default" %>
-              </p>
+              <p><%= link_to "#{product.name}", product_path(product.id), class: "btn btn-default" %></p>
             </div>
             <div class = "col-sm-4">
-              <p>
-                <%= image_tag("#{product.photo_url}", class: "product-img-sm") %>
-              </p>
+              <p><%= image_tag("#{product.photo_url}", class: "product-img-sm") %></p>
             </div>
             <div class = "col-sm-4">
-              <p>
-                <%= readable_price(product.price) %>
-              </p>
+              <p><%= readable_price(product.price) %></p>
             </div>
           </div>
         <% end %>

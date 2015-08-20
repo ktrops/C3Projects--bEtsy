@@ -1,4 +1,4 @@
-<h1>Shopping cart</h1>
+<h1>Shopping Cart</h1>
 
 <% if flash[:success] %>
   <div>
@@ -51,12 +51,8 @@
     </tr>
   </table>
 
-  <p><%= link_to 'Check out', checkout_path, class: "btn btn-success" %></p>
-  <p><%= link_to 'Continue shopping', products_path, class: 'btn btn-primary' %></p>
+  <p><%= link_to 'Check out', checkout_path, class: "btn btn-success pull-right" %></p>
 
 <% else %>
   <p>There are no items in your cart.</p>
-
-  <%= link_to 'Return to shopping', products_path, class: "btn btn-primary" %>
-
 <% end %>
