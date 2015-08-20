@@ -30,10 +30,10 @@ class OrdersController < ApplicationController
       response = ShippingApi.new.calc_shipping(query)
       all_responses << response
     end
-
+    # take est delivery out of UPS GROUND (nil)
     ship_types = all_responses.flatten!(1).group_by{ |array| array.first }
     ship_types.each do |key, costs|
-      ship_types[key].flatten!.delete_if{|o| o.class == String }
+      ship_types[key].flatten!.delete_if{|o| o.class == String || o.class == NilClass}
     end
 
     ship_types.each do |type, cost|
