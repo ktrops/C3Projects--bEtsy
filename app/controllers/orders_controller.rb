@@ -57,14 +57,12 @@ class OrdersController < ApplicationController
         packages:    @packages
       }.to_json
     )
-
-    @order.update(
-      address1:    params[:order][:address1],
-      address2:    params[:order][:address2],
-      city:        params[:order][:city],
-      state:       params[:order][:state],
-      mailing_zip: params[:order][:mailing_zip]
-      )
+      @order.address1 =     params[:order][:address1],
+      @order.address2 =     params[:order][:address2],
+      @order.city =         params[:order][:city],
+      @order.state =        params[:order][:state],
+      @order.mailing_zip =  params[:order][:mailing_zip]
+      @order.save(validate: false)
 
     @order_items = @order.order_items
   end
@@ -78,7 +76,6 @@ class OrdersController < ApplicationController
     end
 
     @order.status = "paid"
-
     if @order.update(order_params)
       Product.update_stock!(@order)
       flash[:confirmed_order_id] = @order.id
