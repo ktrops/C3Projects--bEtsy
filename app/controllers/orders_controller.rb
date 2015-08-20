@@ -44,7 +44,7 @@ class OrdersController < ApplicationController
       @packages.push(PCKG_DETAILS)
     end
 
-    HTTParty.post(
+    @rate = HTTParty.post(
       API_URI,
       headers: {
         "Content-Type" => "application/json"
