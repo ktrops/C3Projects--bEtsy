@@ -58,4 +58,6 @@ group :development, :test do
   gem 'pry-rails'
   # for inspecting route usage
   gem 'traceroute'
+
+  gem 'factory_girl_rails', '~> 4.0'
 end
