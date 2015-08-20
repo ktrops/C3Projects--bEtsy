@@ -16,6 +16,13 @@ class OrdersController < ApplicationController
 
   def shipping
     @order.assign_attributes(order_params)
+
+    package_sort(@order_items)
+
+    packages.each do |merchant, items|
+      merchant.
+    raise
+
     query = url_format(@order)
     response = ShippingApi.new.calc_shipping(query)
 

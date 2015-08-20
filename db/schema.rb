@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150819185355) do
+ActiveRecord::Schema.define(version: 20150820025334) do
 
   create_table "categories", force: :cascade do |t|
     t.string   "name"
@@ -66,8 +66,12 @@ ActiveRecord::Schema.define(version: 20150819185355) do
     t.string   "username"
     t.string   "email"
     t.string   "password_digest"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+    t.string   "country",         default: "US"
+    t.string   "state"
+    t.string   "city"
+    t.string   "zip"
   end
 
 end

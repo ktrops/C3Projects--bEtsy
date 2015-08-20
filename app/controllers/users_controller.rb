@@ -42,7 +42,7 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.permit(user: [:username, :email, :password, :password_confirmation])
+    params.permit(user: [:username, :email, :password, :password_confirmation, :country, :state, :city, :zip])
   end
 
   # this calculates total sales for the current_user, which is set in the sessions[:user_id]
