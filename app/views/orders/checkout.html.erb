@@ -6,18 +6,14 @@
 
 <% if flash.now[:errors] %>
   <div>
-    <p class="alert alert-danger">
-      <%= flash.now[:errors] %>
-    </p>
+    <p class="alert alert-danger"><%= flash.now[:errors] %></p>
   </div>
 <% end %>
 
 <% if @order.errors.messages.count > 0 %>
   <% @order.errors.full_messages.each do |message| %>
     <div>
-      <p class="alert alert-warning">
-        <%= message %>
-      </p>
+      <p class="alert alert-warning"><%= message %></p>
     </div>
   <% end %>
 <% end %>
@@ -26,33 +22,17 @@
 
 <table class="table">
   <tr>
-    <th>
-      Item
-    </th>
-    <th>
-      Price
-    </th>
-    <th>
-      Quantity
-    </th>
-    <th>
-      Line Price
-    </th>
+    <th>Item</th>
+    <th>Price</th>
+    <th>Quantity</th>
+    <th>Line Price</th>
   </tr>
   <% @order_items.each do |order_item| %>
     <tr>
-      <td>
-        <%= order_item.product.name %>
-      </td>
-      <td>
-        <%= readable_price(order_item.product.price) %>
-      </td>
-      <td>
-        <%= order_item.quantity %>
-      </td>
-      <td>
-        <%= readable_price(order_item.product.price * order_item.quantity) %>
-      </td>
+      <td><%= order_item.product.name %></td>
+      <td><%= readable_price(order_item.product.price) %></td>
+      <td><%= order_item.quantity %></td>
+      <td><%= readable_price(order_item.product.price * order_item.quantity) %></td>
     </tr>
   <% end %>
 </table>
@@ -60,6 +40,8 @@
 <p>Order total: <%= readable_price(@order.subtotal) %></p>
 
 <%= link_to 'Edit order', cart_path, class: "btn btn-warning" %>
+
+<!-- ################################################### -->
 
 <%= form_for @order, url: shipping_path(@order), method: :put, class: "form" do |f| %>
 
@@ -101,44 +83,48 @@
   </div>
 
   <%= f.submit "Calculate Shipping", class: 'btn btn-danger btn-block'%>
+<% end %>
 
-  <% end %>
+<!-- ################################################### -->
 
-  <h3>Shipping Estimates</h3>
+<% if action_name == "shipping" %>
   <%= form_for @order, url: finalize_order_path(@order), method: :put, class: "form" do |f| %>
+    
+    <h3>Shipping Estimates</h3>
 
-  <div class="form-group">
-      <%= f.label :shipping, "Options" %>
-      <%= f.select :shipping, @shipping_options, {include_blank: true}, class: "form-control" %>
-  </div>
+    <div class="form-group">
+        <%= f.label :shipping, "Options" %>
+        <%= f.select :shipping, @shipping_options, {include_blank: true}, class: "form-control" %>
+    </div>
 
-  <h3>Payment</h3>
+    <h3>Payment</h3>
 
-  <div class="form-group">
-    <%= f.label :cc_name, "Name on card" %>
-    <%= f.text_field :cc_name, required: true, class: 'form-control' %>
-  </div>
+    <div class="form-group">
+      <%= f.label :cc_name, "Name on Card" %>
+      <%= f.text_field :cc_name, required: true, class: 'form-control' %>
+    </div>
 
-  <div class="form-group">
-    <%= f.label :cc_number, "Card number" %>
-    <%= f.text_field :cc_number, required: true, class: 'form-control' %>
-  </div>
+    <div class="form-group">
+      <%= f.label :cc_number, "Card Number" %>
+      <%= f.text_field :cc_number, required: true, class: 'form-control' %>
+    </div>
 
-  <div class="form-group">
-    <%= f.label :cc_expiration, "Credit card expiration date", class: "form-label" %>
-    <%= f.date_select :cc_expiration, use_month_numbers: true, use_two_digit_numbers: true, order: [:month, :year], start_year: Date.today.year, start_month: Date.today.month, end_year: Date.today.year+10, prompt: true, required: true, class: 'form-control' %>
-  </div>
+    <div class="form-group">
+      <%= f.label :cc_expiration, "Credit Card Expiration Date", class: "form-label" %>
+      <%= f.date_select :cc_expiration, use_month_numbers: true, use_two_digit_numbers: true, order: [:month, :year], start_year: Date.today.year, start_month: Date.today.month, end_year: Date.today.year+10, prompt: true, required: true, class: 'form-control' %>
+    </div>
 
-  <div class="form-group">
-    <%= f.label :cc_cvv, "CVV (3 digit code on back of card)" %>
-    <%= f.text_field :cc_cvv, maxlength: 3, required: true, class: 'form-control' %>
-  </div>
+    <div class="form-group">
+      <%= f.label :cc_cvv, "CVV (3 digit code on back of card)" %>
+      <%= f.text_field :cc_cvv, maxlength: 3, required: true, class: 'form-control' %>
+    </div>
 
-  <div class="form-group">
-    <%= f.label :billing_zip, "Billing zip code" %>
-    <%= f.text_field :billing_zip, maxlength: 5, required: true, class: 'form-control' %>
-  </div>
+    <div class="form-group">
+      <%= f.label :billing_zip, "Billing Zip Code" %>
+      <%= f.text_field :billing_zip, maxlength: 5, required: true, class: 'form-control' %>
+    </div>
 
     <%= f.submit "Place order", class: 'btn btn-danger btn-block'%>
 
+  <% end %>
 <% end %>
