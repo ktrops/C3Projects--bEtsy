@@ -41,16 +41,18 @@ class OrdersController < ApplicationController
     ship_types.each do |type, cost_datetime|
       cost_per_type = 0
         cost_datetime.each do |obj|
-           if obj.class == Integer
+           if obj.class == Float
              cost_per_type += obj
            end
+           cost_per_type
          end
-      #  ship_types[type] => cost[0]
-
-      @options << type + " $" + cost_per_type.to_s + "  " + cost_datetime[1].to_s
+      unless cost_datetime[1].nil?
+        @options << type + "         $#{cost_per_type.to_s}" + "  EDD: #{cost_datetime[1].strftime("%b/%e")}"
+      else
+        @options << type + "  $" + cost_per_type.to_s
+      end
      end
     @options
-
     render :checkout
   end
 
