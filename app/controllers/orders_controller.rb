@@ -14,12 +14,10 @@ class OrdersController < ApplicationController
 
   PCKG_DETAILS = [20, [20, 10, 10]]
 
-  COUNTRY = "US"
-
   def show
-    @order = Order.find(params[:id])
+    @order       = Order.find(params[:id])
 
-    @user_items = @current_user.order_items
+    @user_items  = @current_user.order_items
 
     @total_sales = total_sales(@order, @user_items)
   end
@@ -57,12 +55,13 @@ class OrdersController < ApplicationController
         packages:    @packages
       }.to_json
     )
-      @order.address1 =     params[:order][:address1],
-      @order.address2 =     params[:order][:address2],
-      @order.city =         params[:order][:city],
-      @order.state =        params[:order][:state],
-      @order.mailing_zip =  params[:order][:mailing_zip]
-      @order.save(validate: false)
+    @order.address1    =  params[:order][:address1],
+    @order.address2    =  params[:order][:address2],
+    @order.city        =  params[:order][:city],
+    @order.state       =  params[:order][:state],
+    @order.mailing_zip =  params[:order][:mailing_zip]
+
+    @order.save(validate: false)
 
     @order_items = @order.order_items
   end
@@ -71,6 +70,7 @@ class OrdersController < ApplicationController
     @order = Order.find(session[:order_id])
 
     @order_items = @order.order_items
+
     @order_items.each do |order_item|
       order_item.set_item_total
     end
@@ -78,8 +78,9 @@ class OrdersController < ApplicationController
     @order.status = "paid"
     if @order.update(order_params)
       Product.update_stock!(@order)
+
       flash[:confirmed_order_id] = @order.id
-      # how to persist page if refreshed?
+
       session[:order_id] = nil
 
       redirect_to confirmation_path
@@ -99,7 +100,9 @@ class OrdersController < ApplicationController
 
   def cancel
     @order = Order.find(flash[:confirmed_order_id])
+
     @order.status = "cancelled"
+
     @order.save
 
     redirect_to root_path
