@@ -44,7 +44,7 @@ class OrdersController < ApplicationController
       @packages.push(PCKG_DETAILS)
     end
 
-    @rate = HTTParty.post(
+    @rates = HTTParty.post(
       API_URI,
       headers: {
         "Content-Type" => "application/json"
@@ -55,6 +55,22 @@ class OrdersController < ApplicationController
         packages:    @packages
       }.to_json
     )
+
+    @rate_2day = "FedEx 2 Day"
+    @rate_standard_on = "FedEx Standard Overnight"
+    @rate_ground = "FedEx Ground Home Delivery"
+
+    @rates.each do |rate|
+      case rate["service_name"]
+      when @rate_2day
+        @rate_2day = rate
+      when @rate_standard_on
+        @rate_standard_on = rate
+      when @rate_ground
+        @rate_ground = rate
+      end
+    end
+
     @order.address1    =  params[:order][:address1],
     @order.address2    =  params[:order][:address2],
     @order.city        =  params[:order][:city],
