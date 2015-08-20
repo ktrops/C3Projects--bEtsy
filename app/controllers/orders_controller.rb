@@ -14,6 +14,11 @@ class OrdersController < ApplicationController
 
   PCKG_DETAILS = [20, [20, 10, 10]]
 
+  TWO_DAY  = "FedEx 2 Day"
+  GROUND   = "FedEx Ground Home Delivery"
+  STANDARD = "FedEx Standard Overnight"
+
+
   def show
     @order       = Order.find(params[:id])
 
@@ -29,55 +34,11 @@ class OrdersController < ApplicationController
   def checkout2
     @order = Order.find(session[:order_id])
 
-    destination = {
-      city:    params[:order][:city],
-      state:   params[:order][:state],
-      zip:     params[:order][:mailing_zip],
-      country: "US"
-    }
+    get_rates
 
-    quantity = @order.order_items.count
+    set_services
 
-    @packages = []
-
-    quantity.times do
-      @packages.push(PCKG_DETAILS)
-    end
-
-    @rates = HTTParty.post(
-      API_URI,
-      headers: {
-        "Content-Type" => "application/json"
-      },
-      body: {
-        origin:      ORIGIN,
-        destination: destination,
-        packages:    @packages
-      }.to_json
-    )
-
-    @rate_2day = "FedEx 2 Day"
-    @rate_standard_on = "FedEx Standard Overnight"
-    @rate_ground = "FedEx Ground Home Delivery"
-
-    @rates.each do |rate|
-      case rate["service_name"]
-      when @rate_2day
-        @rate_2day = rate
-      when @rate_standard_on
-        @rate_standard_on = rate
-      when @rate_ground
-        @rate_ground = rate
-      end
-    end
-
-    @order.address1    =  params[:order][:address1],
-    @order.address2    =  params[:order][:address2],
-    @order.city        =  params[:order][:city],
-    @order.state       =  params[:order][:state],
-    @order.mailing_zip =  params[:order][:mailing_zip]
-
-    @order.save(validate: false)
+    set_order_address
 
     @order_items = @order.order_items
   end
@@ -129,6 +90,48 @@ class OrdersController < ApplicationController
     @order_items = @user.order_items
     @total_revenue = @order_items.sum(:item_total)
     @filtered_order_items = nil
+  end
+
+  def get_rates
+    destination = {
+      city:    params[:order][:city],
+      state:   params[:order][:state],
+      zip:     params[:order][:mailing_zip],
+      country: "US"
+    }
+
+    quantity = @order.order_items.count
+
+    packages = []
+
+    quantity.times do
+      packages.push(PCKG_DETAILS)
+    end
+
+    @rates = HTTParty.post(
+      API_URI,
+      headers: {
+        "Content-Type" => "application/json"
+      },
+      body: {
+        origin:      ORIGIN,
+        destination: destination,
+        packages:    packages
+      }.to_json
+    )
+  end
+
+  def set_services
+    @rates.each do |rate|
+      case rate["service_name"]
+      when TWO_DAY
+        @rate_2day = rate
+      when STANDARD
+        @rate_standard_on = rate
+      when GROUND
+        @rate_ground = rate
+      end
+    end
   end
 
   def mark_shipped
@@ -186,6 +189,16 @@ class OrdersController < ApplicationController
     end
 
     redirect_to order_fulfillment_path(@user.id)
+  end
+
+  def set_order_address
+    @order.address1    =  params[:order][:address1],
+    @order.address2    =  params[:order][:address2],
+    @order.city        =  params[:order][:city],
+    @order.state       =  params[:order][:state],
+    @order.mailing_zip =  params[:order][:mailing_zip]
+
+    @order.save(validate: false)
   end
 
   def order_params
