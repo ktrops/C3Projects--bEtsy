@@ -1,7 +1,20 @@
 FactoryGirl.define do
   factory :order do
     status "pending"
+    email "joe@mail.com"
+    cc_name "Joe Smoe"
+    cc_number "0000123456781234"
+    cc_cvv 567
+    billing_zip 98740
+    shipped false
+    address1 "123 Main St"
+    address2 "apt #2"
+    city "Kent"
+    state "WA"
+    mailing_name "Joe Smoe"
+    mailing_zip 98740
   end
+
 
   factory :order_item do
     quantity 4
@@ -11,6 +24,10 @@ FactoryGirl.define do
     name "toy"
     price 10
     stock 100
+    length 2
+    width 2
+    height 2
+    weight 2
   end
 
 

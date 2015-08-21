@@ -4,7 +4,7 @@ RSpec.describe ProductCategoriesController, type: :controller do
   describe "POST #create" do
     context "valid product_category params" do
       before :each do
-        @product = Product.create(name: "foo", price: 1000, stock: 4)
+        @product = Product.create(name: "foo", price: 1000, stock: 4, length: 2, width: 2, height: 2, weight: 2)
         @category = Category.create(name: "bar")
       end
 
