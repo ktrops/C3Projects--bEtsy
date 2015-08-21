@@ -18,13 +18,9 @@ class OrdersController < ApplicationController
   TWO_DAY  = "FedEx 2 Day"
   GROUND   = "FedEx Ground Home Delivery"
   FEDEX_STANDARD = "FedEx Standard Overnight"
-  USPS1 = "USPS First-Class Mail Parcel"
-  USPS2 = "USPS Standard Post"
-  USPS3 = "USPS Priority Mail 2-Day Medium Flat Rate Box"
-  USPS4 = "USPS Priority Mail 2-Day Large Flat Rate Box"
-  USPS5 = "USPS Priority Mail Express 2-Day Flat Rate Boxes"
-  USPS6 = "USPS Priority Mail Express 2-Day Flat Rate Boxes Hold For Pickup"
-  # trying to get non-nil values
+  UPS_STANDARD = "UPS Standard"
+  UPS_THREE_DAY =  "UPS Three-Day Select"
+  UPS_GROUND = "UPS Ground"
 # ------------------------------------------------------
 
   def show
@@ -138,17 +134,11 @@ class OrdersController < ApplicationController
           @rate_array.push(rate)
         when GROUND
           @rate_array.push(rate)
-        when USPS1
+        when UPS_STANDARD
           @rate_array.push(rate)
-        when USPS2
+        when UPS_THREE_DAY
           @rate_array.push(rate)
-        when USPS3
-          @rate_array.push(rate)
-        when USPS4
-          @rate_array.push(rate)
-        when USPS5
-          @rate_array.push(rate)
-        when USPS6
+        when UPS_GROUND
           @rate_array.push(rate)
         end
       end

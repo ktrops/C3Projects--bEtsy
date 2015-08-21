@@ -1,6 +1,6 @@
 <%= form_tag checkout2_path do %>
-  <%= @rate_array.each do |rate| %>
-    
+  <% @rate_array.each do |rate| %>
+
       <div class="form-group">
         <%= label_tag(
           name = rate["service_name"]
@@ -10,7 +10,7 @@
             (rate["total_price"]),
             checked = false)
           %>
-          <p><%= rate["delivery_date"].to_datetime.strftime("Delivered by: %m/%d")  %></p>
+        <p><%= rate["delivery_date"]? rate["delivery_date"].to_datetime.strftime("Delivered by: %m/%d") : "No Estimate Available"  %></p>
       </div>
   <% end %>
   <%= submit_tag  %>
