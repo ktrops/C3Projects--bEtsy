@@ -12,7 +12,7 @@ class OrdersController < ApplicationController
 
   def checkout
     # place holder for functionality
-    @shipping_options = []
+    @options = []
   end
 
   def shipping

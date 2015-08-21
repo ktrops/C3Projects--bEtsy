@@ -85,7 +85,7 @@
 
       <div class="form-group">
         <%= f.label :state, class: "form-label" %>
-        <%= f.select :state, Order::US_STATES, { include_blank: true }, { class: 'form-control' } %>
+        <%= f.select :state, Order::US_STATES, { include_blank: true }, { required: true, class: 'form-control' } %>
       </div>
 
       <div class="form-group">
@@ -98,7 +98,7 @@
   </div>
 
   <!-- ################################################### -->
-  <% if action_name == "shipping" %>
+  <% if action_name == "shipping" || action_name == "finalize" %>
     <%= form_for @order, url: finalize_order_path(@order), method: :put, class: "form" do |f| %>
 
       <hr>
