@@ -17,6 +17,7 @@ class OrdersController < ApplicationController
   TWO_DAY  = "FedEx 2 Day"
   GROUND   = "FedEx Ground Home Delivery"
   STANDARD = "FedEx Standard Overnight"
+  PRIORITY = "PRIORITY"
 
 
   def show
@@ -126,14 +127,19 @@ class OrdersController < ApplicationController
   end
 
   def set_services
-    @rates.each do |rate|
-      case rate["service_name"]
-      when TWO_DAY
-        @rate_2day = rate
-      when STANDARD
-        @rate_standard_on = rate
-      when GROUND
-        @rate_ground = rate
+
+    @rates.each do |rates|
+      rates.each do |rate|
+        case rate["service_name"]
+        when TWO_DAY
+          @rate_2day = rate
+        when STANDARD
+          @rate_standard_on = rate
+        when GROUND
+          @rate_ground = rate
+        when PRIORITY
+          @rate_priority = rate
+        end
       end
     end
   end
