@@ -1,5 +1,10 @@
 class ShippingApi
-  SHIPPING_URI = "http://localhost:3001/shipping?"
+  
+  if Rails.env == "production"
+    SHIPPING_URI = "http://meta-shipping-api.herokuapp.com/shipping?"
+  else
+    SHIPPING_URI = "http://localhost:3001/shipping?"
+  end
 
   def calc_shipping(query)
     response = HTTParty.get(SHIPPING_URI + query)
