@@ -19,6 +19,7 @@
           <td><%= order_item.quantity %></td>
           <td><%= readable_price(order_item.product.price * order_item.quantity) %></td>
         </tr>
+      <% end %>
         <tr>
           <td></td>
           <td></td>
@@ -31,7 +32,6 @@
           <td><strong>TOTAL:</strong></td>
           <td><strong><%= readable_price(@order.subtotal) %></strong></td>
         </tr>
-      <% end %>
     </table>
   </div>
 
