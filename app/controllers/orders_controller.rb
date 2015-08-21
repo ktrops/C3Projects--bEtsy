@@ -25,18 +25,28 @@ class OrdersController < ApplicationController
     # iterate each key/value pair to instantiate new origin for each user
     # and new package with API call - destination remains the same
 
+    @options = []
+
     all_responses = []
+
     merchant_orders.each do |merchant, package|
       query = url_format(merchant, package, @order)
       response = ShippingApi.new.calc_shipping(query)
+
+      if response.include? ("message")
+        flash[:errors] = response["message"]
+        redirect_to :back and return
+      end
+
       all_responses << response
     end
+
     # take est delivery out of UPS GROUND (nil)
     ship_types = all_responses.flatten!(1).group_by{ |array| array.first }
+    
     ship_types.each do |key, costs|
       ship_types[key].flatten!.delete_if{|o| o.class == String || o.class == NilClass}
     end
-    @options = []
 
     ship_types.each do |type, cost_datetime|
       cost_per_type = 0
@@ -52,6 +62,7 @@ class OrdersController < ApplicationController
         @options << type + "  $" + cost_per_type.to_s
       end
      end
+
     @options
     render :checkout
   end
