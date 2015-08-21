@@ -93,6 +93,11 @@ class OrdersController < ApplicationController
   def confirmation
     flash.keep
     @order = Order.find(flash[:confirmed_order_id])
+
+    @shipping_cost = @order.shipping.match(/\$(\d+\.\d+)/)[0]
+    @grand_total_cost = (@order.final_total/100.00) + @shipping_cost[1..-1].to_f
+
+    @delivery_date = @order.shipping.match(/EDD:\s\w+\/\d+/) ? @order.shipping.match(/EDD:\s\w+\/\d+/)[0] : "Unknown"
     # use the below line for debugging (to avoid losing the flash[:confirmed_order_id])
     # @order = Order.find(12)
   end
