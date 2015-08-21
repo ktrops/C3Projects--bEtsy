@@ -1,98 +1,46 @@
 Rails.application.routes.draw do
-
   root 'home#index'
 
-  resources :users do
-    resources :products, except: [:index]
-    resources :orders, only: [:show, :update]
+  resources :users, except: [:new, :index, :destroy] do
+    resources :products, except: [:index, :destroy]
+    resources :orders, only: [:show]
   end
 
-  resources :products do
+  get '/register', to: 'users#new', as: 'register'
+
+  resources :products, except: [:destroy] do
     resources :reviews, only: [:new, :create]
     resources :order_items, only: [:create, :destroy]
     resources :product_categories, only: [:create, :destroy]
   end
 
-  get '/login', to: 'sessions#new', as: 'login'
-  post '/login', to: 'sessions#create'
-  delete '/logout', to: 'sessions#destroy', as: 'logout'
+  get     '/login',   to: 'sessions#new',     as: 'login'
+  post    '/login',   to: 'sessions#create'
+  delete  '/logout',  to: 'sessions#destroy', as: 'logout'
 
   get '/products/merchant/filter', to: 'products#merchant', as: 'products_merchant'
-
   get '/products/category/filter', to: 'products#category', as: 'products_category'
 
   put '/products/:id/toggle_active', to: 'products#toggle_active', as: 'toggle_active'
 
-
   get '/users/:user_id/products', to: 'products#merchant_index', as: 'products_merchant_index'
 
-  get '/users/:id/order_fulfillment', to: 'orders#fulfillment', as: 'order_fulfillment'
+  get '/users/:id/order_fulfillment',               to: 'orders#fulfillment',   as: 'order_fulfillment'
+  put '/users/:id/order_fulfillment/mark_shipped',  to: 'orders#mark_shipped',  as: 'mark_shipped'
+  get '/users/:id/order_fulfillment/status/filter', to: 'orders#filter_status', as: 'order_status'
 
   get '/cart', to: 'order_items#cart', as: 'cart'
-  # should the finalize route have the :id in the url?
+
   put 'orders/:id/finalize', to: 'orders#finalize', as: 'finalize_order'
 
   resources :order_items, only: [:update, :destroy]
-  get '/checkout', to: 'orders#checkout', as: 'checkout'
+  get '/checkout1',             to: 'orders#checkout1',             as: 'checkout1'
+  put '/shipping_confirmation', to: 'orders#shipping_confirmation', as: 'shipping'
+  post '/checkout2',            to: 'orders#checkout2',             as: 'checkout2'
+
   get '/confirmation', to: 'orders#confirmation', as: 'confirmation'
+  post "/cancel",      to: "orders#cancel",       as: 'cancel_order'
 
-  get '/category', to: 'product_categories#new_category', as: 'new_category'
+  get '/category',  to: 'product_categories#new_category', as: 'new_category'
   post '/category', to: 'product_categories#create_category'
-
-  # The priority is based upon order of creation: first created -> highest priority.
-  # See how all your routes lay out with "rake routes".
-
-  # You can have the root of your site routed with "root"
-  # root 'welcome#index'
-
-  # get 'orders/:id' => 'orders#show'
-
-  # Example of regular route:
-  #   get 'products/:id' => 'catalog#view'
-
-  # Example of named route that can be invoked with purchase_url(id: product.id)
-  #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
-
-  # Example resource route (maps HTTP verbs to controller actions automatically):
-  #   resources :products
-
-  # Example resource route with options:
-  #   resources :products do
-  #     member do
-  #       get 'short'
-  #       post 'toggle'
-  #     end
-  #
-  #     collection do
-  #       get 'sold'
-  #     end
-  #   end
-
-  # Example resource route with sub-resources:
-  #   resources :products do
-  #     resources :comments, :sales
-  #     resource :seller
-  #   end
-
-  # Example resource route with more complex sub-resources:
-  #   resources :products do
-  #     resources :comments
-  #     resources :sales do
-  #       get 'recent', on: :collection
-  #     end
-  #   end
-
-  # Example resource route with concerns:
-  #   concern :toggleable do
-  #     post 'toggle'
-  #   end
-  #   resources :posts, concerns: :toggleable
-  #   resources :photos, concerns: :toggleable
-
-  # Example resource route within a namespace:
-  #   namespace :admin do
-  #     # Directs /admin/products/* to Admin::ProductsController
-  #     # (app/controllers/admin/products_controller.rb)
-  #     resources :products
-  #   end
 end

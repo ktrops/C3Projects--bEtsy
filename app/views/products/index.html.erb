@@ -1,36 +1,38 @@
-
 <%= form_tag products_category_path, method: "get", class: "form" do %>
-<div class="form-group inline-form">
-  <%= select_tag "category", options_from_collection_for_select(Category.all, "id", "name"), include_blank: "Filter by...", class: "form-control fit-width" %>
-</div>
-  <%= submit_tag "Filter by Category", class: "btn btn-default" %>
+  <div class="form-group inline-form">
+    <%= select_tag "category", options_from_collection_for_select(Category.all, "id", "name"), include_blank: "Select by...", class: "form-control fit-width" %>
+  </div>
+  <%= submit_tag "Select by Category", class: "btn btn-default" %>
 <% end %>
 
-
-
 <%= form_tag products_merchant_path, method: "get" do %>
-<div class="form-group inline-form">
-  <%= select_tag "user", options_from_collection_for_select(User.all, "id", "username"), include_blank: "Filter by...", class: "form-control fit-width" %>
-</div>
-  <%= submit_tag "Filter by Merchant", class: "btn btn-default" %>
+  <div class="form-group inline-form">
+    <%= select_tag "user", options_from_collection_for_select(User.all, "id", "username"), include_blank: "Select by...", class: "form-control fit-width" %>
+  </div>
+  <%= submit_tag "Select by Merchant", class: "btn btn-default" %>
 <% end %>
 
 <% if request.path.include?("filter") %>
-  <%= link_to "See all Products", products_path, method: :get, class: "btn" %>
+  <%= link_to "See all Products", products_path, method: :get, class: "btn btn-default" %>
 <% end %>
 
-
-<h1>Products</h1> 
+<h1>Products</h1>
 <div class = "container-fluid">
   <div class ="row">
-    <div class = "col-sm-4">
-      <h1>Name</h1>
+    <div class = "col-sm-4 hidden-xs">
+      <h1>
+        Name
+      </h1>
     </div>
-    <div class = "col-sm-4">
-      <h1>Photo</h1>
+    <div class = "col-sm-4 hidden-xs">
+      <h1>
+        Photo
+      </h1>
     </div>
-    <div class = "col-sm-4">
-      <h1>Price</h1>
+    <div class = "col-sm-4 hidden-xs">
+      <h1>
+        Price
+      </h1>
     </div>
   </div>
     <% if @products_array.empty? && @merchant_products.nil? %>
@@ -39,13 +41,19 @@
           <% if product.active %>
             <div class="row">
               <div class = "col-sm-4">
-                <p><%= link_to "#{product.name}", product_path(product.id) %></p>
+                <p>
+                  <%= link_to "#{product.name}", product_path(product.id), class: "btn btn-default" %>
+                </p>
               </div>
               <div class = "col-sm-4">
-                <p><%= image_tag("#{product.photo_url}", class: "photo") %></p>
+                <p>
+                  <%= image_tag("#{product.photo_url}", class: "product-img-sm") %>
+                </p>
               </div>
               <div class = "col-sm-4">
-                <p><%= readable_price(product.price) %></p>
+                <p>
+                  <%= readable_price(product.price) %>
+                </p>
               </div>
             </div>
           <% end %>
@@ -54,35 +62,46 @@
     <% elsif @merchant_products.nil? %>
       <% @products_array.each do |product| %>
         <% if product.active %>
-        <div class="row">
-          <div class = "col-sm-4">
-            <p><%= link_to "#{product.name}", product_path(product.id) %></p>
+          <div class="row">
+            <div class = "col-sm-4">
+              <p>
+                <%= link_to "#{product.name}", product_path(product.id), class: "btn btn-default" %>
+              </p>
+            </div>
+            <div class = "col-sm-4">
+              <p>
+                <%= image_tag("#{product.photo_url}", class: "product-img-sm") %>
+              </p>
+            </div>
+            <div class = "col-sm-4">
+              <p>
+                <%= readable_price(product.price) %>
+              </p>
+            </div>
           </div>
-          <div class = "col-sm-4">
-            <p><%= image_tag("#{product.photo_url}", class: "photo") %></p>
-          </div>
-          <div class = "col-sm-4">
-            <p><%= readable_price(product.price) %></p>
-          </div>
-        </div>
         <% end %>
       <% end %>
     <% else %>
       <% @merchant_products.each do |product| %>
         <% if product.active %>
-        <div class="row">
-          <div class = "col-sm-4">
-            <p><%= link_to "#{product.name}", product_path(product.id) %></p>
+          <div class="row">
+            <div class = "col-sm-4">
+              <p>
+                <%= link_to "#{product.name}", product_path(product.id), class: "btn btn-default" %>
+              </p>
+            </div>
+            <div class = "col-sm-4">
+              <p>
+                <%= image_tag("#{product.photo_url}", class: "product-img-sm") %>
+              </p>
+            </div>
+            <div class = "col-sm-4">
+              <p>
+                <%= readable_price(product.price) %>
+              </p>
+            </div>
           </div>
-          <div class = "col-sm-4">
-            <p><%= image_tag("#{product.photo_url}", class: "photo") %></p>
-          </div>
-          <div class = "col-sm-4">
-            <p><%= readable_price(product.price) %></p>
-          </div>
-        </div>
         <% end %>
       <% end %>
     <% end %>
-  
 </div>

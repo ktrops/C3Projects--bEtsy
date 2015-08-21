@@ -1,0 +1,21 @@
+<%= form_tag checkout2_path do %>
+  <% @rate_array.each do |rate| %>
+
+      <div class="form-group">
+        <%= label_tag(
+          name = rate["service_name"]
+        ) %>
+          <%= radio_button_tag(
+            "price",
+            (rate["total_price"]),
+            checked = false
+          )
+          %>
+          <%= hidden_field_tag :service_name, rate["service_name"] %>
+
+        <p> <%= readable_price(rate["total_price"]) %>
+            <%= rate["delivery_date"]? rate["delivery_date"].to_datetime.strftime("Delivered by: %m/%d") : "No Estimate Available"  %></p>
+      </div>
+  <% end %>
+  <%= submit_tag "Continue", class:"btn btn-primary" %>
+<% end %>

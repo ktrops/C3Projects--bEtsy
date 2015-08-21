@@ -1,0 +1,33 @@
+
+<%= form_for @order, url: shipping_path, method: :put, class: "form" do |f| %>
+
+  <div class="form-group">
+    <%= f.label :address1, "Address line 1" %>
+    <%= f.text_field :address1, required: true, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :address2, "Address line 2" %>
+    <%= f.text_field :address2, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :city %>
+    <%= f.text_field :city, required: true, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :state, class: "form-label" %>
+    <%= f.select :state, Order::US_STATES, { include_blank: true }, { class: 'form-control' } %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :mailing_zip, "Zip code" %>
+    <%= f.text_field :mailing_zip, maxlength: 5, required: true, class: 'form-control' %>
+  </div>
+
+  <div>
+    <%= f.submit "Continue", class:"btn btn-primary" %>
+  </div>
+
+  <% end %>

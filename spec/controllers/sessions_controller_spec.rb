@@ -2,18 +2,17 @@ require 'rails_helper'
 
 RSpec.describe SessionsController, type: :controller do
 
-  # describe "GET #create" do
-  #   it "returns http success" do
-  #     get :create
-  #     expect(response).to have_http_status(:success)
-  #   end
-  # end
-  #
-  # describe "GET #destroy" do
-  #   it "returns http success" do
-  #     get :destroy
-  #     expect(response).to have_http_status(:success)
-  #   end
-  # end
+  describe "POST #create" do
+
+    it "is sessionless by default" do
+     expect(session[:user_id]).to eq(nil)
+    end
+
+    it "creates a session given required params" do
+      user = User.create(username: "James Games", email: "james@email.com", password: "password", password_confirmation: "password")
+      session[:user_id] = user.id
+      expect(session[:user_id]).to eq(1)
+    end
+  end
 
 end

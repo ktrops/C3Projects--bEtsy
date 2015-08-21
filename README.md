@@ -1,14 +1,16 @@
-Brenna, Alice, Elsa, Katie
+Brittany & Carly -- Shipping!
 
-#how to merge your branch and pull changes from the master
-1) git add and commit your changes on your branch
-2) git checkout master_branch_name
-3) git pull
-4) git merge your_branch_name
-5) git push
-6) git checkout your_branch_name
-7) git merge master_branch_name
-8) breathe a sigh of relief if you did not get any errors :)
+Heroku link: https://afternoon-plains-6625.herokuapp.com/
+
+# How to merge your branch and pull changes from the master
+1. git add and commit your changes on your branch
+2. git checkout master_branch_name
+3. git pull
+4. git merge your_branch_name
+5. git push
+6. git checkout your_branch_name
+7. git merge master_branch_name
+8. breathe a sigh of relief if you did not get any errors :)
 
 # C3Projects--bEtsy
 [b]Etsy will be an online store where a wide variety of products can be listed and sold by any user. In this project we will focus on reinforcing the major components of Rails, Model Validation, as well as introducing some more complex logic such as user authentication.
@@ -202,3 +204,68 @@ At the end of each day, the team leaders will prepare a report containing the St
 In a real world work environment, a team's success is measured by their product as opposed to each individual's contribution.
 
 Each team will present their progress and respond to questions from their Project Manager each Friday. Every team member will participate in these demos; the PM will ask specific questions regarding 1) the team's progress and plan for completing the project, 2) the technical decisions and implementation, and 3) every team member's understanding of the underlying technical structures.
+
+# Shipping!
+Build a stand-alone shipping service API that calculates estimated shipping cost for an order from another team's bEtsy application.
+
+## Learning Goals
+- Develop the ability to read 3rd party code
+- APIs
+    - design
+    - build
+    - test
+- Continue working with JSON
+- Revisit
+    - HTTP interactions
+    - Testing of 3rd party services
+- Increased confidence in working with 3rd party APIs
+
+## Guidelines
+- Practice TDD to lead the development process for Models and Controllers
+- Create user stories and keep the stories up-to-date throughout the project
+- Deploy on Heroku
+- Shipping API will communicate with the bEtsy app via JSON
+- Integrate the [Active Shipping](https://github.com/Shopify/active_shipping) gem to do shipping-specific logic for you
+
+## Project Baseline
+When you've accomplished all of the baseline requirements, please issue a PR back to the bEtsy team's fork. We will review and merge your baseline, but you don't need to wait for that to happen before helping your classmates and moving on to the project requirements.
+
+### The baseline requirements are...
+- a ruby-gemset and ruby-version.
+- a new rails 4.2.2 application.
+- [rspec](https://github.com/rspec/rspec-rails) setup in document format (hint: use a .rspec config file and the `rspec_rails` gem)
+- [factory_girl](https://github.com/thoughtbot/factory_girl_rails) included and set up to work with rspec
+- code coverage reporting
+- fork the repo from the original bEtsy team's fork
+  - your team will work from branches and issue PRs back to this fork rather than the project master
+- create a preliminary Heroku deployment of the bEtsy project
+- review bEtsy code to come up with a basic understanding of the current checkout user flow
+  - feel free to ask the "original" bEtsy team questions, but be sure you are prepared to ask them specific questions. Assume the original developers are on a new team now and are just as busy working on new work as you are.
+
+## Expectations
+Given shipping addresses and a set of packages, generate a quote for the cost of shipping for these items for a given shipper.
+
+## Requirements
+### Technical Requirements
+#### Your API will:
+- Respond with JSON and proper HTTP response codes
+- Allow Users to get shipping cost quotes for different delivery types
+- Allow Users to get a cost comparison of two or more shippers
+- Log all requests and their associated responses such that an audit could be conducted
+- Have appropriate error handling:
+  - When a User's request is incomplete, return an appropriate error
+  - When a User's request does not process in a timely manner, return an appropriate error
+
+#### Your bEtsy application will:
+- Integrate packaging estimates into the checkout workflow to be able to utilize the shipping API
+- Present the relevant shipping information to the user during the checkout process
+  - Cost
+  - Delivery estimate
+  - Tracking information (when available)
+
+### Testing
+- 95% test coverage for all API Controller routes, Model validations, and Model methods
+
+### Added Fun!
+- Do some refactoring of the bEtsy project you're working on
+- Find the seam in bEtsy app between the shopping and payment processing, and build a payment processing service

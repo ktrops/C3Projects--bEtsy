@@ -1,4 +1,5 @@
 <h2>Edit <%= @product.name %></h2>
+
 <% if flash[:success] %>
   <div>
     <p class="alert alert-success"><%= flash[:success] %></p>
@@ -10,42 +11,59 @@
     <p class="alert alert-danger"><%= flash[:errors] %></p>
   </div>
 <% end %>
+
 <div class="row">
   <div class="col-sm-6">
     <p>
       <%= form_for @product, html: { class: "form" } do |f| %>
-      <div class="form-group">
-        <%= f.label :name %>
-        <%= f.text_field :name, class: "form-control" %>
-      </div>
+        <div class="form-group">
+          <%= f.label :name %>
+          <%= f.text_field :name, class: "form-control" %>
+        </div>
 
-      <div class="form-group">
-        <%= f.label :price, "Price (in pennies...)" %>
-        <%= f.number_field :price, class: "form-control" %>
-      </div>
+        <div class="form-group">
+          <%= f.label :price %>
+          <%= f.text_field :price, value: readable_price(@product.price), class: "form-control" %>
+        </div>
 
-      <div class="form-group">
-        <%= f.label :description %>
-        <%= f.text_area :description, class: "form-control" %>
-      </div>
+        <div class="form-group">
+          <%= f.label :description %>
+          <%= f.text_area :description, class: "form-control" %>
+        </div>
 
-      <div class="form-group">
-        <%= f.label :photo_url, "Photo URL or Filename" %>
-        <%= f.text_field :photo_url, class: "form-control" %>
-      </div>
+        <div class="form-group">
+          <%= f.label :photo_url, "Photo URL or Filename" %>
+          <%= f.text_field :photo_url, class: "form-control" %>
+        </div>
 
-      <div class="form-group">
-        <%= f.label :stock %>
-        <%= f.number_field :stock, class: "form-control" %>
-      </div>
+        <div class="form-group">
+          <%= f.label :stock %>
+          <%= f.number_field :stock, class: "form-control" %>
+        </div>
 
-      <%= f.submit class: "btn btn-primary" %>
+        <%= f.submit class: "btn btn-primary" %>
       <% end %>
     </p>
   </div>
+
   <div class="col-sm-6">
-    <p><%= active_text(@product) %>
-    <%= link_to 'Toggle Active', toggle_active_path(@product), method: :put, class: "btn btn-warning" %></p>
+
+    <%= render partial: 'active_text_toggle_button' %>
+
+    <%= render partial: 'shared/category_display', locals: { product: @product } %>
+
+    <%= link_to "Create a new Category", new_category_path, method: :get, class: "btn btn-default" %>
+
+    <%= form_for [@product, @product_category], html: { class: "form" } do |f| %>
+      <div class="form-group inline-form">
+        <%= f.select (:category_id), class: "form-control" do %>
+          <% Category.all.each do |category| %>
+            <%= content_tag(:option, category.name, value: category.id)%>
+          <% end %>
+        <% end %>
+      </div>
+      <%= f.submit "Add Category", class: "btn btn-primary" %>
+    <% end %>
   </div>
 </div>
 

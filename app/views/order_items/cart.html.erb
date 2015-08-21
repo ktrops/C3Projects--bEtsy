@@ -2,61 +2,102 @@
 
 <% if flash[:success] %>
   <div>
-    <p class="alert alert-success"><%= flash[:success] %></p>
+    <p class="alert alert-success">
+      <%= flash[:success] %>
+    </p>
   </div>
 <% end %>
 
 <% if flash[:notice] %>
   <div>
-    <p class="alert alert-danger"><%= flash[:notice] %></p>
+    <p class="alert alert-danger">
+      <%= flash[:notice] %>
+    </p>
   </div>
 <% end %>
 
 <% if flash[:errors] %>
   <div>
-    <p class="alert alert-danger"><%= flash[:errors] %></p>
+    <p class="alert alert-danger">
+      <%= flash[:errors] %>
+    </p>
   </div>
 <% end %>
 
 <!-- move this logic "@order_items.count > 0" to view helper? -->
-<% if @order.order_items.count > 0 %>
+<% if @order && @order.order_items.count > 0 %>
   <table class="table">
     <tr>
-      <th>Item</th>
-      <th>Price</th>
-      <th>Quantity</th>
-      <th>Item total</th>
-      <th></th>
+      <th>
+        Item
+      </th>
+      <th>
+        Price
+      </th>
+      <th>
+        Quantity
+      </th>
+      <th>
+        Item total
+      </th>
+      <th>
+        <!-- spacer -->
+      </th>
     </tr>
     <% @order.order_items.each do |order_item| %>
-      <% item_price = order_item.product.price %>
+      <% unit_price = order_item.product.price %>
       <tr>
-        <td><%= order_item.product.name %></td>
-        <td><%= readable_price(item_price) %></td>
-
-        <%= form_for order_item, url: order_item_path(order_item), method: :put do |f| %>
-          <td>
-            <%= f.number_field :quantity, in: 1..order_item.product.stock, step: 1, value: order_item.quantity %>
+        <td>
+          <%= link_to order_item.product.name, product_path(order_item.product) %>
+        </td>
+        <td>
+          <%= readable_price(unit_price) %>
+        </td>
+        <td>
+          <%= form_for order_item, url: order_item_path(order_item), method: :put do |f| %>
+            <%= f.number_field :quantity, in: 1..order_item.product.stock, step: 1, value: order_item.quantity, class: "form-control fit-width" %>
             <%= f.submit 'Update', class: "btn btn-default" %>
-          </td>
-        <% end %>
-
-        <td><%= readable_price(item_price * order_item.quantity) %></td>
-        <td><%= link_to 'Remove', order_item_path(order_item), method: :delete, data: { confirm: "Remove this item from your cart?" }, class: "btn btn-danger" %></td>        
+          <% end %>
+        </td>
+        <td>
+          <%= readable_price(unit_price * order_item.quantity) %>
+        </td>
+        <td>
+          <%= link_to 'Remove', order_item_path(order_item), method: :delete, data: { confirm: "Remove this item from your cart?" }, class: "btn btn-danger" %>
+        </td>
       </tr>
     <% end %>
     <tr>
-      <td></td>
-      <td></td>
-      <td></td>
-      <th>Order total:</td>
-      <th><%= readable_price(@order.total) %></td>
-      <td></td>
+      <td>
+        <!-- spacer -->
+      </td>
+      <td>
+        <!-- spacer -->
+      </td>
+      <th>
+        Order total:
+      </td>
+      <th>
+        <%= readable_price(@order.subtotal) %>
+      </td>
+      <td>
+        <!-- spacer -->
+      </td>
     </tr>
   </table>
 
-  <%= link_to 'Check out', checkout_path, class: "btn btn-primary" %>
+  <p>
+    <%= link_to 'Check out', checkout1_path, class: "btn btn-success btn-block" %>
+  </p>
+  <p>
+    <%= link_to 'Continue shopping', products_path, class: 'btn btn-primary' %>
+  </p>
+
 <% else %>
-  <p>There are no items in your cart.</p>
-  <%= link_to 'Return to shopping', products_path, class: "btn btn-primary" %> 
+
+  <p>
+    There are no items in your cart.
+  </p>
+  <%= link_to 'Return to shopping', products_path, class: "btn btn-primary" %>
+
 <% end %>
