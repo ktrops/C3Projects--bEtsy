@@ -98,7 +98,7 @@
   </div>
 
   <!-- ################################################### -->
-  <% if action_name == "shipping" || action_name == "finalize" %>
+  <% if action_name == "shipping" && !flash[:errors] || action_name == "finalize" %>
     <%= form_for @order, url: finalize_order_path(@order), method: :put, class: "form" do |f| %>
 
       <hr>
