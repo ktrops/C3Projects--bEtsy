@@ -1,27 +1,28 @@
+#require 'ApiHelper'
 class OrdersController < ApplicationController
   before_action :authenticate_user, only: [:show, :fulfillment]
   before_action :belongs_to_user, only: [:show]
   before_action :correct_merchant, only: [:fulfillment]
 
-# Constants ---------------------------------------------
-  API_URI = "http://localhost:3001/api/v1/carriers/"
-
-  ORIGIN = {
-    city:    "Great Bend",
-    state:   "KS",
-    zip:     "67530",
-    country: "US"
-  }
-
-  PCKG_DETAILS = [20, [20, 10, 10]]
-
-  TWO_DAY  = "FedEx 2 Day"
-  GROUND   = "FedEx Ground Home Delivery"
-  FEDEX_STANDARD = "FedEx Standard Overnight"
-  UPS_STANDARD = "UPS Standard"
-  UPS_THREE_DAY =  "UPS Three-Day Select"
-  UPS_GROUND = "UPS Ground"
-# ------------------------------------------------------
+# # Constants ---------------------------------------------
+#   API_URI = "http://localhost:3001/api/v1/carriers/"
+#
+#   ORIGIN = {
+#     city:    "Great Bend",
+#     state:   "KS",
+#     zip:     "67530",
+#     country: "US"
+#   }
+#
+#   PCKG_DETAILS = [20, [20, 10, 10]]
+#
+#   TWO_DAY  = "FedEx 2 Day"
+#   GROUND   = "FedEx Ground Home Delivery"
+#   FEDEX_STANDARD = "FedEx Standard Overnight"
+#   UPS_STANDARD = "UPS Standard"
+#   UPS_THREE_DAY =  "UPS Three-Day Select"
+#   UPS_GROUND = "UPS Ground"
+# # ------------------------------------------------------
 
   def show
     @order       = Order.find(params[:id])
@@ -36,9 +37,25 @@ class OrdersController < ApplicationController
   def shipping_confirmation
     @order = Order.find(session[:order_id])
 
-    get_rates
-    set_services
+    set_destination # method call
+
+    quantity = @order.order_items.count
+    packages = []
+    quantity.times do
+      packages.push(PCKG_DETAILS)
+    end
+
+    @rate_array = ApiHelper.shipping_rates(destination, packages)
     set_order_address
+  end
+
+  def set_destination
+    destination = {
+      city:    params[:order][:city],
+      state:   params[:order][:state],
+      zip:     params[:order][:mailing_zip],
+      country: "US"
+    }
   end
 
   def checkout2
@@ -95,33 +112,6 @@ class OrdersController < ApplicationController
     @filtered_order_items = nil
   end
 
-  def get_rates
-    destination = {
-      city:    params[:order][:city],
-      state:   params[:order][:state],
-      zip:     params[:order][:mailing_zip],
-      country: "US"
-    }
-
-    quantity = @order.order_items.count
-
-    packages = []
-    quantity.times do
-      packages.push(PCKG_DETAILS)
-    end
-
-    @rates = HTTParty.post(
-      API_URI,
-      headers: {
-        "Content-Type" => "application/json"
-      },
-      body: {
-        origin:      ORIGIN,
-        destination: destination,
-        packages:    packages
-      }.to_json
-    )
-  end
 
   def set_services
     @rate_array = []
