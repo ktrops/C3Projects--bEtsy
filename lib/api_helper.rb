@@ -77,7 +77,7 @@ class ApiHelper
         order_id: order_id,
         carrier_service: service_name,
         app_name: APP_NAME
-      }.to_json #is .to_json necessary?
+      }.to_json
     )
 
   end
