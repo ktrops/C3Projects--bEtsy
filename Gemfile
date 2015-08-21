@@ -35,6 +35,9 @@ end
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
+group :test do
+  gem 'webmock'
+end
 
 group :development, :test do
   # Use sqlite3 as the database for Active Record

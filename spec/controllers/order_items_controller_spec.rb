@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe OrderItemsController, type: :controller do
   before :each do
-    @product = Product.create(name: "foo", price: 1000, stock: 4)
+    @product = Product.create(name: "foo", price: 1000, stock: 4, length: 2, width: 2, height: 2, weight: 2)
     session[:order_id] = 1
     @order = Order.create(id: session[:order_id])
   end
