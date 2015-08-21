@@ -1,39 +1,19 @@
 <%= form_tag checkout2_path do %>
-  <div class="form-group">
-    <%= label_tag(
-      name = @rate_2day["service_name"]
-    ) %>
-      <%= radio_button_tag(
-        "price",
-        (@rate_2day["total_price"]),
-        checked = false)
-      %>
-      <p><%= @rate_2day["delivery_date"].to_datetime.strftime("Delivered by: %m/%d")  %></p>
-  </div>
+  <% @rate_array.each do |rate| %>
 
-  <div class="form-group">
-    <%= label_tag(
-      name = @rate_ground["service_name"]
-    ) %>
-      <%= radio_button_tag(
-        "price",
-        (@rate_ground["total_price"]),
-        checked = false)
-      %>
-      <p><%= @rate_ground["delivery_date"].to_datetime.strftime("Delivered by: %m/%d")  %></p>
-  </div>
-
-  <div class="form-group">
-    <%= label_tag(
-      name = @rate_standard_on["service_name"]
-    ) %>
-      <%= radio_button_tag(
-        "price",
-        (@rate_standard_on["total_price"]),
-        checked = false)
-      %>
-      <p><%= @rate_standard_on["delivery_date"].to_datetime.strftime("Delivered by: %m/%d")  %></p>
-  </div>
-
-      <%= submit_tag  %>
+      <div class="form-group">
+        <%= label_tag(
+          name = rate["service_name"]
+        ) %>
+          <%= radio_button_tag(
+            "price",
+            (rate["total_price"]),
+            checked = false
+          )
+          %>
+        <p> <%= readable_price(rate["total_price"]) %>
+          <%= rate["delivery_date"]? rate["delivery_date"].to_datetime.strftime("Delivered by: %m/%d") : "No Estimate Available"  %></p>
+      </div>
+  <% end %>
+  <%= submit_tag "Continue", class:"btn btn-primary" %>
 <% end %>
