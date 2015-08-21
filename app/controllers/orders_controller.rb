@@ -1,43 +1,33 @@
-#require 'ApiHelper'
+require 'api_helper'
+
 class OrdersController < ApplicationController
   before_action :authenticate_user, only: [:show, :fulfillment]
   before_action :belongs_to_user, only: [:show]
   before_action :correct_merchant, only: [:fulfillment]
+  before_action :find_order, except: [
+    :set_destination,
+    :set_order_address,
+    :confirmation,
+    :cancel,
+    :fulfillment,
+    :merchant,
+    :filter_status,
+    :correct_merchant,
+    :total_sales
+  ]
 
-# # Constants ---------------------------------------------
-#   API_URI = "http://localhost:3001/api/v1/carriers/"
-#
-#   ORIGIN = {
-#     city:    "Great Bend",
-#     state:   "KS",
-#     zip:     "67530",
-#     country: "US"
-#   }
-#
-#   PCKG_DETAILS = [20, [20, 10, 10]]
-#
-#   TWO_DAY  = "FedEx 2 Day"
-#   GROUND   = "FedEx Ground Home Delivery"
-#   FEDEX_STANDARD = "FedEx Standard Overnight"
-#   UPS_STANDARD = "UPS Standard"
-#   UPS_THREE_DAY =  "UPS Three-Day Select"
-#   UPS_GROUND = "UPS Ground"
-# # ------------------------------------------------------
+PCKG_DETAILS = [20, [20, 10, 10]]
 
   def show
-    @order       = Order.find(params[:id])
     @user_items  = @current_user.order_items
     @total_sales = total_sales(@order, @user_items)
   end
 
   def checkout1
-    @order = Order.find(session[:order_id])
   end
 
   def shipping_confirmation
-    @order = Order.find(session[:order_id])
-
-    set_destination # method call
+    destination = set_destination # method call
 
     quantity = @order.order_items.count
     packages = []
@@ -45,8 +35,8 @@ class OrdersController < ApplicationController
       packages.push(PCKG_DETAILS)
     end
 
-    @rate_array = ApiHelper.shipping_rates(destination, packages)
-    set_order_address
+    @rate_array = ApiHelper.new.shipping_rates(destination, packages)
+    set_order_address # method call
   end
 
   def set_destination
@@ -58,15 +48,22 @@ class OrdersController < ApplicationController
     }
   end
 
+  def set_order_address
+    @order.address1    =  params[:order][:address1],
+    @order.address2    =  params[:order][:address2],
+    @order.city        =  params[:order][:city],
+    @order.state       =  params[:order][:state],
+    @order.mailing_zip =  params[:order][:mailing_zip]
+
+    @order.save(validate: false)
+  end
+
   def checkout2
-    @order = Order.find(session[:order_id])
     @shipping = params[:price]
     @order_items = @order.order_items
   end
 
   def finalize
-    @order = Order.find(session[:order_id])
-
     @order_items = @order.order_items
 
     @order_items.each do |order_item|
@@ -112,33 +109,8 @@ class OrdersController < ApplicationController
     @filtered_order_items = nil
   end
 
-
-  def set_services
-    @rate_array = []
-    @rates.each do |rates|
-      rates.each do |rate|
-        case rate["service_name"]
-        when TWO_DAY
-          @rate_array.push(rate)
-        when FEDEX_STANDARD
-          @rate_array.push(rate)
-        when GROUND
-          @rate_array.push(rate)
-        when UPS_STANDARD
-          @rate_array.push(rate)
-        when UPS_THREE_DAY
-          @rate_array.push(rate)
-        when UPS_GROUND
-          @rate_array.push(rate)
-        end
-      end
-    end
-    return @rate_array
-  end
-
   def mark_shipped
     @user = User.find(params[:id])
-    @order = Order.find(params[:order_id])
     @order.mark_shipped!
 
     redirect_to order_fulfillment_path
@@ -183,7 +155,6 @@ class OrdersController < ApplicationController
   end
 
   def belongs_to_user
-    @order = Order.find(params[:id])
     @order.products.each do |x|
       if x.user_id == @current_user.id
         return
@@ -193,14 +164,8 @@ class OrdersController < ApplicationController
     redirect_to order_fulfillment_path(@user.id)
   end
 
-  def set_order_address
-    @order.address1    =  params[:order][:address1],
-    @order.address2    =  params[:order][:address2],
-    @order.city        =  params[:order][:city],
-    @order.state       =  params[:order][:state],
-    @order.mailing_zip =  params[:order][:mailing_zip]
-
-    @order.save(validate: false)
+  def find_order
+    @order = Order.find(session[:order_id])
   end
 
   def order_params
