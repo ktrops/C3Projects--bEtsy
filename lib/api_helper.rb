@@ -1,8 +1,12 @@
 class ApiHelper
   # Constants ---------------------------------------------
-  API_URI_INDEX = "http://localhost:3001/api/v1/carriers/"
-  API_URI_LOG = "http://localhost:3001/api/v1/logs/"
-
+  if Rails.env.development?
+    API_URI_INDEX = "http://localhost:3001/api/v1/carriers/"
+    API_URI_LOG   = "http://localhost:3001/api/v1/logs/"
+  else
+    API_URI_INDEX = "https://shipleys.herokuapp.com/api/v1/carriers/"
+    API_URI_LOG   = "https://shipleys.herokuapp.com/api/v1/logs/"
+  end
 
   APP_NAME = "Secrets R Us"
 
