@@ -58,14 +58,29 @@ RSpec.describe Product, type: :model do
         expect(zero_product.errors.keys).to include(:price)
       end
 
-
       it "price can be more than 1" do
-        positive_product = Product.new(name: "positive", price: 1, stock: 1,           length: 2,
+        positive_product = Product.new(name: "positive", price: 1, stock: 1, length: 2,
                   width: 2,
                   height: 2,
                   weight: 2)
 
         expect(positive_product).to be_valid
+      end
+
+      context "package dimensions" do
+        it "requires presence of length, width, and height" do
+          product = Product.new
+
+          expect(product).to_not be_valid
+          expect(product.errors.keys).to include(:length, :width, :height)
+        end
+
+        it "must be a positive number" do
+          product = Product.new(name: "positive", price: 1, stock: 1, length: -1)
+
+          expect(product).to_not be_valid
+          expect(product.errors.messages[:length]).to include("must be greater than 0")
+        end
       end
     end
 
@@ -155,7 +170,7 @@ RSpec.describe Product, type: :model do
       end
 
       it "will be inactive when out of stock" do
-        product = Product.create(name: "has stock", price: 100, stock: 0,          length: 2,
+        product = Product.create(name: "has stock", price: 100, stock: 0, length: 2,
                   width: 2,
                   height: 2,
                   weight: 2)
