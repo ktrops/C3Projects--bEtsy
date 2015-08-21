@@ -60,7 +60,9 @@ PCKG_DETAILS = [20, [20, 10, 10]]
 
   def checkout2
     session[:service_name] = params[:service_name]
+
     @shipping = params[:price]
+
     @order_items = @order.order_items
   end
 
@@ -77,9 +79,11 @@ PCKG_DETAILS = [20, [20, 10, 10]]
 
       flash[:confirmed_order_id] = @order.id
 
-      session[:order_id] = nil
+      @service_name = session[:service_name]
 
-      ApiHelper.new.send_log(session[:order_id], session[:service_name]) 
+      ApiHelper.new.send_log(@order.id, @service_name)
+
+      session[:order_id] = nil
 
       redirect_to confirmation_path
     else

@@ -75,7 +75,7 @@ class ApiHelper
       },
       body: {
         order_id: order_id,
-        service_name: service_name,
+        carrier_service: service_name,
         app_name: APP_NAME
       }.to_json #is .to_json necessary?
     )
