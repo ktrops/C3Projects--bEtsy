@@ -1,5 +1,4 @@
 class Order < ActiveRecord::Base
-  serialize :shipping, Array
 
   # Associations ---------------------------------------------------------------
   has_many :order_items

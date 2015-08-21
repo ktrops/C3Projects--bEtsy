@@ -1,5 +1,4 @@
 source 'https://rubygems.org'
-gem "rack-timeout", require:"rack/timeout/base"
 
 gem 'httparty'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
@@ -58,6 +57,8 @@ group :development, :test do
   gem 'binding_of_caller'
 
   gem 'pry-rails'
+
+  gem 'vcr'
   # for inspecting route usage
   gem 'traceroute'
 end
