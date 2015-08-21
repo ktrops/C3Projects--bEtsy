@@ -12,7 +12,7 @@ class OrdersController < ApplicationController
 
   def checkout
     # place holder for functionality
-    @shipping_options = []
+    @options = []
   end
 
   def shipping
@@ -46,7 +46,7 @@ class OrdersController < ApplicationController
            end
            cost_per_type
          end
-      unless cost_datetime[1].nil?
+      unless cost_datetime[1].nil? || cost_datetime[1].class == Float
         @options << type + "  $#{cost_per_type.to_s}" + "  EDD: #{cost_datetime[1].strftime("%b/%e")}"
       else
         @options << type + "  $" + cost_per_type.to_s
@@ -57,6 +57,9 @@ class OrdersController < ApplicationController
   end
 
   def finalize
+    if params[:commit] == "Place Order"
+      @options = params[:order][:shipping]
+    end
     @order_items.each do |order_item|
       order_item.set_item_total
     end
@@ -71,6 +74,7 @@ class OrdersController < ApplicationController
       redirect_to confirmation_path
     else
       flash.now[:errors] = "Your order could not be completed. See below for errors."
+      @order.errors
       render :checkout
     end
   end
