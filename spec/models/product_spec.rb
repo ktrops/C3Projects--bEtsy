@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Product, type: :model do
 
-  describe "validates" do
+  describe "validations" do
     it "name is present" do
       product = Product.new
 
@@ -17,7 +17,7 @@ RSpec.describe Product, type: :model do
       expect(same_name_product).to_not be_valid
       expect(same_name_product.errors.keys).to include(:name)
     end
-
+    
     it "price is present" do
       product = Product.new
 

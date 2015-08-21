@@ -11,8 +11,12 @@ class Product < ActiveRecord::Base
   validates :stock, presence: true, numericality: { integer: true }
   validates :name, presence: true, uniqueness: true
   validates :price, presence: true, numericality: { greater_than: 0 }
+
+  validates :length, presence: true, numericality: { greater_than: 0 }
+  validates :width, presence: true, numericality: { greater_than: 0 }
+  validates :height, presence: true, numericality: { greater_than: 0 }
   validates :weight, presence: true, numericality: { greater_than: 0 }
-  
+
   accepts_nested_attributes_for :product_categories
 
   def toggle_active!
