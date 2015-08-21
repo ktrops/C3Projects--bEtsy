@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+
 gem 'httparty'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.3'
@@ -56,6 +57,8 @@ group :development, :test do
   gem 'binding_of_caller'
 
   gem 'pry-rails'
+
+  gem 'vcr'
   # for inspecting route usage
   gem 'traceroute'
 

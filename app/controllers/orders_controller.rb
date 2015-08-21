@@ -18,6 +18,7 @@ class OrdersController < ApplicationController
   def shipping
     # assigns address attributes to use in params w/o saving to db
     @order.assign_attributes(order_params)
+    @order.save(validate: false)
 
     # merchant_orders = hash of user keys and all order_item values of that user
     merchant_orders = package_sort(@order_items)
@@ -50,21 +51,26 @@ class OrdersController < ApplicationController
     ship_types.each do |type, cost_datetime|
       cost_per_type = 0
         cost_datetime.each do |obj|
-           if obj.class == Integer
+           if obj.class == Float
              cost_per_type += obj
            end
+           cost_per_type
          end
-      #  ship_types[type] => cost[0]
-
-      @options << type + " $" + cost_per_type.to_s + "  " + cost_datetime[1].to_s
+      unless cost_datetime[1].nil? || cost_datetime[1].class == Float
+        @options << type + "  $#{cost_per_type.to_s}" + "  EDD: #{cost_datetime[1].strftime("%b/%e")}"
+      else
+        @options << type + "  $" + cost_per_type.to_s
+      end
      end
 
     @options
-
     render :checkout
   end
 
   def finalize
+    if params[:commit] == "Place Order"
+      @options = params[:order][:shipping]
+    end
     @order_items.each do |order_item|
       order_item.set_item_total
     end
@@ -79,7 +85,7 @@ class OrdersController < ApplicationController
       redirect_to confirmation_path
     else
       flash.now[:errors] = "Your order could not be completed. See below for errors."
-
+      @order.errors
       render :checkout
     end
   end
@@ -145,6 +151,12 @@ class OrdersController < ApplicationController
 
   private
 
+  def order_params
+    params.require(:order).permit(:status, :email, :cc_name, :cc_number,
+      :cc_expiration, :cc_cvv, :billing_zip, :shipped, :address1, :address2,
+      :city, :state, :mailing_zip, :mailing_name, :shipping, :packages => [])
+  end
+
   def find_order
     @order = Order.find(session[:order_id])
     @order_items = @order.order_items
@@ -166,12 +178,6 @@ class OrdersController < ApplicationController
     end
 
     redirect_to order_fulfillment_path(@user.id)
-  end
-
-  def order_params
-    params.require(:order).permit(:status, :email, :cc_name, :cc_number,
-      :cc_expiration, :cc_cvv, :billing_zip, :shipped, :address1, :address2,
-      :city, :state, :mailing_zip, :mailing_name, :shipping, :packages => [])
   end
 
   def url_format(merchant, package, order)

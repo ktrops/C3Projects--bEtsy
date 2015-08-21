@@ -1,29 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Product, type: :model do
-  # MODEL VALIDATIONS
-  # -----------------
-  # before_save :stock_0_make_inactive
-  #
-  # belongs_to :user
-  # has_many :orders, through: :order_items
-  # has_many :order_items
-  # has_many :reviews
-  # has_many :product_categories
-  # has_many :categories, through: :product_categories
-  #
-  # validates :stock, presence: true, numericality: { integer: true }
-  # validates :name, presence: true, uniqueness: true
-  # validates :price, presence: true, numericality: { greater_than: 0 }
-  #
-  # accepts_nested_attributes_for :product_categories
-  #
-  # def toggle_active!
-  #   toggle!(:active)
-  # end
-  # -----------------
 
-  describe "validates" do
+  describe "validations" do
     it "name is present" do
       product = Product.new
 
@@ -38,7 +17,7 @@ RSpec.describe Product, type: :model do
       expect(same_name_product).to_not be_valid
       expect(same_name_product.errors.keys).to include(:name)
     end
-
+    
     it "price is present" do
       product = Product.new
 
@@ -57,8 +36,6 @@ RSpec.describe Product, type: :model do
 
       expect(yay_product).to be_valid
     end
-
-
 
     context "price > 0" do
       it "price can't be negative" do
