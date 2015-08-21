@@ -1,20 +1,6 @@
 <section class="checkout_view">
   <h2>Finalize Order</h2>
 
-  <% if flash.now[:errors] %>
-    <div>
-      <p class="alert alert-danger"><%= flash.now[:errors] %></p>
-    </div>
-  <% end %>
-
-  <% if @order.errors.messages.count > 0 %>
-    <% @order.errors.full_messages.each do |message| %>
-      <div>
-        <p class="alert alert-warning"><%= message %></p>
-      </div>
-    <% end %>
-  <% end %>
-
 <!-- ################################################### -->
   <div class="order_details_box">
     <h3>Order Details</h3><%= link_to cart_path, class: "btn" do %><span class="glyphicon glyphicon-pencil"></span><% end %>
@@ -51,6 +37,19 @@
 
 
 <!-- ################################################### -->
+<% if flash.now[:errors] %>
+  <div>
+    <p class="alert alert-danger"><%= flash.now[:errors] %></p>
+  </div>
+<% end %>
+
+<% if @order.errors.messages.count > 0 %>
+  <% @order.errors.full_messages.each do |message| %>
+    <div>
+      <p class="alert alert-warning"><%= message %></p>
+    </div>
+  <% end %>
+<% end %>
 
   <div class="shipping_info">
     <%= form_for @order, url: shipping_path(@order), method: :put, class: "form" do |f| %>
@@ -98,19 +97,23 @@
   </div>
 
   <!-- ################################################### -->
-  <% if action_name == "shipping" %>
+  <% if action_name == "shipping" || action_name == "finalize" %>
     <%= form_for @order, url: finalize_order_path(@order), method: :put, class: "form" do |f| %>
 
       <hr>
       <div id="shipping_info">
         <div class="checkout_section">
           <h3>Shipment Method</h3>
+      <% unless action_name == "finalize" %>
 
           <div class="form-group">
               <%= f.label :shipping, "Carrier Options" %>
-              <%= f.select :shipping, @options, {include_blank: true}, class: "form-control" %>
+              <%= f.select :shipping, @options, {include_blank: true}, required: true, class: "form-control" %>
           </div>
         </div>
+      <% else %>
+        <p>You've select <%= @order.shipping %></p>
+      <% end %>
 
         <hr>
         <div class="checkout_section">
