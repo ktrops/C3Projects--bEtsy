@@ -11,13 +11,16 @@ RSpec.describe Product, type: :model do
     end
 
     it "name is unique" do
-      Product.create(name: "CIA operative identity", price: 1_000_000_000, stock: 1)
+      Product.create(name: "CIA operative identity", price: 1_000_000_000, stock: 1, length: 2,
+                width: 2,
+                height: 2,
+                weight: 2)
       same_name_product = Product.new(name: "CIA operative identity", price: 100, stock: 1)
 
       expect(same_name_product).to_not be_valid
       expect(same_name_product.errors.keys).to include(:name)
     end
-    
+
     it "price is present" do
       product = Product.new
 
@@ -32,7 +35,10 @@ RSpec.describe Product, type: :model do
       expect(lol_product.errors.keys).to include(:price)
 
 
-      yay_product = Product.new(name: "yay", price: 100, stock: 1)
+      yay_product = Product.new(name: "yay", price: 100, stock: 1,           length: 2,
+                width: 2,
+                height: 2,
+                weight: 2)
 
       expect(yay_product).to be_valid
     end
@@ -54,7 +60,10 @@ RSpec.describe Product, type: :model do
 
 
       it "price can be more than 1" do
-        positive_product = Product.new(name: "positive", price: 1, stock: 1)
+        positive_product = Product.new(name: "positive", price: 1, stock: 1,           length: 2,
+                  width: 2,
+                  height: 2,
+                  weight: 2)
 
         expect(positive_product).to be_valid
       end
@@ -63,7 +72,10 @@ RSpec.describe Product, type: :model do
     context "associations" do
       it "belongs to User" do
         User.create(id: 1, username: "Hackman", email: "hackman@hackers.hack", password: "password", password_confirmation: "password")
-        nk_product = Product.create(name: "Kim Jeong Un's twitter", price: 100_000, stock: 1, user_id: 1)
+        nk_product = Product.create(name: "Kim Jeong Un's twitter", price: 100_000, stock: 1, user_id: 1,          length: 2,
+                  width: 2,
+                  height: 2,
+                  weight: 2)
 
         expect(nk_product.user.username).to eq("Hackman")
       end
@@ -74,7 +86,10 @@ RSpec.describe Product, type: :model do
           OrderItem.create(quantity: 1, product_id: 2, order_id: 4)
           Order.create(id: 3)
           Order.create(id: 4)
-          @product = Product.create(id: 2, name: "lol", price: 100, stock: 1)
+          @product = Product.create(id: 2, name: "lol", price: 100, stock: 1,          length: 2,
+                    width: 2,
+                    height: 2,
+                    weight: 2)
         end
 
         it "has many orders through order items" do
@@ -96,7 +111,10 @@ RSpec.describe Product, type: :model do
 
       context "multiple product categories" do
         before :each do
-          @product = Product.create(id: 4, name: "Joe Biden's hotmail", price: 100, stock: 1)
+          @product = Product.create(id: 4, name: "Joe Biden's hotmail", price: 100, stock: 1,           length: 2,
+                    width: 2,
+                    height: 2,
+                    weight: 2)
           Category.create(id: 10, name: "password")
           Category.create(id: 11, name: "state secret")
           ProductCategory.create(product_id: 4, category_id: 10)
@@ -137,7 +155,10 @@ RSpec.describe Product, type: :model do
       end
 
       it "will be inactive when out of stock" do
-        product = Product.create(name: "has stock", price: 100, stock: 0)
+        product = Product.create(name: "has stock", price: 100, stock: 0,          length: 2,
+                  width: 2,
+                  height: 2,
+                  weight: 2)
 
         expect(product.active).to eq(false)
       end

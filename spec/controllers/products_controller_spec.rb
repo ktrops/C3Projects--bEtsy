@@ -18,22 +18,26 @@ RSpec.describe ProductsController, type: :controller do
     let(:user) {User.create(id: 2, username: "Holly Golightly", email: "h.golightly@mail.com", password: "password", password_confirmation: "password")}
 
     it "creates a new product with correct attributes" do
-    user 
-    product_params = {product: {name: "Millionaires cc numbers", 
-                        price: "1000", 
+    user
+    product_params = {product: {name: "Millionaires cc numbers",
+                        price: "1000",
                         description: "Get thousands of dollars of stuff with these rich people's cc numbers",
-                        active: true, 
-                        photo_url: "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQxpaGsT8t_USebvf6DGOp_3EFUgm0bXWtVw1NlsWAMNY32D9eZ97HYj8o", 
-                        stock: 4}, 
+                        active: true,
+                        photo_url: "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQxpaGsT8t_USebvf6DGOp_3EFUgm0bXWtVw1NlsWAMNY32D9eZ97HYj8o",
+                        stock: 4,
+                        length: 2,
+                        width: 2,
+                        height: 2,
+                        weight: 2},
                         user_id: 2}
- 
+
       post(:create, product_params, {user_id: 2})
-      expect(count).to eq(1) 
+      expect(count).to eq(1)
     end
 
     it "doesn't create a new product" do
       user
-      product_params = {product: {name: nil, price: 100000000, 
+      product_params = {product: {name: nil, price: 100000000,
                                 description: "Get thousands of dollars of stuff with these rich people's cc numbers",
                                 active: true, photo_url: nil}, user_id: 2}
       post(:create, product_params, {user_id: 2})
@@ -43,14 +47,18 @@ RSpec.describe ProductsController, type: :controller do
 
   describe "#update" do
     let(:user) {User.create(id: 2, username: "Holly Golightly", email: "h.golightly@mail.com", password: "password", password_confirmation: "password")}
-    let(:product) do 
-       Product.create(id: 1, name: "Millionaires cc numbers", 
-        price: "1000", 
+    let(:product) do
+       Product.create(id: 1, name: "Millionaires cc numbers",
+        price: "1000",
         description: "Get thousands of dollars of stuff with these rich people's cc numbers",
-        active: true, 
-        photo_url: "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQxpaGsT8t_USebvf6DGOp_3EFUgm0bXWtVw1NlsWAMNY32D9eZ97HYj8o", 
-        stock: 4, 
-        user_id: 2) 
+        active: true,
+        photo_url: "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQxpaGsT8t_USebvf6DGOp_3EFUgm0bXWtVw1NlsWAMNY32D9eZ97HYj8o",
+        stock: 4,
+        length: 2,
+        width: 2,
+        height: 2,
+        weight: 2,
+        user_id: 2)
     end
 
     it "updates a product" do
@@ -68,5 +76,3 @@ RSpec.describe ProductsController, type: :controller do
 
   # end
 end
-
-

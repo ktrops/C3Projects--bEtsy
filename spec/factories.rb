@@ -11,6 +11,10 @@ FactoryGirl.define do
     name "toy"
     price 10
     stock 100
+    length 2
+    width 2
+    height 2
+    weight 2
   end
 
 
