@@ -3,6 +3,7 @@ class OrdersController < ApplicationController
   before_action :belongs_to_user, only: [:show]
   before_action :correct_merchant, only: [:fulfillment]
 
+# Constants ---------------------------------------------
   API_URI = "http://localhost:3001/api/v1/carriers/"
 
   ORIGIN = {
@@ -16,15 +17,19 @@ class OrdersController < ApplicationController
 
   TWO_DAY  = "FedEx 2 Day"
   GROUND   = "FedEx Ground Home Delivery"
-  STANDARD = "FedEx Standard Overnight"
-  PRIORITY = "PRIORITY"
-
+  FEDEX_STANDARD = "FedEx Standard Overnight"
+  USPS1 = "USPS First-Class Mail Parcel"
+  USPS2 = "USPS Standard Post"
+  USPS3 = "USPS Priority Mail 2-Day Medium Flat Rate Box"
+  USPS4 = "USPS Priority Mail 2-Day Large Flat Rate Box"
+  USPS5 = "USPS Priority Mail Express 2-Day Flat Rate Boxes"
+  USPS6 = "USPS Priority Mail Express 2-Day Flat Rate Boxes Hold For Pickup"
+  # trying to get non-nil values
+# ------------------------------------------------------
 
   def show
     @order       = Order.find(params[:id])
-
     @user_items  = @current_user.order_items
-
     @total_sales = total_sales(@order, @user_items)
   end
 
@@ -36,9 +41,7 @@ class OrdersController < ApplicationController
     @order = Order.find(session[:order_id])
 
     get_rates
-
     set_services
-
     set_order_address
   end
 
@@ -84,7 +87,6 @@ class OrdersController < ApplicationController
     @order = Order.find(flash[:confirmed_order_id])
 
     @order.status = "cancelled"
-
     @order.save
 
     redirect_to root_path
@@ -108,7 +110,6 @@ class OrdersController < ApplicationController
     quantity = @order.order_items.count
 
     packages = []
-
     quantity.times do
       packages.push(PCKG_DETAILS)
     end
@@ -127,21 +128,32 @@ class OrdersController < ApplicationController
   end
 
   def set_services
-
+    @rate_array = []
     @rates.each do |rates|
       rates.each do |rate|
         case rate["service_name"]
         when TWO_DAY
-          @rate_2day = rate
-        when STANDARD
-          @rate_standard_on = rate
+          @rate_array.push(rate)
+        when FEDEX_STANDARD
+          @rate_array.push(rate)
         when GROUND
-          @rate_ground = rate
-        when PRIORITY
-          @rate_priority = rate
+          @rate_array.push(rate)
+        when USPS1
+          @rate_array.push(rate)
+        when USPS2
+          @rate_array.push(rate)
+        when USPS3
+          @rate_array.push(rate)
+        when USPS4
+          @rate_array.push(rate)
+        when USPS5
+          @rate_array.push(rate)
+        when USPS6
+          @rate_array.push(rate)
         end
       end
     end
+    return @rate_array
   end
 
   def mark_shipped
