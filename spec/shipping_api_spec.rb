@@ -12,3 +12,4 @@ RSpec.describe InstagramApi do
       end
     end
   end
+end

@@ -1,6 +1,27 @@
 require 'rails_helper'
 
 RSpec.describe OrdersController, type: :controller do
+  let(:user) { create :user }
+  let(:basic_order) { create :order }
+
+  before :each do
+    session[:user_id] = user.id
+  end
+
+  describe "GET #show" do
+    it "returns http redirect" do
+      get :show, user_id: user.id, id: basic_order.id
+      expect(response).to have_http_status(:redirect)
+    end
+
+    # it "finds the current order" do
+    #   user.order << basic_order
+    #   get :show, user_id: user.id, id: basic_order.id
+    #   expect(assigns(@order)).to basic_order
+    # end
+  end
+
+
   describe "#finalize" do
     let(:order) do
       Order.create(status: "pending", 
