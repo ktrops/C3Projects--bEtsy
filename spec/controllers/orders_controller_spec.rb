@@ -1,16 +1,25 @@
 require 'rails_helper'
 
 RSpec.describe OrdersController, type: :controller do
-  # describe "POST #cancel" do
-  #   let(:order) {create :order}
-  # 
-  #   it "responds successfully with an HTTP 200 status" do
-  #     order
-  #     post :cancel
-  #     expect(response).to be_success
-  #     expect(response).to have_http_status(200)
-  #   end
-  # end
+  let(:user) { create :user }
+  let(:basic_order) { create :order }
+
+  before :each do
+    session[:user_id] = user.id
+  end
+
+  describe "GET #show" do
+    it "returns http redirect" do
+      get :show, user_id: user.id, id: basic_order.id
+      expect(response).to have_http_status(:redirect)
+    end
+
+    # it "finds the current order" do
+    #   user.order << basic_order
+    #   get :show, user_id: user.id, id: basic_order.id
+    #   expect(assigns(@order)).to basic_order
+    # end
+  end
 
   describe "#finalize" do
     let(:order) { create :order }

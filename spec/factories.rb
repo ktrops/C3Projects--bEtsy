@@ -1,4 +1,10 @@
 FactoryGirl.define do
+  factory :user do
+    username "JoeJoe"
+    email "joe@joe.com"
+    password "hello"
+  end
+
   factory :order do
     status "pending"
     email "joe@mail.com"
