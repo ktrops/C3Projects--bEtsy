@@ -8,9 +8,11 @@
           <%= radio_button_tag(
             "price",
             (rate["total_price"]),
-            checked = false)
+            checked = false
+          )
           %>
-        <p><%= rate["delivery_date"]? rate["delivery_date"].to_datetime.strftime("Delivered by: %m/%d") : "No Estimate Available"  %></p>
+        <p> <%= readable_price(rate["total_price"]) %>
+          <%= rate["delivery_date"]? rate["delivery_date"].to_datetime.strftime("Delivered by: %m/%d") : "No Estimate Available"  %></p>
       </div>
   <% end %>
   <%= submit_tag  %>
