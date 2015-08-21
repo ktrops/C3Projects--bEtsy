@@ -3,6 +3,16 @@ FactoryGirl.define do
     status "pending"
   end
 
+  factory :order_item do
+    quantity 4
+  end
+
+  factory :product do
+    name "toy"
+    price 10
+    stock 100
+  end
+
 
   # factory :book do
   #   name "House of Leaves"
