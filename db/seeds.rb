@@ -53,11 +53,11 @@ end
 
 users = [
   { username: "Sue Boo", email: "sue.boo@example.com", #1
-    password: "password", password_confirmation: "password" },
+    password: "password", password_confirmation: "password", country: "US", state: "FL", city: "Miami", zip: 33101 },
   { username: "Kate Plate", email: "kate.plate@example.com", #2
-    password: "password", password_confirmation: "password" },
+    password: "password", password_confirmation: "password", country: "US", state: "CA", city: "San Diego", zip: 92129 },
   { username: "Bob Cobb", email: "bob.cobb@example.com", #3
-    password: "password", password_confirmation: "password" }
+    password: "password", password_confirmation: "password", country: "US", state: "TX", city: "League City", zip: 77573 }
 ]
 
 users.each do |user|
@@ -65,32 +65,39 @@ users.each do |user|
 end
 
 products = [
-  { name: "Principal's Email Address", price: 1000, #1
+  { name: "Principal's Email Address", weight: 10, price: 1000, #1
     description: "a verified principal's email address",
-    active: true, photo_url: "dunecat.jpg", stock: 10, user_id: 1 },
-  { name: "CEO's password", price: 20000, #2
+    active: true, photo_url: "dunecat.jpg", length: 12, width: 10, height: 2, stock: 10, user_id: 1 },
+  { name: "CEO's password", weight: 10, price: 20000, #2
     description: "Password to CEO's OnePass Account",
-    active: true, photo_url: "dunecat.jpg", stock: 5, user_id: 1 },
-  { name: "MRA's Reddit Password", price: 500, #3
+    active: true, photo_url: "dunecat.jpg", length: 12, width: 10, height: 2, stock: 5, user_id: 1 },
+  { name: "MRA's Reddit Password", weight: 10, price: 500, #3
     description: "embarrass a jerk in his online community",
-    active: true, photo_url: "dunecat.jpg", stock: 3, user_id: 2 },
-  { name: "The Rock's Home Address", price: 10000, #4
+    active: true, photo_url: "dunecat.jpg", length: 12, width: 10, height: 2, stock: 3, user_id: 2 },
+  { name: "The Rock's Home Address", weight: 10, price: 10000, #4
     description: "all you need to stalk your fav",
-    active: true, photo_url: "dunecat.jpg", stock: 10, user_id: 2 },
-  { name: "Random Xbox Live Account", price: 1000, #5
-    description: "everything you need to play games and rack up fees on another user's account", active: true, photo_url: "troll.png", stock: 20, user_id: 3 },
-  { name: "Xbox Live Password for a Given User", price: 5000, #6
-    description: "everything you need to play games, rack up fees or troll with the suer of your choice's account", active: true, photo_url: "troll.png", stock: 4, user_id: 3 },
-  { name: "WOW level 100 Beast Master Hunter", price: 8000, #7
-    description: "Max level account comes with 20k gold and 45 mounts, ilvl 652", active: true, photo_url: "hunter.jpg", stock: 1, user_id: 3 },
-  { name: "Whitehouse.gov Email Address", price: 10000, #8
-    description: "Send emails from an official Whitehouse account watch the chaos and hilarity ensue.", active: true, photo_url: "white-house.png", stock: 5, user_id: 1 },
-  { name: "Random Sony Playstation Account Information", price: 1000, #9
-    description: "Troll, rack up fees or steal games using this account password.", active: true, photo_url: "troll.png", stock: 12, user_id: 3 },
-  { name: "Level 30 League of Legends Account", price: 3000, #10
-    description: "Comes with 30,000 IP", active: true, photo_url: "lol.jpg", stock: 8, user_id: 3 },
-    { name: "Ashley Madison Administrative Account", price: 25000, description:
-    "Go rogue and instate your own vigilante moral justice or blackmail cheaters, either way you win!", active: true, photo_url: "ashley.jpg", stock: 1, user_id: 2} #11
+    active: true, photo_url: "dunecat.jpg", length: 12, width: 10, height: 2, stock: 10, user_id: 2 },
+  { name: "Random Xbox Live Account", weight: 10, price: 1000, #5
+    description: "everything you need to play games and rack up fees on another user's account", 
+    active: true, photo_url: "troll.png", length: 12, width: 10, height: 2, stock: 20, user_id: 3 },
+  { name: "Xbox Live Password for a Given User", weight: 10, price: 5000, #6
+    description: "everything you need to play games, rack up fees or troll with the suer of your choice's account", 
+    active: true, photo_url: "troll.png", length: 12, width: 10, height: 2, stock: 4, user_id: 3 },
+  { name: "WOW level 100 Beast Master Hunter", weight: 10, price: 8000, #7
+    description: "Max level account comes with 20k gold and 45 mounts, ilvl 652", 
+    active: true, photo_url: "hunter.jpg", length: 12, width: 10, height: 2, stock: 1, user_id: 3 },
+  { name: "Whitehouse.gov Email Address", weight: 10, price: 10000, #8
+    description: "Send emails from an official Whitehouse account watch the chaos and hilarity ensue.", 
+    active: true, photo_url: "white-house.png", length: 12, width: 10, height: 2, stock: 5, user_id: 1 },
+  { name: "Random Sony Playstation Account Information", weight: 10, price: 1000, #9
+    description: "Troll, rack up fees or steal games using this account password.", 
+    active: true, photo_url: "troll.png", length: 12, width: 10, height: 2, stock: 12, user_id: 3 },
+  { name: "Level 30 League of Legends Account", weight: 10, price: 3000, #10
+    description: "Comes with 30,000 IP", 
+    active: true, photo_url: "lol.jpg", length: 12, width: 10, height: 2, stock: 8, user_id: 3 },
+  { name: "Ashley Madison Administrative Account", weight: 10, price: 25000, 
+    description: "Go rogue and instate your own vigilante moral justice or blackmail cheaters, either way you win!", 
+    active: true, photo_url: "ashley.jpg", length: 12, width: 10, height: 2, stock: 1, user_id: 2} #11
 ]
 
 products.each do |product|

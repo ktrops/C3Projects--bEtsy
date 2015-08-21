@@ -1,4 +1,5 @@
 class Order < ActiveRecord::Base
+
   # Associations ---------------------------------------------------------------
   has_many :order_items
   has_many :products, through: :order_items
@@ -91,4 +92,5 @@ class Order < ActiveRecord::Base
   def final_total
     order_items.inject(0) { |sum, item| sum += (item.item_total) }
   end
+
 end

@@ -30,7 +30,7 @@ Rails.application.routes.draw do
   get '/users/:id/order_fulfillment/status/filter', to: 'orders#filter_status', as: 'order_status'
 
   get '/cart', to: 'order_items#cart', as: 'cart'
-
+  put '/order/:id/shipping', to: 'orders#shipping', as: 'shipping'
   put 'orders/:id/finalize', to: 'orders#finalize', as: 'finalize_order'
 
   resources :order_items, only: [:update, :destroy]

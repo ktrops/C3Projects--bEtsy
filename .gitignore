@@ -34,6 +34,9 @@ build/
 /doc/
 /rdoc/
 
+## Ignore all VCR cassettes
+/spec/support/vcr_cassettes
+
 ## Environment normalisation:
 /.bundle/
 /vendor/bundle

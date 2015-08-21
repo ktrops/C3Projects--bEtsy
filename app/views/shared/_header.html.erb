@@ -26,15 +26,20 @@
         </div>
       </nav>
 
-      <h1>
-        <%= link_to "Secrets R Us", root_path %>
-        <small>Selling All The Secrets</small>
-      </h1>
+      <div class="row">
+        <div class="col-md-9">
+          <h1>
+            <%= link_to "Secrets R Us", root_path %>
+            <small>Selling All The Secrets</small>
+          </h1>
+        </div>
 
-      <!-- uncomment for debugging, remove before submitting final project -->
-      <!-- <p>Order_id is: <%#= session[:order_id] ? session[:order_id] : "none set" %></p> -->
-      <!-- <p>Logged-in user is: <%#= session[:user_id] ? @user.username : "none" %></p> -->
-      <!-- <p>User id is: <%#= session[:user_id] ? session[:user_id] : "none" %></p> -->
+        <% unless current_page? root_path %>
+          <div class="pull-right continue_shopping">
+            <%= link_to "Continue Shopping", products_path, class: "btn btn-primary" %>
+          </div>
+        <% end %>
+      </div>
 
     </div>
   </div>

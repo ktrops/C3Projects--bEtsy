@@ -1,132 +1,158 @@
-<h2>Finalize order</h2>
+<section class="checkout_view">
+  <h2>Finalize Order</h2>
 
-<p>
-  <%= link_to "Not ready to buy? Return to shopping...", products_path, class: "btn btn-primary btn-block" %>
-</p>
+<!-- ################################################### -->
+  <div class="order_details_box">
+    <h3>Order Details</h3><%= link_to cart_path, class: "btn" do %><span class="glyphicon glyphicon-pencil"></span><% end %>
 
+    <table class="table">
+      <tr>
+        <th>Item</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Line Price</th>
+      </tr>
+      <% @order_items.each do |order_item| %>
+        <tr>
+          <td><%= order_item.product.name %></td>
+          <td><%= readable_price(order_item.product.price) %></td>
+          <td><%= order_item.quantity %></td>
+          <td><%= readable_price(order_item.product.price * order_item.quantity) %></td>
+        </tr>
+      <% end %>
+        <tr>
+          <td></td>
+          <td></td>
+          <td>Shipping</td>
+          <td>$ (select) </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td><strong>Subtotal:</strong></td>
+          <td><strong><%= readable_price(@order.subtotal) %></strong></td>
+        </tr>
+    </table>
+  </div>
+
+
+<!-- ################################################### -->
 <% if flash.now[:errors] %>
   <div>
-    <p class="alert alert-danger">
-      <%= flash.now[:errors] %>
-    </p>
+    <p class="alert alert-danger"><%= flash.now[:errors] %></p>
   </div>
 <% end %>
 
 <% if @order.errors.messages.count > 0 %>
   <% @order.errors.full_messages.each do |message| %>
     <div>
-      <p class="alert alert-warning">
-        <%= message %>
-      </p>
+      <p class="alert alert-warning"><%= message %></p>
     </div>
   <% end %>
 <% end %>
 
-<h3>Order details:</h3>
-
-<table class="table">
-  <tr>
-    <th>
-      Item
-    </th>
-    <th>
-      Price
-    </th>
-    <th>
-      Quantity
-    </th>
-    <th>
-      Line Price
-    </th>
-  </tr>
-  <% @order_items.each do |order_item| %>
-    <tr>
-      <td>
-        <%= order_item.product.name %>
-      </td>
-      <td>
-        <%= readable_price(order_item.product.price) %>
-      </td>
-      <td>
-        <%= order_item.quantity %>
-      </td>
-      <td>
-        <%= readable_price(order_item.product.price * order_item.quantity) %>
-      </td>
-    </tr>
-  <% end %>
-</table>
-
-<p>Order total: <%= readable_price(@order.subtotal) %></p>
-
-<%= link_to 'Edit order', cart_path, class: "btn btn-warning" %>
-
-<%= form_for @order, url: finalize_order_path(@order), method: :put, class: "form" do |f| %>
-
-  <h3>Shipping</h3>
-
-  <div class="form-group">
-    <%= f.label :mailing_name, "Full name" %>
-    <%= f.text_field :mailing_name, required: true, class: 'form-control' %>
-  </div>
-
-  <div class="form-group">
-    <%= f.label :email %>
-    <%= f.text_field :email, required: true, class: 'form-control' %>
-  </div>
-
-  <div class="form-group">
-    <%= f.label :address1, "Address line 1" %>
-    <%= f.text_field :address1, required: true, class: 'form-control' %>
-  </div>
-
-  <div class="form-group">
-    <%= f.label :address2, "Address line 2" %>
-    <%= f.text_field :address2, class: 'form-control' %>
-  </div>
-
-  <div class="form-group">
-    <%= f.label :city %>
-    <%= f.text_field :city, required: true, class: 'form-control' %>
-  </div>
-
-  <div class="form-group">
-    <%= f.label :state, class: "form-label" %>
-    <%= f.select :state, Order::US_STATES, { include_blank: true }, { class: 'form-control' } %>
-  </div>
-
-  <div class="form-group">
-    <%= f.label :mailing_zip, "Zip code" %>
-    <%= f.text_field :mailing_zip, maxlength: 5, required: true, class: 'form-control' %>
-  </div>
-
-  <h3>Payment</h3>
-
-  <div class="form-group">
-    <%= f.label :cc_name, "Name on card" %>
-    <%= f.text_field :cc_name, required: true, class: 'form-control' %>
-  </div>
-
-  <div class="form-group">
-    <%= f.label :cc_number, "Card number" %>
-    <%= f.text_field :cc_number, required: true, class: 'form-control' %>
-  </div>
-
-  <div class="form-group">
-    <%= f.label :cc_expiration, "Credit card expiration date", class: "form-label" %>
-    <%= f.date_select :cc_expiration, use_month_numbers: true, use_two_digit_numbers: true, order: [:month, :year], start_year: Date.today.year, start_month: Date.today.month, end_year: Date.today.year+10, prompt: true, required: true, class: 'form-control' %>
-  </div>
-
-  <div class="form-group">
-    <%= f.label :cc_cvv, "CVV (3 digit code on back of card)" %>
-    <%= f.text_field :cc_cvv, maxlength: 3, required: true, class: 'form-control' %>
-  </div>
-
-  <div class="form-group">
-    <%= f.label :billing_zip, "Billing zip code" %>
-    <%= f.text_field :billing_zip, maxlength: 5, required: true, class: 'form-control' %>
-  </div>
-
-    <%= f.submit "Place order", class: 'btn btn-danger btn-block'%>
+  <div class="shipping_info">
+    <% if action_name == "finalize" %>
+      <% @invalid = true %>
+    <% else %>
+      <% @invalid = false %>
+    <% end %>
     
-<% end %>
+    <%= form_for @order, url: shipping_path(@order), method: :put, class: "form" do |f| %>
+      <h3>Customer Information</h3>
+
+      <div class="form-group">
+        <%= f.label :mailing_name, "Full name" %>
+        <%= f.text_field :mailing_name, required: true, class: 'form-control', disabled: @invalid %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :email %>
+        <%= f.text_field :email, required: true, class: 'form-control', disabled: @invalid %>
+      </div>
+
+      <h3>Shipping Address</h3>
+
+      <div class="form-group">
+        <%= f.label :address1, "Address line 1" %>
+        <%= f.text_field :address1, required: true, class: 'form-control', disabled: @invalid %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :address2, "Address line 2" %>
+        <%= f.text_field :address2, class: 'form-control', disabled: @invalid %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :city %>
+        <%= f.text_field :city, required: true, class: 'form-control', disabled: @invalid %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :state, class: "form-label" %>
+        <%= f.select :state, Order::US_STATES, { include_blank: true }, { required: true, class: 'form-control', disabled: @invalid } %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :mailing_zip, "Zip code" %>
+        <%= f.text_field :mailing_zip, maxlength: 5, required: true, class: 'form-control', disabled: @invalid %>
+      </div>
+
+      <%= f.submit "Calculate Shipping", class: 'btn btn-danger', disabled: @invalid %>
+    <% end %>
+  </div>
+
+  <!-- ################################################### -->
+  <% if action_name == "shipping" && !flash[:errors] || action_name == "finalize" %>
+    <%= form_for @order, url: finalize_order_path(@order), method: :put, class: "form" do |f| %>
+
+      <hr>
+      <div id="shipping_info">
+        <div class="checkout_section">
+          <h3>Shipment Method</h3>
+      <% unless action_name == "finalize" %>
+
+          <div class="form-group">
+              <%= f.label :shipping, "Carrier Options" %>
+              <%= f.select :shipping, @options, { include_blank: true }, { required: true, class: "form-control" } %>
+          </div>
+        </div>
+      <% else %>
+          <p>You've select <strong><%= @order.shipping %></strong></p>
+      <% end %>
+
+        <hr>
+        <div class="checkout_section">
+          <h3>Payment Information</h3>
+
+          <div class="form-group">
+            <%= f.label :cc_name, "Name on Card" %>
+            <%= f.text_field :cc_name, required: true, class: 'form-control' %>
+          </div>
+
+          <div class="form-group">
+            <%= f.label :cc_number, "Card Number" %>
+            <%= f.text_field :cc_number, required: true, class: 'form-control' %>
+          </div>
+
+          <div class="form-group">
+            <%= f.label :cc_expiration, "Credit Card Expiration Date", class: "form-label" %>
+            <%= f.date_select :cc_expiration, use_month_numbers: true, use_two_digit_numbers: true, order: [:month, :year], start_year: Date.today.year, start_month: Date.today.month, end_year: Date.today.year+10, prompt: true, required: true, class: 'form-control' %>
+          </div>
+
+          <div class="form-group">
+            <%= f.label :cc_cvv, "CVV (3 digit code on back of card)" %>
+            <%= f.text_field :cc_cvv, maxlength: 3, required: true, class: 'form-control' %>
+          </div>
+
+          <div class="form-group">
+            <%= f.label :billing_zip, "Billing Zip Code" %>
+            <%= f.text_field :billing_zip, maxlength: 5, required: true, class: 'form-control' %>
+          </div>
+
+          <%= f.submit "Place order", class: 'btn btn-danger'%>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+</section>

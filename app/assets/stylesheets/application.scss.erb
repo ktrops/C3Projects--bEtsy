@@ -17,7 +17,7 @@
 
 html {
   background: #ddd
-  url('matrix.jpg') no-repeat center fixed;
+  url(<%= asset_path 'matrix.jpg' %>) no-repeat center fixed;
   background-size: cover;
 }
 
@@ -96,3 +96,40 @@ select {
   margin: auto;
   color: #fff;
 }
+
+.checkout_view {
+  padding: 20px;
+}
+
+.checkout_view h2 {
+  text-align: center;
+}
+
+.order_details_box {
+  width: 40%;
+  position: fixed;
+  right: 15%;
+  border: dotted 1px grey;
+  padding: 25px;
+  background-color: #fff;
+}
+
+.order_details_box h3 {
+  display: inline-block;
+}
+
+.shipping_info {
+  clear: both;
+  margin-top: 20px;
+}
+
+.checkout_section {
+  padding-top: 10px;
+  padding-bottom: 20px;
+}
+
+.continue_shopping {
+  margin-right: 20px;
+  margin-top: 30px;
+}
+

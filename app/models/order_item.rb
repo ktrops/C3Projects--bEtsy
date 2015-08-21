@@ -8,4 +8,5 @@ class OrderItem < ActiveRecord::Base
     self.item_total = product.price * quantity
     self.save
   end
+
 end

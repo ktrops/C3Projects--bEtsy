@@ -3,12 +3,10 @@ require 'pry'
 
 RSpec.describe ReviewsController, type: :controller do
 
-
-
   describe "GET #new" do
     before :each do
       @user = User.create(id: 1, username: "lol", email: "lol@lol.com", password: "lol", password_confirmation: "lol")
-      @product = Product.create(id: 1, name: "lol", price: 100, stock: 1, user_id: 1)
+      @product = Product.create(id: 1, name: "lol", price: 100, stock: 1, length: 2, width: 2, height: 2, weight: 2, user_id: 1)
       @review = Review.new
     end
 
@@ -23,17 +21,19 @@ RSpec.describe ReviewsController, type: :controller do
   describe "GET #create" do
     before :each do
       @user = User.create(id: 1, username: "lol", email: "lol@lol.com", password: "lol", password_confirmation: "lol")
-      @product = Product.create(id: 1, name: "lol", price: 100, stock: 1, user_id: 1)
+      @product = Product.create(id: 1, name: "lol", price: 100, stock: 1,           length: 2,
+                width: 2,
+                height: 2,
+                weight: 2, user_id: 1)
       @review_params = {
           rating: 3,
           review_text: "lol",
-          product_id: 1
-      }
+          product_id: 1,
+                      }
     end
 
     it "redirects to product show and returns http status 302" do
       post :create, { product_id: @product.id.to_s, review: @review_params }
-
       expect(response).to have_http_status(302)
       expect(response).to redirect_to(product_path(@product))
     end
@@ -44,14 +44,15 @@ RSpec.describe ReviewsController, type: :controller do
       expect(Review.count).to eq(1)
     end
 
-
-
   end
 
   context "won't accept invalid reviews" do
     before :each do
       @user = User.create(id: 1, username: "lol", email: "lol@lol.com", password: "lol", password_confirmation: "lol")
-      @product = Product.create(id: 1, name: "lol", price: 100, stock: 1, user_id: 1)
+      @product = Product.create(id: 1, name: "lol", price: 100, stock: 1, user_id: 1,           length: 2,
+                width: 2,
+                height: 2,
+                weight: 2)
       @invalid_params = {
           rating: nil,
           review_text: "lol",
@@ -76,7 +77,10 @@ RSpec.describe ReviewsController, type: :controller do
   context "converts rating" do
     before :each do
       @user = User.create(id: 2, username: "lol", email: "lol@lol.com", password: "lol", password_confirmation: "lol")
-      @product = Product.create(id: 2, name: "lol", price: 100, stock: 1, user_id: 2)
+      @product = Product.create(id: 2, name: "lol", price: 100, stock: 1, user_id: 2, length: 2,
+                width: 2,
+                height: 2,
+                weight: 2)
       @review_params = {
           rating: "★★★★☆",
           review_text: "lol",
@@ -94,7 +98,10 @@ RSpec.describe ReviewsController, type: :controller do
   context "doesn't convert invalid rating" do
     before :each do
       @user = User.create(id: 2, username: "lol", email: "lol@lol.com", password: "lol", password_confirmation: "lol")
-      @product = Product.create(id: 2, name: "lol", price: 100, stock: 1, user_id: 2)
+      @product = Product.create(id: 2, name: "lol", price: 100, stock: 1, user_id: 2,          length: 2,
+                width: 2,
+                height: 2,
+                weight: 2)
       @review_params = {
           rating: "★★★★★★",
           review_text: "lol",

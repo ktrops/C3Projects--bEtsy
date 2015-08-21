@@ -1,3 +1,5 @@
+require 'shipping_api'
+
 class ApplicationController < ActionController::Base
 
   before_action :set_user
@@ -54,4 +56,5 @@ class ApplicationController < ActionController::Base
   def category_exists_for_product?(prod_id, cat_id)
     ProductCategory.find_by(product_id: prod_id, category_id: cat_id) ? true : false
   end
+
 end

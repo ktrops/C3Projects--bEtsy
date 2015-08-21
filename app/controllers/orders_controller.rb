@@ -2,6 +2,7 @@ class OrdersController < ApplicationController
   before_action :authenticate_user, only: [:show, :fulfillment]
   before_action :belongs_to_user, only: [:show]
   before_action :correct_merchant, only: [:fulfillment]
+  before_action :find_order, only: [:checkout, :shipping, :finalize]
 
   def show
     @order = Order.find(params[:id])
@@ -10,14 +11,66 @@ class OrdersController < ApplicationController
   end
 
   def checkout
-    @order = Order.find(session[:order_id])
-    @order_items = @order.order_items
+    # place holder for functionality
+    @options = []
+  end
+
+  def shipping
+    # assigns address attributes to use in params w/o saving to db
+    @order.assign_attributes(order_params)
+    @order.save(validate: false)
+
+    # merchant_orders = hash of user keys and all order_item values of that user
+    merchant_orders = package_sort(@order_items)
+    # iterate each key/value pair to instantiate new origin for each user
+    # and new package with API call - destination remains the same
+
+    @options = []
+
+    all_responses = []
+
+    merchant_orders.each do |merchant, package|
+      query = url_format(merchant, package, @order)
+      response = ShippingApi.new.calc_shipping(query)
+
+      if response.include? ("message")
+        flash[:errors] = response["message"]
+        redirect_to :back and return
+      end
+
+      all_responses << response
+    end
+
+    # take est delivery out of UPS GROUND (nil)
+    ship_types = all_responses.flatten!(1).group_by{ |array| array.first }
+    
+    ship_types.each do |key, costs|
+      ship_types[key].flatten!.delete_if{|o| o.class == String || o.class == NilClass}
+    end
+
+    ship_types.each do |type, cost_datetime|
+      cost_per_type = 0
+        cost_datetime.each do |obj|
+           if obj.class == Float
+             cost_per_type += obj
+           end
+           cost_per_type
+         end
+      unless cost_datetime[1].nil? || cost_datetime[1].class == Float
+        @options << type + "  $#{cost_per_type.to_s}" + "  EDD: #{cost_datetime[1].strftime("%b/%e")}"
+      else
+        @options << type + "  $" + cost_per_type.to_s
+      end
+     end
+
+    @options
+    render :checkout
   end
 
   def finalize
-
-    @order = Order.find(session[:order_id])
-    @order_items = @order.order_items
+    if params[:commit] == "Place Order"
+      @options = params[:order][:shipping]
+    end
     @order_items.each do |order_item|
       order_item.set_item_total
     end
@@ -32,7 +85,7 @@ class OrdersController < ApplicationController
       redirect_to confirmation_path
     else
       flash.now[:errors] = "Your order could not be completed. See below for errors."
-
+      @order.errors
       render :checkout
     end
   end
@@ -40,6 +93,11 @@ class OrdersController < ApplicationController
   def confirmation
     flash.keep
     @order = Order.find(flash[:confirmed_order_id])
+
+    @shipping_cost = @order.shipping.match(/\$(\d+\.\d+)/)[0]
+    @grand_total_cost = (@order.final_total/100.00) + @shipping_cost[1..-1].to_f
+
+    @delivery_date = @order.shipping.match(/EDD:\s\w+\/\d+/) ? @order.shipping.match(/EDD:\s\w+\/\d+/)[0] : "Unknown"
     # use the below line for debugging (to avoid losing the flash[:confirmed_order_id])
     # @order = Order.find(12)
   end
@@ -98,6 +156,17 @@ class OrdersController < ApplicationController
 
   private
 
+  def order_params
+    params.require(:order).permit(:status, :email, :cc_name, :cc_number,
+      :cc_expiration, :cc_cvv, :billing_zip, :shipped, :address1, :address2,
+      :city, :state, :mailing_zip, :mailing_name, :shipping, :packages => [])
+  end
+
+  def find_order
+    @order = Order.find(session[:order_id])
+    @order_items = @order.order_items
+  end
+
   # ensures merchant signed in can only see their own user pages
   def correct_merchant
     if request.path.include?(session[:user_id].to_s) == false
@@ -116,10 +185,20 @@ class OrdersController < ApplicationController
     redirect_to order_fulfillment_path(@user.id)
   end
 
-  def order_params
-    params.require(:order).permit(:status, :email, :cc_name, :cc_number,
-      :cc_expiration, :cc_cvv, :billing_zip, :shipped, :address1, :address2,
-      :city, :state, :mailing_zip, :mailing_name)
+  def url_format(merchant, package, order)
+    destination_query = "state=#{order.state}&city=#{order.city}&zip=#{order.mailing_zip}"
+
+    packages_query = ""
+
+    package.each do |i|
+      p = i.product
+      # take out hard coded weight params
+      packages_query += "&packages[][length]=#{p.length}&packages[][width]=#{p.width}&packages[][height]=#{p.height}&packages[][weight]=1.0"
+    end
+
+    origin_query = "&o_state=#{order.state}&o_city=#{order.city}&o_zip=#{order.mailing_zip}"
+
+    final_query = destination_query + origin_query + packages_query
   end
 
   def total_sales(order, user_items)
@@ -134,5 +213,18 @@ class OrdersController < ApplicationController
       end
     end
     total_sales/100
+  end
+
+  def package_sort(order_items)
+    packages = {}
+    order_items.each do |item|
+      merchant = item.product.user
+      if packages.has_key?(merchant)
+        packages[merchant] << item
+      else
+        packages[merchant] = [item]
+      end
+    end
+    return packages
   end
 end
