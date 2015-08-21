@@ -34,7 +34,7 @@ class OrdersController < ApplicationController
 
       if response.include? ("message")
         flash[:errors] = response["message"]
-        redirect_to :checkout and return
+        redirect_to :back and return
       end
 
       all_responses << response

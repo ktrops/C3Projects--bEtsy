@@ -108,7 +108,7 @@
 
           <div class="form-group">
               <%= f.label :shipping, "Carrier Options" %>
-              <%= f.select :shipping, @options, {include_blank: true}, class: "form-control" %>
+              <%= f.select :shipping, @options, { include_blank: true }, { required: true, class: "form-control" } %>
           </div>
         </div>
 
