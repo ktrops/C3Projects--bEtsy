@@ -9,18 +9,15 @@ class ApiHelper
     country: "US"
   }
 
-  PCKG_DETAILS = [20, [20, 10, 10]]
-
-  TWO_DAY  = "FedEx 2 Day"
-  GROUND   = "FedEx Ground Home Delivery"
-  FEDEX_STANDARD = "FedEx Standard Overnight"
-  UPS_STANDARD = "UPS Standard"
-  UPS_THREE_DAY =  "UPS Three-Day Select"
-  UPS_GROUND = "UPS Ground"
+  TWO_DAY         = "FedEx 2 Day"
+  GROUND          = "FedEx Ground Home Delivery"
+  FEDEX_STANDARD  = "FedEx Standard Overnight"
+  UPS_STANDARD    = "UPS Standard"
+  UPS_THREE_DAY   =  "UPS Three-Day Select"
+  UPS_GROUND      = "UPS Ground"
   # ------------------------------------------------------
 
   def shipping_rates(destination, packages)
-
     get_rates(destination, packages)
     set_services
 
@@ -28,7 +25,6 @@ class ApiHelper
   end
 
   def get_rates(destination, packages)
-
     @rates = HTTParty.post(
       API_URI,
       headers: {
@@ -44,6 +40,7 @@ class ApiHelper
 
   def set_services
     @rate_array = []
+
     @rates.each do |rates|
       rates.each do |rate|
         case rate["service_name"]
@@ -62,7 +59,7 @@ class ApiHelper
         end
       end
     end
-    
+
     return @rate_array
   end
 
