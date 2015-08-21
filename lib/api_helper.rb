@@ -1,6 +1,10 @@
 class ApiHelper
   # Constants ---------------------------------------------
-  API_URI = "http://localhost:3001/api/v1/carriers/"
+  API_URI_INDEX = "http://localhost:3001/api/v1/carriers/"
+  API_URI_LOG = "http://localhost:3001/api/v1/logs/"
+
+
+  APP_NAME = "Secrets R Us"
 
   ORIGIN = {
     city:    "Great Bend",
@@ -26,7 +30,7 @@ class ApiHelper
 
   def get_rates(destination, packages)
     @rates = HTTParty.post(
-      API_URI,
+      API_URI_INDEX,
       headers: {
         "Content-Type" => "application/json"
       },
@@ -61,6 +65,21 @@ class ApiHelper
     end
 
     return @rate_array
+  end
+
+  def send_log(order_id, service_name)
+    HTTParty.post(
+      API_URI_LOG,
+      headers: {
+        "Content-Type" => "application/json"
+      },
+      body: {
+        order_id: order_id,
+        service_name: service_name,
+        app_name: APP_NAME
+      }.to_json #is .to_json necessary?
+    )
+
   end
 
 end

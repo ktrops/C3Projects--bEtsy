@@ -101,6 +101,10 @@
     <%= f.text_field :billing_zip, maxlength: 5, required: true, class: 'form-control' %>
   </div>
 
+    <%= f.hidden_field :shipping, value: @shipping %>
+    <%= f.hidden_field :vendor_id, value: @vendor_id %>
+>
+
     <%= f.submit "Place order", class: 'btn btn-danger btn-block'%>
 
 <% end %>
